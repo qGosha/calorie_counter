@@ -1,60 +1,75 @@
-import axios from 'axios';
+import axios from "axios";
 const headers = {
-  "x-app-id" : "62102386",
+  "x-app-id": "62102386",
   "x-app-key": "22ebb62ee3322813bd62ad63cab1e9f3",
   "x-remote-user-id": 0
-}
+};
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
-
-export const SINGUPVIEWON = "SINGUPVIEWON";
-export const SINGUPVIEWOFF = "SINGUPVIEWOFF";
-export const SINGUP = "SINGUP";
-export const SINGINSUCCESS = "SINGINSUCCESS";
-export const SINGINERROR = "SINGINERROR";
-export const SINGIN = "SINGIN";
+export const SIGNUPVIEWON = "SIGNUPVIEWON";
+export const SIGNUPVIEWOFF = "SIGNUPVIEWOFF";
+export const SIGNUP = "SIGNUP";
+export const SIGNINSUCCESS = "SIGNINSUCCESS";
+export const SIGNINERROR = "SIGNINERROR";
+export const SIGNUPSUCCESS = "SIGNUPSUCCESS";
+export const SIGNUPERROR = "SIGNUPERROR";
+export const SIGNIN = "SIGNIN";
 export const ADDFOOD = "ADDFOOD";
 export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
 
-export const showSingUp = () => ({
-  type: SINGUPVIEWON,
-})
+export const showSignUp = data => ({
+  type: SIGNUPVIEWON
+});
 
-export const hideSingUp = () => ({
-  type: SINGUPVIEWOFF,
-})
+export const hideSignUp = () => ({
+  type: SIGNUPVIEWOFF
+});
 
-export const singUpUser = data => {
+export const signUpUser = data => {
   const path = "auth/signup";
+  const { password, email, first_name } = data;
   const response = axios.post(ROOT_URL + path, {
-    body: data
+    password,
+    email,
+    first_name
+
   });
   return {
-    type: SINGUP,
-    response
-  }
-}
+    type: SIGNUP,
+    payload: response
+  };
+};
 
-export const singInUser = data => {
+export const signInUser = data => {
   const path = "auth/signin";
-  const {password, email} = data;
+  const { password, email } = data;
   const response = axios.post(ROOT_URL + path, {
     password,
     email
   });
   return {
-    type: SINGIN,
+    type: SIGNIN,
     payload: response
-  }
-}
+  };
+};
 
-export const singInUserSuccess = (response) => ({
-  type: SINGINSUCCESS,
+export const signInUserSuccess = response => ({
+  type: SIGNINSUCCESS,
   payload: response
-})
+});
 
-export const singInUserFailure = (dispatch, response) => ({
-  type: SINGINERROR,
+export const signInUserFailure = response => ({
+  type: SIGNINERROR,
   payload: response
-})
+});
+
+export const signUpUserSuccess = response => ({
+  type: SIGNUPSUCCESS,
+  payload: response
+});
+
+export const signUpUserFailure = response => ({
+  type: SIGNUPERROR,
+  payload: response
+});
