@@ -85,7 +85,7 @@ class Login extends Component {
           <button className="btn btn-lg btn-primary btn-block" type="submit">
           {this.props.isFetching ? <FontAwesome
           className='fas fa-spinner'
-          name='search-plus'
+          name='spinner'
           spin
           size='2x'
           style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', marginRight: '10px', verticalAlign: 'middle' }}
