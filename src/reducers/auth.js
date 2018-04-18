@@ -1,4 +1,4 @@
-import { SIGNUP, SIGNIN, SIGNINERROR, SIGNINSUCCESS, SIGNOUT, SIGNUPSUCCESS, SIGNUPERROR, SIGNUPVIEWON, SIGNUPVIEWOFF, FETCH_DATA_FAILURE, HIDE_NOTIFICATION } from '../actions/index';
+import {SHOWSPINNERON, SIGNUP, SIGNIN, SIGNINERROR, SIGNINSUCCESS, SIGNOUT, SIGNUPSUCCESS, SIGNUPERROR, SIGNUPVIEWON, SIGNUPVIEWOFF, FETCH_DATA_FAILURE, HIDE_NOTIFICATION } from '../actions/index';
 let jwt = localStorage.getItem('jwt');
 export default function (state = { logged: jwt ? true : false, signup: false, error: false, isFetching: false}, action) {
 let error;
@@ -6,7 +6,9 @@ let error;
   case SIGNUP:
     return { ...state, error: false };
   case SIGNIN:
-    return {...state, error: false, isFetching: true};
+    return {...state, error: false};
+  case SHOWSPINNERON:
+    return { ...state, isFetching: true };  
   case SIGNINSUCCESS:
     return {...state, userInfo: action.payload, logged: true, isFetching: false};
   case SIGNINERROR:

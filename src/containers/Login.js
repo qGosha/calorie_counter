@@ -5,7 +5,8 @@ import {
   signInUser,
   signInUserSuccess,
   signInUserFailure,
-  showSignUp
+  showSignUp,
+  showSpinner
 } from "../actions/index";
 
 class Login extends Component {
@@ -36,6 +37,7 @@ class Login extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     this.props.signInUser(this.state);
+    this.props.showSpinner();
     this.setState({ email: "", password: "" });
   }
 
@@ -117,7 +119,8 @@ const mapDispatchToProps = dispatch => {
         }
       });
     },
-    showSignUp: () => dispatch(showSignUp())
+    showSignUp: () => dispatch(showSignUp()),
+    showSpinner: () => dispatch(showSpinner())
   };
 };
 const mapStateToProps = state => ({
