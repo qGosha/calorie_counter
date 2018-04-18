@@ -1,24 +1,24 @@
 import { SIGNUP, SIGNIN, SIGNINERROR, SIGNINSUCCESS, SIGNOUT, SIGNUPSUCCESS, SIGNUPERROR, SIGNUPVIEWON, SIGNUPVIEWOFF, FETCH_DATA_FAILURE, HIDE_NOTIFICATION } from '../actions/index';
 let jwt = localStorage.getItem('jwt');
-export default function (state = { logged: jwt ? true : false, signup: false, error: false}, action) {
+export default function (state = { logged: jwt ? true : false, signup: false, error: false, isFetching: false}, action) {
 let error;
   switch (action.type) {
   case SIGNUP:
     return { ...state, error: false };
   case SIGNIN:
-    return {...state, error: false};
+    return {...state, error: false, isFetching: true};
   case SIGNINSUCCESS:
-    return {...state, userInfo: action.payload, logged: true};
+    return {...state, userInfo: action.payload, logged: true, isFetching: false};
   case SIGNINERROR:
-    return {...state, error: action.payload};
+    return {...state, error: action.payload, isFetching: false};
   case SIGNOUT:
-      return { ...state, logged: false, userInfo: false}  
+      return { ...state, logged: false, userInfo: false}
   case SIGNUPVIEWON:
       return { ...state, signup: true, error: false};
   case SIGNUPSUCCESS:
     return {...state};
   case SIGNUPERROR:
-    return {...state, error: action.payload};    
+    return {...state, error: action.payload};
   case FETCH_DATA_FAILURE:
     error = action.payload.response.data.message || 'Server is not available';
     return  {...state, error: error, data: [...state.data] };

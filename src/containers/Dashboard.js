@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = state => ({
-  err: state.auth.error
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+// const mapStateToProps = state => ({
+//   err: state.auth.error
+// });
+export default connect(null, mapDispatchToProps)(Dashboard);

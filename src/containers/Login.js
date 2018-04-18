@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import FontAwesome from 'react-fontawesome';
 import {
   signInUser,
   signInUserSuccess,
@@ -82,6 +83,13 @@ class Login extends Component {
             value={this.state.password}
           />
           <button className="btn btn-lg btn-primary btn-block" type="submit">
+          {this.props.isFetching ? <FontAwesome
+          className='fas fa-spinner'
+          name='search-plus'
+          spin
+          size='2x'
+          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', marginRight: '10px', verticalAlign: 'middle' }}
+          /> : ''}
             Sign in
           </button>
           <p className="mt-5 mb-3">
@@ -113,6 +121,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => ({
-  err: state.auth.error
+  err: state.auth.error,
+  isFetching: state.auth.isFetching
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
