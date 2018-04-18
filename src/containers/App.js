@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Dashboard } from "./Dashboard";
+import Dashboard from "./Dashboard";
 import  Signup  from "./Signup";
 import Login from "./Login";
 class App extends Component {

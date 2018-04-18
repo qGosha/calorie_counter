@@ -14,11 +14,12 @@ export const SIGNINERROR = "SIGNINERROR";
 export const SIGNUPSUCCESS = "SIGNUPSUCCESS";
 export const SIGNUPERROR = "SIGNUPERROR";
 export const SIGNIN = "SIGNIN";
+export const SIGNOUT = "SIGNOUT";
 export const ADDFOOD = "ADDFOOD";
 export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
 
-export const showSignUp = data => ({
+export const showSignUp = () => ({
   type: SIGNUPVIEWON
 });
 
@@ -64,10 +65,18 @@ export const signInUserFailure = response => ({
   payload: response
 });
 
+export const signOutUser = () => {
+  localStorage.removeItem('jwt');
+  return {
+    type: SIGNOUT
+  }
+} 
+
 export const signUpUserSuccess = response => ({
   type: SIGNUPSUCCESS,
   payload: response
 });
+
 
 export const signUpUserFailure = response => ({
   type: SIGNUPERROR,

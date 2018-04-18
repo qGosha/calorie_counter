@@ -101,9 +101,12 @@ const mapDispatchToProps = dispatch => {
   return {
     signInUser: data => {
       dispatch(signInUser(data)).then(response => {
-        !response.error
-          ? dispatch(signInUserSuccess(response))
-          : dispatch(signInUserFailure(response.payload.response.data.message));
+        if(!response.error) {
+          localStorage.setItem('jwt', response.payload.data['x-user-jwt']);
+          dispatch(signInUserSuccess(response));
+        } else {
+          dispatch(signInUserFailure(response.payload.response.data.message));
+        }
       });
     },
     showSignUp: () => dispatch(showSignUp())
