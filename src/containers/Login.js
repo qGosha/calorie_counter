@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
+import { PasswordEye } from "../components/password-eye";
+import {
+  Form,
+  Button,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
+  InputGroup
+} from 'react-bootstrap';
 import {
   signInUser,
   signInUserSuccess,
@@ -55,53 +65,99 @@ class Login extends Component {
       ""
     );
     return (
-      <div className="form d-flex align-items-end">
-        <form className="form-signin" onSubmit={this.onFormSubmit}>
-          <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label htmlFor="inputEmail" className="sr-only">
-            Email address
-          </label>
-          <input
-            type="email"
-            id="inputEmail"
-            className="form-control"
-            placeholder="Email address"
-            required
-            onChange={this.onInputEmailChange}
-            value={this.state.email}
-          />
-          <label htmlFor="inputPassword" className="sr-only">
-            Password
-          </label>
-          <input
-            type="password"
-            id="inputPassword"
-            className="form-control"
-            placeholder="Password"
-            required
-            minLength="6"
-            maxLength="20"
-            onChange={this.onInputPasswordChange}
-            value={this.state.password}
-          />
-          <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
-          {this.props.isFetching ? <FontAwesome
-          className='fas fa-spinner spinner'
-          name='spinner'
-          spin
-          size='2x'
-          /> : ''}
-            Sign in
-          </button>
-          <p className="mt-5 mb-3">
-            Not registered?{" "}
+      <form className='form-signin' horizontal onSubmit={this.onFormSubmit}>
+      <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+          <FormGroup>
+          <ControlLabel className="sr-only">Email address</ControlLabel>
+            <FormControl
+              type="email"
+              value={this.state.email}
+              placeholder="Email address"
+              onChange={this.onInputEmailChange}
+              required="true"
+            />
+          </FormGroup>
+          <FormGroup>
+          <ControlLabel className="sr-only">Password</ControlLabel>
+           <InputGroup>
+            <FormControl
+              type="password"
+              value={this.state.password}
+              placeholder="Password"
+              onChange={this.onInputPasswordChange}
+              required="true"
+              minLength="6"
+             maxLength="20"
+            />
+          <InputGroup.Button>
+            <PasswordEye onClick={this.onPasswordVisibilityChange}
+             showPassword={this.state.showPassword} />
+          </InputGroup.Button>
+           </InputGroup>
+          </FormGroup>
+          <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? <FontAwesome
+              className='fas fa-spinner spinner'
+              name='spinner'
+              spin
+              size='2x'
+              /> : ''}
+                Sign in
+          </Button>
+          <p className="my-3">
+            Not registered?
             <a href="#" onClick={this.onCreateAccount}>
               Create an account
             </a>
           </p>
           <div className="login-messages">{loginErr}</div>
         </form>
-      </div>
+      // <div className="form d-flex align-items-end">
+      //   <form className="form-signin" onSubmit={this.onFormSubmit}>
+      //     <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+      //     <label htmlFor="inputEmail" className="sr-only">
+      //       Email address
+      //     </label>
+      //     <input
+      //       type="email"
+      //       id="inputEmail"
+      //       className="form-control"
+      //       placeholder="Email address"
+      //       required
+      //       onChange={this.onInputEmailChange}
+      //       value={this.state.email}
+      //     />
+      //     <label htmlFor="inputPassword" className="sr-only">
+      //       Password
+      //     </label>
+      //     <input
+      //       type="password"
+      //       id="inputPassword"
+      //       className="form-control"
+      //       placeholder="Password"
+      //       required
+      //       minLength="6"
+      //       maxLength="20"
+      //       onChange={this.onInputPasswordChange}
+      //       value={this.state.password}
+      //     />
+      //     <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
+      //     {this.props.isFetching ? <FontAwesome
+      //     className='fas fa-spinner spinner'
+      //     name='spinner'
+      //     spin
+      //     size='2x'
+      //     /> : ''}
+      //       Sign in
+      //     </button>
+      //     <p className="mt-5 mb-3">
+      //       Not registered?{" "}
+      //       <a href="#" onClick={this.onCreateAccount}>
+      //         Create an account
+      //       </a>
+      //     </p>
+      //     <div className="login-messages">{loginErr}</div>
+      //   </form>
+      // </div>
     );
   }
 }
