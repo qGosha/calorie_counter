@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { PasswordEye } from "../components/password-eye";
+import FontAwesome from 'react-fontawesome';
 import {
   signUpUser,
   signUpUserSuccess,
   signUpUserFailure,
-  hideSignUp
+  hideSignUp,
+  showSpinner
 } from "../actions/index";
 
 class Signup extends Component {
@@ -13,15 +16,21 @@ class Signup extends Component {
     this.state = {
       email: "",
       password: "",
-      first_name: ""
+      first_name: "",
+      showPassword: false
     };
     this.onInputEmailChange = this.onInputEmailChange.bind(this);
     this.onInputNameChange = this.onInputNameChange.bind(this);
     this.onInputPasswordChange = this.onInputPasswordChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onLoginAccount = this.onLoginAccount.bind(this);
+    this.onPasswordVisibilityChange = this.onPasswordVisibilityChange.bind(this);
   }
-
+  
+  onPasswordVisibilityChange() {
+    const showPassword = !this.state.showPassword
+    this.setState({ showPassword });
+  }
   onInputEmailChange(event) {
     this.setState({
       email: event.target.value
@@ -42,7 +51,9 @@ class Signup extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
+    this.props.showSpinner();
     this.props.signUpUser(this.state);
+
     this.setState({ email: "", password: "", first_name: "" });
   }
   onLoginAccount(event) {
@@ -98,8 +109,9 @@ class Signup extends Component {
           <label htmlFor="inputPassword">
             Password:
           </label>
+          <div className="password-section">
           <input
-            type="password"
+            type={this.state.showPassword ? "text" : "password"}
             id="inputPassword"
             className="form-control"
             placeholder="Password"
@@ -109,10 +121,18 @@ class Signup extends Component {
             onChange={this.onInputPasswordChange}
             value={this.state.password}
           />
-          
+          <PasswordEye onClick={this.onPasswordVisibilityChange}
+            showPassword={this.state.showPassword} />
+          </div>
 
-          <button className="btn btn-lg btn-primary btn-block" type="submit">
-            Sign in
+          <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
+            {this.props.isFetching ? <FontAwesome
+              className='fas fa-spinner spinner'
+              name='spinner'
+              spin
+              size='2x'
+            /> : ''}
+            Sign up
           </button>
           <p className="mt-5 mb-3">
             Have an account? <a href="#" onClick={this.onLoginAccount}>Log in</a>
@@ -135,10 +155,12 @@ const mapDispatchToProps = dispatch => {
           : dispatch(signUpUserFailure(response.payload.response.data.message));
       });
     },
-    hideSignUp: () => dispatch(hideSignUp())
+    hideSignUp: () => dispatch(hideSignUp()),
+    showSpinner: () => dispatch(showSpinner())
   };
 };
 const mapStateToProps = state => ({
-  err: state.auth.error
+  err: state.auth.error,
+  isFetching: state.auth.isFetching
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

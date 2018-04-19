@@ -84,13 +84,12 @@ class Login extends Component {
             onChange={this.onInputPasswordChange}
             value={this.state.password}
           />
-          <button className="btn btn-lg btn-primary btn-block" type="submit">
+          <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
           {this.props.isFetching ? <FontAwesome
-          className='fas fa-spinner'
+          className='fas fa-spinner spinner'
           name='spinner'
           spin
           size='2x'
-          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', marginRight: '10px', verticalAlign: 'middle' }}
           /> : ''}
             Sign in
           </button>
