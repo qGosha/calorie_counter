@@ -52,7 +52,9 @@ form-signup .checkbox {
 .login-messages .alert {
   margin-bottom: 0;
 } */
-
+.switch-login-singup {
+  margin-top: 15px;
+}
 .btn-fetch {
   position: relative;
 }
