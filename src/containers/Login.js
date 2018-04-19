@@ -24,12 +24,19 @@ class Login extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      showPassword: false
     };
     this.onInputEmailChange = this.onInputEmailChange.bind(this);
     this.onInputPasswordChange = this.onInputPasswordChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onPasswordVisibilityChange = this.onPasswordVisibilityChange.bind(this);
     this.onCreateAccount = this.onCreateAccount.bind(this);
+  }
+
+  onPasswordVisibilityChange() {
+    const showPassword = !this.state.showPassword
+    this.setState({ showPassword });
   }
 
   onInputEmailChange(event) {
@@ -61,7 +68,7 @@ class Login extends Component {
       <Alert bsStyle="danger">
         <div>{this.props.err}</div>
     </Alert> : 
-    null
+    null;
     return (
       <form className='form-signin' horizontal onSubmit={this.onFormSubmit}>
       <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -79,7 +86,7 @@ class Login extends Component {
           <ControlLabel htmlFor="password" className="sr-only">Password</ControlLabel>
           <InputGroup bsSize="lg">
             <FormControl
-              type="password"
+              type={this.state.showPassword ? "text" : "password"}
               value={this.state.password}
               placeholder="Password"
               onChange={this.onInputPasswordChange}

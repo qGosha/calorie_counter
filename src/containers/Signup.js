@@ -10,6 +10,16 @@ import {
   showSpinner
 } from "../actions/index";
 
+import {
+  Form,
+  Button,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Alert,
+  InputGroup
+} from 'react-bootstrap';
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -19,34 +29,17 @@ class Signup extends Component {
       first_name: "",
       showPassword: false
     };
-    this.onInputEmailChange = this.onInputEmailChange.bind(this);
-    this.onInputNameChange = this.onInputNameChange.bind(this);
-    this.onInputPasswordChange = this.onInputPasswordChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onLoginAccount = this.onLoginAccount.bind(this);
     this.onPasswordVisibilityChange = this.onPasswordVisibilityChange.bind(this);
+  }
+  onImputsChanges(prop, event) {
+    this.setState({ [prop]: event.target.value });
   }
   
   onPasswordVisibilityChange() {
     const showPassword = !this.state.showPassword
     this.setState({ showPassword });
-  }
-  onInputEmailChange(event) {
-    this.setState({
-      email: event.target.value
-    });
-  }
-
-  onInputPasswordChange(event) {
-    this.setState({
-      password: event.target.value
-    });
-  }
-
-  onInputNameChange(event) {
-    this.setState({
-      first_name: event.target.value
-    });
   }
 
   onFormSubmit(event) {
@@ -62,85 +55,136 @@ class Signup extends Component {
     this.props.hideSignUp();
   }
   render() {
-
-    const signupErr = this.props.err ? (
-      <div className="alert alert-danger" role="alert">
-        {this.props.err}
-      </div>
-    ) : (
-        ""
-      );
+    const signupErr = this.props.err ?
+      <Alert bsStyle="danger">
+        <div>{this.props.err}</div>
+      </Alert> :
+      null;
 
     return (
-      <div className="form d-flex align-items-end">
-        <form className="form-signup" onSubmit={this.onFormSubmit}>
-          <h1 className="h3 mb-3 font-weight-normal">Signup</h1>
-         
-            <label htmlFor="inputName">
-              Your name:
-          </label>
-            <input
-              type="text"
-              id="inputName"
-              className="form-control"
-              placeholder="Your Name"
-              required
-              minLength="1"
-              maxLength="50"
-              onChange={this.onInputNameChange}
-              value={this.state.first_name}
-            />
-          
-          
-          <label htmlFor="inputEmail">
-            Email address:
-          </label>
-          <input
+      <form className='form-signin' horizontal onSubmit={this.onFormSubmit}>
+        <h1 className="h3">Signup</h1>
+        <FormGroup bsSize="lg" controlId="name">
+          <ControlLabel htmlFor="name">Your name</ControlLabel>
+          <FormControl
+            type="text"
+            value={this.state.first_name}
+            placeholder="Your name"
+            onChange={() => this.onImputsChanges('first_name', event)}
+            required="true"
+          />
+        </FormGroup>
+        <FormGroup bsSize="lg" controlId="email">
+          <ControlLabel htmlFor="email">Email address</ControlLabel>
+          <FormControl
             type="email"
-            id="inputEmail"
-            className="form-control"
-            placeholder="Email address"
-            required
-            onChange={this.onInputEmailChange}
             value={this.state.email}
+            placeholder="Email address"
+            onChange={() => this.onImputsChanges("email", event)}
+            required="true"
           />
-          
-          
-          <label htmlFor="inputPassword">
-            Password:
-          </label>
-          <div className="password-section">
-          <input
-            type={this.state.showPassword ? "text" : "password"}
-            id="inputPassword"
-            className="form-control"
-            placeholder="Password"
-            required
-            minLength="6"
-            maxLength="20"
-            onChange={this.onInputPasswordChange}
-            value={this.state.password}
-          />
-          <PasswordEye onClick={this.onPasswordVisibilityChange}
-            showPassword={this.state.showPassword} />
-          </div>
+        </FormGroup>
+        <FormGroup bsSize="lg" controlId="password">
+          <ControlLabel htmlFor="password">Password</ControlLabel>
+          <InputGroup bsSize="lg">
+            <FormControl
+              type={this.state.showPassword ? "text" : "password"}
+              value={this.state.password}
+              placeholder="Password"
+              onChange={() => this.onImputsChanges("password",event)}
+              required="true"
+              minLength="6"
+              maxLength="20"
+            />
+            <InputGroup.Button>
+              <PasswordEye onClick={this.onPasswordVisibilityChange}
+                showPassword={this.state.showPassword} />
+            </InputGroup.Button>
+          </InputGroup>
+        </FormGroup>
+        <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? <FontAwesome
+          className='fas fa-spinner spinner'
+          name='spinner'
+          spin
+          size='2x'
+        /> : ''}
+          Sign up
+          </Button>
 
-          <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
-            {this.props.isFetching ? <FontAwesome
-              className='fas fa-spinner spinner'
-              name='spinner'
-              spin
-              size='2x'
-            /> : ''}
-            Sign up
-          </button>
-          <p className="mt-5 mb-3">
-            Have an account? <a href="#" onClick={this.onLoginAccount}>Log in</a>
-          </p>
-          <div className="login-messages"></div>
-          <div className="signup-messages">{signupErr}</div>
-        </form>
-      </div>
+        <p className="switch-login-singup">
+          Have an account? <a href="#" onClick={this.onLoginAccount}>Log in</a>
+        </p>
+        {signupErr}
+      </form>
+    //   <div className="form d-flex align-items-end">
+    //     <form className="form-signup" onSubmit={this.onFormSubmit}>
+    //       <h1 className="h3 mb-3 font-weight-normal">Signup</h1>
+         
+    //         <label htmlFor="inputName">
+    //           Your name:
+    //       </label>
+    //         <input
+    //           type="text"
+    //           id="inputName"
+    //           className="form-control"
+    //           placeholder="Your Name"
+    //           required
+    //           minLength="1"
+    //           maxLength="50"
+    //           onChange={this.onInputNameChange}
+    //           value={this.state.first_name}
+    //         />
+          
+          
+    //       <label htmlFor="inputEmail">
+    //         Email address:
+    //       </label>
+    //       <input
+    //         type="email"
+    //         id="inputEmail"
+    //         className="form-control"
+    //         placeholder="Email address"
+    //         required
+    //         onChange={this.onInputEmailChange}
+    //         value={this.state.email}
+    //       />
+          
+          
+    //       <label htmlFor="inputPassword">
+    //         Password:
+    //       </label>
+    //       <div className="password-section">
+    //       <input
+    //         type={this.state.showPassword ? "text" : "password"}
+    //         id="inputPassword"
+    //         className="form-control"
+    //         placeholder="Password"
+    //         required
+    //         minLength="6"
+    //         maxLength="20"
+    //         onChange={this.onInputPasswordChange}
+    //         value={this.state.password}
+    //       />
+    //       <PasswordEye onClick={this.onPasswordVisibilityChange}
+    //         showPassword={this.state.showPassword} />
+    //       </div>
+
+    //       <button className="btn btn-lg btn-primary btn-block btn-fetch" type="submit">
+    //         {this.props.isFetching ? <FontAwesome
+    //           className='fas fa-spinner spinner'
+    //           name='spinner'
+    //           spin
+    //           size='2x'
+    //         /> : ''}
+    //         Sign up
+    //       </button>
+    //       <p className="mt-5 mb-3">
+    //         Have an account? <a href="#" onClick={this.onLoginAccount}>Log in</a>
+    //       </p>
+    //       <div className="login-messages"></div>
+    //       <div className="signup-messages">{signupErr}</div>
+    //     </form>
+    //   </div>
     );
   }
 }
