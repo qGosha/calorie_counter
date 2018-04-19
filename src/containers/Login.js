@@ -70,7 +70,7 @@ class Login extends Component {
     </Alert> : 
     null;
     return (
-      <form className='form-signin' horizontal onSubmit={this.onFormSubmit}>
+      <form className='form-signin' horizontal='true' onSubmit={this.onFormSubmit}>
       <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
       <FormGroup bsSize="lg" controlId="email">
           <ControlLabel htmlFor="email" className="sr-only">Email address</ControlLabel>
@@ -100,13 +100,15 @@ class Login extends Component {
           </InputGroup.Button>
            </InputGroup>
           </FormGroup>
-      <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? <FontAwesome
+      <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? 
+      <FontAwesome
               className='fas fa-spinner spinner'
               name='spinner'
               spin
               size='2x'
-              /> : ''}
+          /> : ''}
                 Sign in
+                
           </Button>
           
           <p className="switch-login-singup">
