@@ -19,6 +19,18 @@ export const ADDFOOD = "ADDFOOD";
 export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
 export const SHOWSPIN = "SHOWSPIN";
+export const GETUSEROBJECT = "GETUSEROBJECT";
+
+export const getUserObject = jwt => {
+  const path = "me";
+  const response = axios.get(ROOT_URL + path, {
+    headers: { ["x-user-jwt"]: jwt }
+  });
+  return {
+    type: GETUSEROBJECT,
+    payload: response
+  };
+};
 
 export const showSignUp = () => ({
   type: SIGNUPVIEWON

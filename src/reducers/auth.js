@@ -4,7 +4,7 @@ import jwtLib from 'jsonwebtoken';
 const jwt = localStorage.getItem('jwt');
 const jwtVerify = jwtLib.decode(jwt);
 
-export default function (state = {
+export function auth (state = {
   logged: (jwt && jwtVerify.exp > Date.now()/1000 - 5000) ? true : false,
   signup: false, error: false,
   isFetching: false
@@ -18,7 +18,7 @@ let error;
   case SHOWSPIN:
     return { ...state, isFetching: true };
   case SIGNINSUCCESS:
-    return {...state, userInfo: action.payload, logged: true, isFetching: false};
+    return {...state, logged: true, isFetching: false};
   case SIGNINERROR:
     return {...state, error: action.payload, isFetching: false};
   case SIGNOUT:
@@ -26,7 +26,7 @@ let error;
   case SIGNUPVIEWON:
       return { ...state, signup: true, error: false};
   case SIGNUPSUCCESS:
-      return { ...state, userInfo: action.payload, logged: true, isFetching: false};
+      return { ...state, logged: true, isFetching: false};
   case SIGNUPERROR:
       return { ...state, error: action.payload, isFetching: false};
   case FETCH_DATA_FAILURE:

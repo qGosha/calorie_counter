@@ -6,3 +6,9 @@
 .form-search {
   width: 50%;
 }
+
+.search-tab-list ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

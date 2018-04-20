@@ -10,7 +10,11 @@ import {
   FormControl,
   Alert,
   InputGroup,
-  Glyphicon
+  Glyphicon,
+  Tab,
+  Tabs,
+  ListGroup,
+  ListGroupItem
 } from 'react-bootstrap';
 import {
   showSpinner
@@ -20,7 +24,9 @@ export class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      term: ""
+      term: "",
+      searchPanelView: false,
+      key: 1
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -45,9 +51,41 @@ export class SearchBar extends Component {
 
 
   render() {
-
+    const showSearchResult = (
+      <Tabs 
+        defaultActiveKey={2}
+        id="uncontrolled-tab-example"
+      >
+        <Tab eventKey={1} title="All">
+           <ListGroup>
+           <h5>Common Foods</h5>
+            <ListGroupItem>
+            1 food
+            </ListGroupItem>
+            <ListGroupItem>
+              2 food
+            </ListGroupItem>
+            <ListGroupItem>
+              3 food
+            </ListGroupItem>
+            <h5>Branded food</h5>
+            <ListGroupItem>
+              3 food
+            </ListGroupItem>
+           </ListGroup>;
+           
+        </Tab>
+        <Tab eventKey={2} title="Yor food">
+          Tab 2 content
+        </Tab>
+        <Tab eventKey={3} title="Tab 3">
+          Tab 3 content
+        </Tab>
+      </Tabs>
+    )
     return (
-      <form className='form-search' onSubmit={this.onFormSubmit}>
+      <div className='form-search'>
+      <form onSubmit={this.onFormSubmit}>
       <FormGroup bsSize="md" controlId="search">
       <InputGroup bsSize="md">
           <FormControl
@@ -57,6 +95,7 @@ export class SearchBar extends Component {
             onChange={this.onInputChange}
             className='search-bar'
             autoComplete="off"
+            onClick={() => this.setState({ showSearchResult: !this.state.showSearchResult})}
           />
           <InputGroup.Addon>
         <Glyphicon glyph="search" />
@@ -64,6 +103,8 @@ export class SearchBar extends Component {
         </InputGroup>
       </FormGroup>
       </form>
+      {this.state.showSearchResult ? showSearchResult : null}
+      </div>
     );
   }
 }
