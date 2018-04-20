@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {SearchBar} from './search-bar';
 import {
   signOutUser
 } from "../actions/index";
@@ -19,6 +20,7 @@ constructor(props) {
       <div className='dashboard'>
       <h1>This is Dashboard</h1>
       <button onClick={this.onSignOut}>Sign out</button>
+      <SearchBar />
       </div>
       )
   }

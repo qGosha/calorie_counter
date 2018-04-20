@@ -11,7 +11,6 @@ import {
 } from "../actions/index";
 
 import {
-  Form,
   Button,
   FormGroup,
   ControlLabel,
@@ -53,7 +52,7 @@ class Signup extends Component {
       password: event.target.value
     });
   }
-  
+
   onPasswordVisibilityChange() {
     const showPassword = !this.state.showPassword
     this.setState({ showPassword });
@@ -119,7 +118,7 @@ class Signup extends Component {
             </InputGroup.Button>
           </InputGroup>
         </FormGroup>
-        <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? 
+        <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ?
           <FontAwesome
           className='fas fa-spinner spinner'
           name='spinner'
@@ -144,7 +143,7 @@ const mapDispatchToProps = dispatch => {
     signUpUser: data => {
       dispatch(signUpUser(data)).then(response => {
         !response.error
-          ? dispatch(signUpUserSuccess(response))
+          ? dispatch(signUpUserSuccess(response.payload.data))
           : dispatch(signUpUserFailure(response.payload.response.data.message));
       });
     },

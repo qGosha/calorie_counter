@@ -1,0 +1,8 @@
+.search-bar:hover {
+  background-color: #d8cececc;
+  cursor: pointer;
+}
+
+.form-search {
+  width: 50%;
+}

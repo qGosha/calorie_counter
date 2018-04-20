@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
 import { PasswordEye } from "../components/password-eye";
 import {
-  Form,
   Button,
   FormGroup,
   ControlLabel,
@@ -64,10 +63,10 @@ class Login extends Component {
   }
 
   render() {
-    const loginErr = this.props.err ? 
+    const loginErr = this.props.err ?
       <Alert bsStyle="danger">
         <div>{this.props.err}</div>
-    </Alert> : 
+    </Alert> :
     null;
     return (
       <form className='form-signin' horizontal='true' onSubmit={this.onFormSubmit}>
@@ -100,7 +99,7 @@ class Login extends Component {
           </InputGroup.Button>
            </InputGroup>
           </FormGroup>
-      <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ? 
+      <Button type="submit" className="btn-fetch btn btn-primary btn-lg btn-block">{this.props.isFetching ?
       <FontAwesome
               className='fas fa-spinner spinner'
               name='spinner'
@@ -108,9 +107,9 @@ class Login extends Component {
               size='2x'
           /> : ''}
                 Sign in
-                
+
           </Button>
-          
+
           <p className="switch-login-singup">
              Not registered?{" "}
             <a href="#" onClick={this.onCreateAccount}>
@@ -129,7 +128,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(signInUser(data)).then(response => {
         if(!response.error) {
           localStorage.setItem('jwt', response.payload.data['x-user-jwt']);
-          dispatch(signInUserSuccess(response));
+          dispatch(signInUserSuccess(response.payload.data));
         } else {
           dispatch(signInUserFailure(response.payload.response.data.message));
         }

@@ -6,16 +6,14 @@ import {
 export const PasswordEye = ({showPassword, onClick}) => {
   return (
     <Button onClick={() => onClick()}> {
-     showPassword ? <FontAwesome
+     !showPassword ? <FontAwesome
       className='fas fa-eye'
       name='eye'
-      size='1x'
     />
     :
      <FontAwesome
       className='fas fa-eye-slash'
       name='eye-slash'
-      size='1x'
     />
 
   }

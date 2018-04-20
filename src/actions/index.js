@@ -18,7 +18,7 @@ export const SIGNOUT = "SIGNOUT";
 export const ADDFOOD = "ADDFOOD";
 export const FETCH_DATA_FAILURE = "FETCH_DATA_FAILURE";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
-export const SHOWSPINNERON = "SHOWSPINNERON";
+export const SHOWSPIN = "SHOWSPIN";
 
 export const showSignUp = () => ({
   type: SIGNUPVIEWON
@@ -42,11 +42,11 @@ export const signUpUser = data => {
     payload: response
   };
 };
-/////////////////////////////
+
 export const showSpinner = () => ({
-  type: SHOWSPINNERON
+  type: SHOWSPIN
 });
-/////////////////////////////
+
 
 export const signInUser = data => {
   const path = "auth/signin";
