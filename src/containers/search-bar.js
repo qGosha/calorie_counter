@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
-
+import { MyFoodPanel } from '../components/myFoodPanel'
+import { SearchResult } from '../components/showSearchResult'
 import {
   Form,
   Button,
@@ -10,11 +11,7 @@ import {
   FormControl,
   Alert,
   InputGroup,
-  Glyphicon,
-  Tab,
-  Tabs,
-  ListGroup,
-  ListGroupItem
+  Glyphicon
 } from 'react-bootstrap';
 import {
   showSpinner
@@ -26,16 +23,35 @@ export class SearchBar extends Component {
     this.state = {
       term: "",
       searchPanelView: false,
+      myFoodPanel: false,
       key: 1
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onSearchBarFocus = this.onSearchBarFocus.bind(this);
+    this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
   }
 
 
   onInputChange(event) {
+
     this.setState({
-      term: event.target.value
+      term: event.target.value,
+      searchPanelView: true,
+      myFoodPanel:false
+    });
+  }
+
+  onSearchBarFocus() {
+    this.setState({
+      myFoodPanel: true
+    });
+  }
+  onSearchBarBlur() {
+    this.setState({
+      term: "",
+      myFoodPanel: false,
+      searchPanelView:false
     });
   }
 
@@ -45,57 +61,31 @@ export class SearchBar extends Component {
     // this.props.fetchWeather(this.state.term);
     this.setState({
       term: "",
-      showSearchResult: false
+      searchPanelView: false
      });
   }
 
-
   render() {
-    const showSearchResult = (
-      <Tabs 
-        defaultActiveKey={2}
-        id="uncontrolled-tab-example"
-      >
-        <Tab eventKey={1} title="All">
-           <ListGroup>
-           <h5>Common Foods</h5>
-            <ListGroupItem>
-            1 food
-            </ListGroupItem>
-            <ListGroupItem>
-              2 food
-            </ListGroupItem>
-            <ListGroupItem>
-              3 food
-            </ListGroupItem>
-            <h5>Branded food</h5>
-            <ListGroupItem>
-              3 food
-            </ListGroupItem>
-           </ListGroup>;
-           
-        </Tab>
-        <Tab eventKey={2} title="Yor food">
-          Tab 2 content
-        </Tab>
-        <Tab eventKey={3} title="Tab 3">
-          Tab 3 content
-        </Tab>
-      </Tabs>
-    )
+
+     let currentPanel;
+       if(this.state.searchPanelView) currentPanel = <SearchResult />;
+       else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel />;
+       else currentPanel = null;
+
     return (
       <div className='form-search'>
       <form onSubmit={this.onFormSubmit}>
-      <FormGroup bsSize="md" controlId="search">
-      <InputGroup bsSize="md">
+      <FormGroup bsSize="sm" controlId="search">
+      <InputGroup bsSize="sm">
           <FormControl
             type="text"
             value={this.state.term}
             placeholder="Search food"
             onChange={this.onInputChange}
+            onFocus={this.onSearchBarFocus}
+            onBlur={this.onSearchBarBlur}
             className='search-bar'
             autoComplete="off"
-            onClick={() => this.setState({ showSearchResult: !this.state.showSearchResult})}
           />
           <InputGroup.Addon>
         <Glyphicon glyph="search" />
@@ -103,8 +93,8 @@ export class SearchBar extends Component {
         </InputGroup>
       </FormGroup>
       </form>
-      {this.state.showSearchResult ? showSearchResult : null}
-      </div>
+      { currentPanel }
+     </div>
     );
   }
 }
