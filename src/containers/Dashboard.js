@@ -25,7 +25,7 @@ constructor(props) {
    this.props.signOutUser();
   }
   onLongLoading() {
-    if(!this.props.userInfo) {
+    if (!this.props.suggestedFood) {
       this.props.showLoadingScreen();
     }
   }
@@ -34,7 +34,7 @@ constructor(props) {
     setTimeout(this.onLongLoading, 800);
     this.props.getUser(jwt)
     .then( () => {
-      this.props.getSuggestedFood(jwt);
+      return this.props.getSuggestedFood(jwt);
     })
     .catch( error => {
       this.props.fetchDashInfoFailure(error.payload.response.data.message);
@@ -45,7 +45,8 @@ constructor(props) {
     const userInfo = this.props.userInfo;
     const error = this.props.error;
     const loading = this.props.loading;
-    if(loading) {
+    const suggestedFood = this.props.suggestedFood;
+    if(loading && !error) {
       return (
         <div className='dashboard-spinner'>
          <FontAwesome
@@ -55,7 +56,7 @@ constructor(props) {
           size='5x' />
         </div>
       )
-    } else if (!userInfo && !error) {
+    } else if (!userInfo && !error && !suggestedFood) {
       return null
     } else if(error) {
        return (
