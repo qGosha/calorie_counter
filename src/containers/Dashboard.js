@@ -71,7 +71,7 @@ constructor(props) {
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
-        <SearchBar userInfo={userInfo}/>
+        <SearchBar userInfo={userInfo} suggestedFood={suggestedFood}/>
       </div>
         )
     }

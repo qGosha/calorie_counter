@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 
 import {
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  Image
 } from 'react-bootstrap';
-export const MyFoodPanel = ({foodObj}) => {
-  const myFood = foodObj.map((foodItem) => {
+export const MyFoodPanel = ({ suggestedFood }) => {
+  const myFood = suggestedFood.foods.map((foodItem) => {
     return  (
-      <ListGroupItem>
-       foodItem['food_name']
+      <ListGroupItem key={foodItem.food_name}>
+        <Image src={foodItem.photo.thumb || null} 
+        responsive 
+        alt='food' 
+        className='food-image'/>;
+        { foodItem.food_name }
        </ListGroupItem>
     )
   })

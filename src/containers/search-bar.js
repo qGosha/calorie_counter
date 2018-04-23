@@ -47,7 +47,8 @@ export class SearchBar extends Component {
      });
    }
 
-  onSearchBarBlur() {
+  onSearchBarBlur(event) {
+    // if (event.target.classList.contains('form-search')) return;
     this.setState({
       term: "",
       myFoodPanel: false,
@@ -69,7 +70,7 @@ export class SearchBar extends Component {
   render() {
     let currentPanel;
        if(this.state.searchPanelView) currentPanel = <SearchResult />;
-       else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel />;
+       else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel suggestedFood={this.props.suggestedFood}/>;
        else currentPanel = null;
     return (
       <div className='form-search'>
@@ -92,7 +93,7 @@ export class SearchBar extends Component {
         </InputGroup>
       </FormGroup>
       </form>
-      { currentPanel }
+      {currentPanel}
      </div>
     );
   }
