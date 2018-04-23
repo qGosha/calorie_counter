@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import {
   ListGroup,
@@ -6,8 +6,8 @@ import {
   Tab,
   Tabs
 } from 'react-bootstrap';
-export const SearchResult = ({foodObj}) => {
-  const myFood = foodObj.map((foodItem) => {
+export const SearchResult = ({userInfo}) => {
+  const myFood = userInfo.map((foodItem) => {
     return  (
       <ListGroupItem>
        foodItem['food_name']

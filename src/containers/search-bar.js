@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
+import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel'
-import { SearchResult } from '../components/showSearchResult'
 import {
   Form,
   Button,
@@ -23,8 +23,7 @@ export class SearchBar extends Component {
     this.state = {
       term: "",
       searchPanelView: false,
-      myFoodPanel: false,
-      key: 1
+      myFoodPanel: false
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -33,8 +32,8 @@ export class SearchBar extends Component {
   }
 
 
-  onInputChange(event) {
 
+  onInputChange(event) {
     this.setState({
       term: event.target.value,
       searchPanelView: true,
@@ -43,10 +42,11 @@ export class SearchBar extends Component {
   }
 
   onSearchBarFocus() {
-    this.setState({
-      myFoodPanel: true
-    });
-  }
+     this.setState({
+       myFoodPanel: true
+     });
+   }
+
   onSearchBarBlur() {
     this.setState({
       term: "",
@@ -61,17 +61,16 @@ export class SearchBar extends Component {
     // this.props.fetchWeather(this.state.term);
     this.setState({
       term: "",
-      searchPanelView: false
+      searchPanelView: false,
+      myFoodPanel: false
      });
   }
 
   render() {
-
-     let currentPanel;
+    let currentPanel;
        if(this.state.searchPanelView) currentPanel = <SearchResult />;
        else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel />;
        else currentPanel = null;
-
     return (
       <div className='form-search'>
       <form onSubmit={this.onFormSubmit}>

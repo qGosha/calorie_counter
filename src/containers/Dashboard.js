@@ -1,33 +1,80 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {SearchBar} from './search-bar';
+import { SearchBar } from './search-bar';
+import FontAwesome from 'react-fontawesome';
 import {
   signOutUser,
-  getUserObject
+  getUser,
+  getSuggestedFood,
+  fetchUserObjectSuccess,
+  fetchSuggestedFoodSuccess,
+  fetchDashInfoFailure,
+  showLoadingScreen
+
 } from "../actions/index";
 
 class Dashboard extends Component {
 constructor(props) {
   super(props);
   this.onSignOut = this.onSignOut.bind(this);
+  this.onLongLoading = this.onLongLoading.bind(this);
 }
 
   onSignOut(event) {
    event.preventDefault();
    this.props.signOutUser();
   }
-  componentWillMount() {
+  onLongLoading() {
+    if(!this.props.userInfo) {
+      this.props.showLoadingScreen();
+    }
+  }
+  componentDidMount() {
     const jwt = localStorage.getItem('jwt');
-    this.props.getUserObject(jwt);
+    setTimeout(this.onLongLoading, 800);
+    this.props.getUser(jwt)
+    .then( () => {
+      this.props.getSuggestedFood(jwt);
+    })
+    .catch( error => {
+      this.props.fetchDashInfoFailure(error.payload.response.data.message);
+    } )
+
   }
   render() {
-    return (
-      <div className='dashboard'>
-      <h1>This is Dashboard</h1>
-      <button onClick={this.onSignOut}>Sign out</button>
-      <SearchBar userInfo={this.props.userInfo}/>
-      </div>
+    const userInfo = this.props.userInfo;
+    const error = this.props.error;
+    const loading = this.props.loading;
+    if(loading) {
+      return (
+        <div className='dashboard-spinner'>
+         <FontAwesome
+          className='fas fa-spinner'
+          name='spinner'
+          spin
+          size='5x' />
+        </div>
       )
+    } else if (!userInfo && !error) {
+      return null
+    } else if(error) {
+       return (
+        <div>
+         <div>Sorry we are experiencing technical problems. Please try later.</div>
+         <div>{error}</div>
+        </div>
+      )
+    } else {
+      return (
+      <div className='dashboard'>
+        <h1>This is Dashboard</h1>
+        <h3>Hello, {userInfo.first_name}</h3>
+        <button onClick={this.onSignOut}>Sign out</button>
+        <SearchBar userInfo={userInfo}/>
+      </div>
+        )
+    }
+
   }
 }
 
@@ -35,12 +82,51 @@ constructor(props) {
 const mapDispatchToProps = dispatch => {
   return {
     signOutUser: () => dispatch(signOutUser()),
-    getUserObject: (jwt) => dispatch(getUserObject(jwt))
-  };
-};
+    getUser: (jwt) => dispatch(getUser(jwt))
+     .then( response => {
+       if(response.error) {
+         return Promise.reject(response);
+       }
+        dispatch(fetchUserObjectSuccess(response.payload.data));
+      } )
+      .catch( error => {
+        return new Promise((res,rej) => rej(error));
+      } ),
+    getSuggestedFood: (jwt) => dispatch(getSuggestedFood(jwt))
+     .then( response => {
+       if(response.error) {
+         return Promise.reject(response);
+       }
+        dispatch(fetchSuggestedFoodSuccess(response.payload.data));
+    } )
+    .catch( error => {
+      return new Promise((res,rej) => rej(error));
+    } ),
+    fetchDashInfoFailure: (error) => dispatch(fetchDashInfoFailure(error)),
+
+    showLoadingScreen: () => dispatch(showLoadingScreen())
+  }
+}
+//https://stackoverflow.com/questions/36296814/multiple-ajax-requests-with-react-redux
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     signOutUser: () => dispatch(signOutUser()),
+//     getUser: (jwt) => dispatch(getUser(jwt)).then( (response => {
+//       if(!response.error) {
+//         dispatch(getUserSuccess(response.payload.data));
+//       } else {
+//         dispatch(getUserFailure(response.payload.response.data.message));
+//       }
+//     }) ),
+//
+//     showLoadingScreen: () => dispatch(showLoadingScreen())
+//   }
+// }
 
 const mapStateToProps = state => ({
-  err: state.error,
-  userInfo: state.userInfo
+  userInfo: state.dash.userInfo,
+  suggestedFood: state.dash.suggestedFood,
+  error: state.dash.error,
+  loading: state.dash.loading
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
