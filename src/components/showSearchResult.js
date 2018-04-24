@@ -4,35 +4,38 @@ import {
   ListGroup,
   ListGroupItem,
   Tab,
-  Tabs
+  Tabs,
+  Image
 } from 'react-bootstrap';
 export const SearchResult = ({ foundFood }) => {
   if (!foundFood) return null;
   else{
-    const myFood = foundFood.map((foundFood) => {
+    const common = foundFood.common.slice(0,5);
+    const branded = foundFood.branded.slice(0, 5);
+    const self = foundFood.self.slice(0, 5);
+    
+    const commonFood = common.map((commonFoodItem) => {
       return (
-        <ListGroupItem>
-          foodItem['food_name']
+        <ListGroupItem key={commonFoodItem.food_name}>
+          <Image 
+            src={commonFoodItem.photo.thumb || null}
+            responsive
+            alt='food'
+            className='food-image' 
+            />
+         { commonFoodItem.food_name }
        </ListGroupItem>
       )
     })
     return (
       <Tabs
-        defaultActiveKey={2}
+        defaultActiveKey={1}
         id="uncontrolled-tab-example"
       >
         <Tab eventKey={1} title="All">
           <ListGroup>
             <h5>Common Foods</h5>
-            <ListGroupItem>
-              1 food
-          </ListGroupItem>
-            <ListGroupItem>
-              2 food
-          </ListGroupItem>
-            <ListGroupItem>
-              3 food
-          </ListGroupItem>
+            { commonFood }
             <h5>Branded food</h5>
             <ListGroupItem>
               3 food

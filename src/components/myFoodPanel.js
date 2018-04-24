@@ -12,7 +12,7 @@ export const MyFoodPanel = ({ suggestedFood }) => {
         <Image src={foodItem.photo.thumb || null} 
         responsive 
         alt='food' 
-        className='food-image'/>;
+        className='food-image'/>
         { foodItem.food_name }
        </ListGroupItem>
     )
