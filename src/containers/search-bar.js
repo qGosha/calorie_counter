@@ -14,10 +14,12 @@ import {
   Glyphicon
 } from 'react-bootstrap';
 import {
-  showSpinner
+  searchFood,
+  searchFoodSuccess,
+  searchFoodFailure
 } from "../actions/index";
 
-export class SearchBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,12 +35,14 @@ export class SearchBar extends Component {
 
 
 
-  onInputChange(event) {
+  onInputChange(event) {  
     this.setState({
       term: event.target.value,
       searchPanelView: true,
       myFoodPanel:false
     });
+    const jwt = localStorage.getItem('jwt');
+    this.props.searchFood(jwt, event.target.value);
   }
 
   onSearchBarFocus() {
@@ -59,7 +63,6 @@ export class SearchBar extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     if(!this.state.term) return;
-    // this.props.fetchWeather(this.state.term);
     this.setState({
       term: "",
       searchPanelView: false,
@@ -69,7 +72,7 @@ export class SearchBar extends Component {
 
   render() {
     let currentPanel;
-       if(this.state.searchPanelView) currentPanel = <SearchResult />;
+    if (this.state.searchPanelView) currentPanel = <SearchResult foundFood={this.props.foundFood}/>;
        else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel suggestedFood={this.props.suggestedFood}/>;
        else currentPanel = null;
     return (
@@ -83,7 +86,6 @@ export class SearchBar extends Component {
             placeholder="Search food"
             onChange={this.onInputChange}
             onFocus={this.onSearchBarFocus}
-
             className='search-bar'
             autoComplete="off"
           />
@@ -98,3 +100,24 @@ export class SearchBar extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    searchFood: (jwt,term) => {
+      dispatch(searchFood(jwt, term)).then(response => {
+        if (!response.error) {
+          dispatch(searchFoodSuccess(response.payload.data));
+        } else {
+          dispatch(searchFoodFailure(response.payload.response.data.message));
+        }
+      });
+    }
+  };
+};
+const mapStateToProps = state => ({ 
+  userInfo: state.dash.userInfo,
+  suggestedFood: state.dash.suggestedFood,
+  foundFood: state.foodSearch.foundFood,
+  error: state.foodSearch.error
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

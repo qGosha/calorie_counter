@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SearchBar } from './search-bar';
+import SearchBar from './search-bar';
 import FontAwesome from 'react-fontawesome';
 import {
   signOutUser,
@@ -71,7 +71,7 @@ constructor(props) {
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
-        <SearchBar userInfo={userInfo} suggestedFood={suggestedFood}/>
+        <SearchBar/>
       </div>
         )
     }
@@ -108,21 +108,6 @@ const mapDispatchToProps = dispatch => {
     showLoadingScreen: () => dispatch(showLoadingScreen())
   }
 }
-//https://stackoverflow.com/questions/36296814/multiple-ajax-requests-with-react-redux
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     signOutUser: () => dispatch(signOutUser()),
-//     getUser: (jwt) => dispatch(getUser(jwt)).then( (response => {
-//       if(!response.error) {
-//         dispatch(getUserSuccess(response.payload.data));
-//       } else {
-//         dispatch(getUserFailure(response.payload.response.data.message));
-//       }
-//     }) ),
-//
-//     showLoadingScreen: () => dispatch(showLoadingScreen())
-//   }
-// }
 
 const mapStateToProps = state => ({
   userInfo: state.dash.userInfo,
