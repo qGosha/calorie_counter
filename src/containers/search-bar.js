@@ -48,7 +48,7 @@ export class SearchBar extends Component {
    }
 
   onSearchBarBlur(event) {
-    // if (event.target.classList.contains('form-search')) return;
+   if(event.relatedTarget && event.currentTarget.contains( event.relatedTarget )) return;
     this.setState({
       term: "",
       myFoodPanel: false,
@@ -73,7 +73,7 @@ export class SearchBar extends Component {
        else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel suggestedFood={this.props.suggestedFood}/>;
        else currentPanel = null;
     return (
-      <div className='form-search'>
+      <div className='form-search' tabIndex="1" onBlur={this.onSearchBarBlur}>
       <form onSubmit={this.onFormSubmit}>
       <FormGroup bsSize="sm" controlId="search">
       <InputGroup bsSize="sm">
@@ -83,7 +83,7 @@ export class SearchBar extends Component {
             placeholder="Search food"
             onChange={this.onInputChange}
             onFocus={this.onSearchBarFocus}
-            onBlur={this.onSearchBarBlur}
+
             className='search-bar'
             autoComplete="off"
           />
