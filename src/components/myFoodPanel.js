@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-
+import '/style/show_search_result.css';
 import {
   ListGroup,
   ListGroupItem,
   Image
 } from 'react-bootstrap';
 export const MyFoodPanel = ({ suggestedFood }) => {
-  const myFood = suggestedFood.foods.map((foodItem) => {
+  const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
+  const foods = suggestedFood.foods.slice(0,5);
+  const myFood = foods.map((foodItem) => {
+    const foodName = foodItem.food_name;
     return  (
-      <ListGroupItem key={foodItem.food_name}>
-        <Image src={foodItem.photo.thumb || null} 
-        responsive 
+      <ListGroupItem 
+      key={foodItem.food_name}
+        className='food-item'>
+        <Image src={foodAvatarUrl} 
         alt='food' 
         className='food-image'/>
-        { foodItem.food_name }
+        <span className='food-name'>{foodName} </span>
        </ListGroupItem>
     )
   })

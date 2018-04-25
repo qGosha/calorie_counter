@@ -9,24 +9,41 @@ import {
 } from 'react-bootstrap';
 export const SearchResult = ({ foundFood }) => {
   if (!foundFood) return null;
-  else{
+  else {
+    const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
     const common = foundFood.common.slice(0,5);
     const branded = foundFood.branded.slice(0, 5);
     const self = foundFood.self.slice(0, 5);
+    
 
     const commonFood = common.map((commonFoodItem) => {
+      const foodName = commonFoodItem.food_name;
       return (
         <ListGroupItem
         key={commonFoodItem.food_name}
         className='food-item' >
           <Image
-            src={commonFoodItem.photo.thumb || null}
-            responsive
+            src={commonFoodItem.photo.thumb || foodAvatarUrl}
             alt='food'
             className='food-image'
             />
-         { commonFoodItem.food_name }
+          <span className='food-name'>{ foodName }</span>
        </ListGroupItem>
+      )
+    })
+    const brandedFood = branded.map((brandedFoodItem) => {
+      const foodName = brandedFoodItem.food_name;
+      return (
+        <ListGroupItem
+          key={brandedFoodItem.food_name}
+          className='food-item' >
+          <Image
+            src={brandedFoodItem.photo.thumb || foodAvatarUrl}
+            alt='food'
+            className='food-image'
+          />
+          <span className='food-name'>{foodName}</span>
+        </ListGroupItem>
       )
     })
     return (
@@ -39,6 +56,7 @@ export const SearchResult = ({ foundFood }) => {
             <h5>Common Foods</h5>
             { commonFood }
             <h5>Branded food</h5>
+             {brandedFood }
             <ListGroupItem>
               3 food
           </ListGroupItem>

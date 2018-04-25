@@ -1,5 +1,14 @@
 #root .food-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#root .food-name {
+  margin-left: 1rem;
+  font-weight: 600;
+}
+#root .food-name::first-letter {
+  text-transform: uppercase
 }
