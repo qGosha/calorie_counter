@@ -33,6 +33,9 @@ export const SearchResult = ({ foundFood }) => {
     })
     const brandedFood = branded.map((brandedFoodItem) => {
       const foodName = brandedFoodItem.food_name;
+      const brandName = brandedFoodItem.brand_name;
+      const servingQty = brandedFoodItem.serving_qty;
+      const servingUnit = brandedFoodItem.serving_unit;
       return (
         <ListGroupItem
           key={brandedFoodItem.food_name}
@@ -42,7 +45,10 @@ export const SearchResult = ({ foundFood }) => {
             alt='food'
             className='food-image'
           />
-          <span className='food-name'>{foodName}</span>
+          <div className='food-description'>
+           <span className='food-name'>{foodName}</span>
+           <span>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
+          </div>
         </ListGroupItem>
       )
     })

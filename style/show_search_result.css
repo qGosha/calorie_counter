@@ -6,9 +6,14 @@
 }
 
 #root .food-name {
-  margin-left: 1rem;
   font-weight: 600;
 }
 #root .food-name::first-letter {
   text-transform: uppercase
+}
+#root .food-description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1rem;
 }
