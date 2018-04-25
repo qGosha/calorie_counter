@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './show_search_result.css';
 import {
   ListGroup,
   ListGroupItem,
@@ -13,15 +13,17 @@ export const SearchResult = ({ foundFood }) => {
     const common = foundFood.common.slice(0,5);
     const branded = foundFood.branded.slice(0, 5);
     const self = foundFood.self.slice(0, 5);
-    
+
     const commonFood = common.map((commonFoodItem) => {
       return (
-        <ListGroupItem key={commonFoodItem.food_name}>
-          <Image 
+        <ListGroupItem
+        key={commonFoodItem.food_name}
+        className='food-item' >
+          <Image
             src={commonFoodItem.photo.thumb || null}
             responsive
             alt='food'
-            className='food-image' 
+            className='food-image'
             />
          { commonFoodItem.food_name }
        </ListGroupItem>
@@ -51,5 +53,5 @@ export const SearchResult = ({ foundFood }) => {
       </Tabs>
     )
   }
-  
+
 }

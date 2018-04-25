@@ -1,0 +1,8 @@
+.food-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.nikto{
+  font-size: 25px !important;
+}
