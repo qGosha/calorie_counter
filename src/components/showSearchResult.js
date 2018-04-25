@@ -1,5 +1,5 @@
 import React from 'react';
-import './show_search_result.css';
+import '/style/show_search_result.css';
 import {
   ListGroup,
   ListGroupItem,

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PasswordEye } from "../components/password-eye";
 import FontAwesome from 'react-fontawesome';
+import '/style/auth.css';
 import {
   signUpUser,
   signUpUserSuccess,

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Dashboard from "./Dashboard";
 import  Signup  from "./Signup";
 import Login from "./Login";
+import '/style/app.css';
 class App extends Component {
   render() {
     if (this.props.auth.logged) return <Dashboard />;
