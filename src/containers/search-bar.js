@@ -29,7 +29,6 @@ class SearchBar extends Component {
       myFoodPanel: false
     };
     this.onInputChange = this.onInputChange.bind(this);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSearchBarFocus = this.onSearchBarFocus.bind(this);
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
   }
@@ -61,15 +60,15 @@ class SearchBar extends Component {
     });
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    if(!this.state.term) return;
-    this.setState({
-      term: "",
-      searchPanelView: false,
-      myFoodPanel: false
-     });
-  }
+  // onFormSubmit(event) {
+  //   event.preventDefault();
+  //   if(!this.state.term) return;
+  //   this.setState({
+  //     term: "",
+  //     searchPanelView: false,
+  //     myFoodPanel: false
+  //    });
+  // }
 
   render() {
     let currentPanel;
@@ -78,7 +77,7 @@ class SearchBar extends Component {
        else currentPanel = null;
     return (
       <div className='form-search' tabIndex="1" onBlur={this.onSearchBarBlur}>
-      <form onSubmit={this.onFormSubmit}>
+      <form>
       <FormGroup bsSize="sm" controlId="search">
       <InputGroup bsSize="sm">
           <FormControl

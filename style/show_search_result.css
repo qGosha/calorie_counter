@@ -17,3 +17,9 @@
   align-items: flex-start;
   margin-left: 1rem;
 }
+
+.food-size {
+  font-size: 1rem;
+  color: #999;
+
+}

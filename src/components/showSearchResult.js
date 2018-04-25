@@ -47,7 +47,7 @@ export const SearchResult = ({ foundFood }) => {
           />
           <div className='food-description'>
            <span className='food-name'>{foodName}</span>
-           <span>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
+           <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
           </div>
         </ListGroupItem>
       )
