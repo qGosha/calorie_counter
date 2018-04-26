@@ -36,13 +36,22 @@ class SearchBar extends Component {
 
 
   onInputChange(event) {
+    const value = event.target.value;
+    if(!value) {
+      this.setState({
+        term: '',
+        searchPanelView: false,
+        myFoodPanel: true
+      });
+      return;
+    } 
     this.setState({
-      term: event.target.value,
+      term: value,
       searchPanelView: true,
       myFoodPanel:false
     });
     const jwt = localStorage.getItem('jwt');
-    this.props.searchFood(jwt, event.target.value);
+    this.props.searchFood(jwt, value);
   }
 
   onSearchBarFocus() {
@@ -64,8 +73,14 @@ class SearchBar extends Component {
 
   render() {
     let currentPanel;
-    if (this.state.searchPanelView) currentPanel = <SearchResult foundFood={this.props.foundFood}/>;
-       else if (this.state.myFoodPanel) currentPanel = <MyFoodPanel suggestedFood={this.props.suggestedFood}/>;
+    if (this.state.searchPanelView) {
+      currentPanel = <SearchResult
+        foundFood={this.props.foundFood} />;
+    } 
+       else if (this.state.myFoodPanel) {
+      currentPanel = <MyFoodPanel 
+      suggestedFood={this.props.suggestedFood} />;
+       }
        else currentPanel = null;
     return (
       <div className='form-search' tabIndex="1" onBlur={this.onSearchBarBlur}>

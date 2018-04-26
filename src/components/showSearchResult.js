@@ -15,7 +15,6 @@ export const SearchResult = ({ foundFood }) => {
     const branded = foundFood.branded.slice(0, 5);
     const self = foundFood.self.slice(0, 5);
 
-
     const commonFood = common.map((commonFoodItem) => {
       const foodName = commonFoodItem.food_name;
       return (
@@ -49,11 +48,11 @@ export const SearchResult = ({ foundFood }) => {
             className='food-image'
           />
           <div className='food-description'>
-           <div className='food-description-group'>
+           <div className='food-description-group-1'>
             <span className='food-name'>{foodName}</span>
             <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
            </div>
-           <div className='food-description-group'>
+           <div className='food-description-group-2'>
             <span className='food-calorie'>{calorie}</span>
             <span className='food-calorie-name'>cal</span>
            </div>

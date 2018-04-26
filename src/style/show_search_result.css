@@ -5,19 +5,20 @@
   align-items: center;
   cursor: pointer;
 }
-.food-description-group {
+.food-description-group-1,
+.food-description-group-2 {
  display: flex;
  flex-direction: column; 
  align-items: stretch;
 }
-.food-description-group:nth-child(2) {
+.food-description-group-2 {
   text-align: right;
 }
-.food-description-group:nth-child(2) span:nth-child(2) {
+.food-description-group-2 span:nth-child(2) {
   font-size: 1.3rem;
   color: #999;
 }
-.food-description-group:nth-child(2) span:nth-child(1) {
+.food-description-group-2 span:nth-child(1) {
   font-size: 1.5rem;
   font-weight: bold;
   color: #28A54C; 

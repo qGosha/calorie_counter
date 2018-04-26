@@ -12,14 +12,22 @@ export const MyFoodPanel = ({ suggestedFood }) => {
   const foods = foodArr.slice(0,5);
   const myFood = foods.map((foodItem) => {
     const foodName = foodItem.food_name;
+    const brandName = foodItem.brand_name;
+    const servingQty = foodItem.serving_qty;
+    const servingUnit = foodItem.serving_unit;
     return  (
       <ListGroupItem
-      key={foodItem.food_name}
+        key={foodItem.food_name}
         className='food-item'>
-        <Image src={foodAvatarUrl}
+        <Image src={foodItem.photo.thumb || foodAvatarUrl}
         alt='food'
         className='food-image'/>
-        <span className='food-name'>{foodName} </span>
+        <div className='food-description'>
+         <div className='food-description-group-1'>
+          <span className='food-name'>{foodName} </span>
+          <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
+         </div>
+        </div>
        </ListGroupItem>
     )
   })
