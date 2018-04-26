@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
 import { PasswordEye } from "../components/password-eye";
-import '/style/auth.css';
+import '../style/auth.css';
 import {
   Button,
   FormGroup,

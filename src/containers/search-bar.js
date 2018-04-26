@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FontAwesome from 'react-fontawesome';
-import '/style/search_bar.css';
+import '../style/search_bar.css';
 import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel'
 import {
@@ -35,7 +35,7 @@ class SearchBar extends Component {
 
 
 
-  onInputChange(event) {  
+  onInputChange(event) {
     this.setState({
       term: event.target.value,
       searchPanelView: true,
@@ -46,12 +46,14 @@ class SearchBar extends Component {
   }
 
   onSearchBarFocus() {
+    if(this.state.searchPanelView) return;
      this.setState({
        myFoodPanel: true
      });
    }
 
   onSearchBarBlur(event) {
+   if(!document.hasFocus()) return;
    if(event.relatedTarget && event.currentTarget.contains( event.relatedTarget )) return;
     this.setState({
       term: "",
@@ -59,16 +61,6 @@ class SearchBar extends Component {
       searchPanelView:false
     });
   }
-
-  // onFormSubmit(event) {
-  //   event.preventDefault();
-  //   if(!this.state.term) return;
-  //   this.setState({
-  //     term: "",
-  //     searchPanelView: false,
-  //     myFoodPanel: false
-  //    });
-  // }
 
   render() {
     let currentPanel;
@@ -114,7 +106,7 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-const mapStateToProps = state => ({ 
+const mapStateToProps = state => ({
   userInfo: state.dash.userInfo,
   suggestedFood: state.dash.suggestedFood,
   foundFood: state.foodSearch.foundFood,

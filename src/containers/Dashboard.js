@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './search-bar';
 import FontAwesome from 'react-fontawesome';
-import '/style/dashboard.css';
+import '../style/dashboard.css';
 import {
   signOutUser,
   getUser,

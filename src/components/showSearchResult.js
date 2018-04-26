@@ -1,5 +1,5 @@
 import React from 'react';
-import '/style/show_search_result.css';
+import '../style/show_search_result.css';
 import {
   ListGroup,
   ListGroupItem,
@@ -14,7 +14,7 @@ export const SearchResult = ({ foundFood }) => {
     const common = foundFood.common.slice(0,5);
     const branded = foundFood.branded.slice(0, 5);
     const self = foundFood.self.slice(0, 5);
-    
+
 
     const commonFood = common.map((commonFoodItem) => {
       const foodName = commonFoodItem.food_name;

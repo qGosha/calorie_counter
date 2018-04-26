@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '/style/show_search_result.css';
+import '../style/show_search_result.css';
 import {
   ListGroup,
   ListGroupItem,
@@ -11,11 +11,11 @@ export const MyFoodPanel = ({ suggestedFood }) => {
   const myFood = foods.map((foodItem) => {
     const foodName = foodItem.food_name;
     return  (
-      <ListGroupItem 
+      <ListGroupItem
       key={foodItem.food_name}
         className='food-item'>
-        <Image src={foodAvatarUrl} 
-        alt='food' 
+        <Image src={foodAvatarUrl}
+        alt='food'
         className='food-image'/>
         <span className='food-name'>{foodName} </span>
        </ListGroupItem>
