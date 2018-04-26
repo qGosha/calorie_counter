@@ -75,7 +75,8 @@ class SearchBar extends Component {
     let currentPanel;
     if (this.state.searchPanelView) {
       currentPanel = <SearchResult
-        foundFood={this.props.foundFood} />;
+        foundFood={this.props.foundFood} 
+        term={this.state.term} />;
     } 
        else if (this.state.myFoodPanel) {
       currentPanel = <MyFoodPanel 

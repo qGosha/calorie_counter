@@ -7,14 +7,17 @@ import {
   Tabs,
   Image
 } from 'react-bootstrap';
-export const SearchResult = ({ foundFood }) => {
+export const SearchResult = ({ foundFood, term }) => {
   if (!foundFood) return null;
   else {
     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
     const common = foundFood.common.slice(0,5);
     const branded = foundFood.branded.slice(0, 5);
     const self = foundFood.self.slice(0, 5);
-
+    let freeform;
+    if(common.length) {
+      freeform = (common[0].food_name !== term) ? term : null;
+    }
     const commonFood = common.map((commonFoodItem) => {
       const foodName = commonFoodItem.food_name;
       return (
@@ -67,12 +70,13 @@ export const SearchResult = ({ foundFood }) => {
       >
         <Tab eventKey={1} title="All">
           <ListGroup>
-            <h5 className='food-group-title'>Common Foods</h5>
+            {common.length ? <h5 className='food-group-title'>Common Foods</h5> : null}
             { commonFood }
-            <h5 className='food-group-title'>Branded food</h5>
+            {branded.length ? <h5 className= 'food-group-title' > Branded food</h5> : null}
              {brandedFood }
             <ListGroupItem>
-              3 food
+              {freeform ? <h5 className='food-group-title' >Freeform</h5> : null}
+              {freeform}
           </ListGroupItem>
           </ListGroup>
         </Tab>
