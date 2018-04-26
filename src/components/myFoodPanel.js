@@ -6,8 +6,10 @@ import {
   Image
 } from 'react-bootstrap';
 export const MyFoodPanel = ({ suggestedFood }) => {
+  const foodArr = suggestedFood.foods;
+  if (!foodArr.length) return null;
   const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
-  const foods = suggestedFood.foods.slice(0,5);
+  const foods = foodArr.slice(0,5);
   const myFood = foods.map((foodItem) => {
     const foodName = foodItem.food_name;
     return  (

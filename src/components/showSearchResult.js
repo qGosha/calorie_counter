@@ -27,7 +27,9 @@ export const SearchResult = ({ foundFood }) => {
             alt='food'
             className='food-image'
             />
+          <div className='food-description'>  
           <span className='food-name'>{ foodName }</span>
+          </div>
        </ListGroupItem>
       )
     })
@@ -36,6 +38,7 @@ export const SearchResult = ({ foundFood }) => {
       const brandName = brandedFoodItem.brand_name;
       const servingQty = brandedFoodItem.serving_qty;
       const servingUnit = brandedFoodItem.serving_unit;
+      const calorie = brandedFoodItem.nf_calories;
       return (
         <ListGroupItem
           key={brandedFoodItem.food_name}
@@ -46,8 +49,14 @@ export const SearchResult = ({ foundFood }) => {
             className='food-image'
           />
           <div className='food-description'>
-           <span className='food-name'>{foodName}</span>
-           <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
+           <div className='food-description-group'>
+            <span className='food-name'>{foodName}</span>
+            <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
+           </div>
+           <div className='food-description-group'>
+            <span className='food-calorie'>{calorie}</span>
+            <span className='food-calorie-name'>cal</span>
+           </div>
           </div>
         </ListGroupItem>
       )
@@ -59,9 +68,9 @@ export const SearchResult = ({ foundFood }) => {
       >
         <Tab eventKey={1} title="All">
           <ListGroup>
-            <h5>Common Foods</h5>
+            <h5 className='food-group-title'>Common Foods</h5>
             { commonFood }
-            <h5>Branded food</h5>
+            <h5 className='food-group-title'>Branded food</h5>
              {brandedFood }
             <ListGroupItem>
               3 food
