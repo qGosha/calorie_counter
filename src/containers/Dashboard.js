@@ -11,7 +11,6 @@ import {
   fetchSuggestedFoodSuccess,
   fetchDashInfoFailure,
   showLoadingScreen
-
 } from "../actions/index";
 
 class Dashboard extends Component {
