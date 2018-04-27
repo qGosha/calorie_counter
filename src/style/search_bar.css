@@ -9,7 +9,10 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
+/* .form-search {
+  max-height: 500px;
+  overflow-y:scroll;
+} */
 .form-search[tabindex] {
   outline: none;
 }

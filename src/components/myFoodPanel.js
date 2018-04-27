@@ -13,7 +13,7 @@ export const MyFoodPanel = ({ suggestedFood }) => {
 
   return(
     <ListGroup>
-    <h5>My Food</h5>
+      <h5 className='food-group-title'>My Food</h5>
      <FoodListItem foods={foods}/>
     </ListGroup>
   )

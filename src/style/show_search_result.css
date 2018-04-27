@@ -56,30 +56,6 @@
   flex-wrap: wrap;
 }
 
-   /* <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row className="clearfix">
-          <Col xs={6}>
-            <Nav bsStyle="pills" stacked>
-              <NavItem eventKey="first">Tab 1</NavItem>
-              <NavItem eventKey="second">Tab 2</NavItem>
-              <NavItem eventKey="third">Tab 3</NavItem>
-              <NavItem eventKey="forth">Tab 4</NavItem>
-              <NavItem eventKey="fifth">Tab 5</NavItem>
-            </Nav>
-          </Col>
-          <Col xs={6}>
-            <Tab.Content animation>
-              <Tab.Pane eventKey="first">
-                {self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} />) : null}
-                {common.length ? foodListGroup('Common food', <FoodListItem foods={common} />) : null}
-                {branded.length ? foodListGroup('Branded food', <FoodListItem foods={branded} />) : null}
-                {freeform ? foodListGroup('Freeform', freeform) : null}
-              </Tab.Pane>
-              <Tab.Pane eventKey="second">Tab 2 content</Tab.Pane>
-              <Tab.Pane eventKey="third">Tab 2 content</Tab.Pane>
-              <Tab.Pane eventKey="forth">Tab 2 content</Tab.Pane>
-              <Tab.Pane eventKey="fifth">Tab 2 content</Tab.Pane>
-            </Tab.Content>
-          </Col>
-        </Row>
-      </Tab.Container>   */
+.common-food-sep {
+  overflow-y: auto;
+}

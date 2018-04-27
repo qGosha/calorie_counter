@@ -1,19 +1,8 @@
 import React from 'react';
 import '../style/show_search_result.css';
 import { FoodListItem } from '../components/foodListItem';
-import {
-  ListGroup,
-  ListGroupItem,
-  Tab,
-  Tabs,
-  Image,
-  Row,
-  Col,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-  Nav
-
+import { CommonFood } from '../components/commonFoodSepList';
+import { ListGroup, ListGroupItem, Tab, Tabs, Image, Row, Col, NavItem, NavDropdown, MenuItem, Nav
 } from 'react-bootstrap';
 export const SearchResult = ({ foundFood, term }) => {
   if (!foundFood) return null;
@@ -67,7 +56,7 @@ export const SearchResult = ({ foundFood, term }) => {
           <Col sm={12} smHidden mdHidden lgHidden>
             <Nav bsStyle="tabs">
               <NavItem eventKey="1">All</NavItem>
-              <NavDropdown eventKey="3" title="Dropdown" id="nav-dropdown-within-tab">
+              <NavDropdown eventKey="3" title="Other options" id="nav-dropdown-within-tab">
                 <MenuItem eventKey="2">Your foods</MenuItem>
                 <MenuItem eventKey="4">Common</MenuItem>
                 <MenuItem eventKey="5">Branded</MenuItem>
@@ -83,7 +72,7 @@ export const SearchResult = ({ foundFood, term }) => {
                 {branded.length ? foodListGroup('Branded food', <FoodListItem foods={branded} />) : null}
                 {freeform ? foodListGroup('Freeform', freeform) : null}
               </Tab.Pane>
-              <Tab.Pane eventKey="2">Tab 2 content</Tab.Pane>
+              <Tab.Pane eventKey="2"><CommonFood foods={foundFood.common}/></Tab.Pane>
               <Tab.Pane eventKey="4">Tab 3.1 content</Tab.Pane>
               <Tab.Pane eventKey="5">Tab 3.2 content</Tab.Pane>
               <Tab.Pane eventKey="6">Tab 3.3 content</Tab.Pane>
