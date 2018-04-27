@@ -64,7 +64,7 @@ export const SearchResult = ({ foundFood, term }) => {
               </NavDropdown>
             </Nav>
           </Col>
-          <Col sm={12}>
+          <Col sm={12} >
             <Tab.Content animation>
               <Tab.Pane eventKey="1">
                 {self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} />) : null}

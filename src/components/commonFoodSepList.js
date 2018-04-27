@@ -9,7 +9,7 @@ import {
 
 export const CommonFood = ({ foods }) => {
   return (
-    <ListGroup className='common-food-sep'>
+    <ListGroup className='food-sep-list'>
       <h5 className='food-group-title'>Common foods</h5>
       <FoodListItem foods={foods} />
     </ListGroup>
