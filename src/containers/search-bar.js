@@ -12,7 +12,10 @@ import {
   FormControl,
   Alert,
   InputGroup,
-  Glyphicon
+  Glyphicon,
+  Grid,
+  Row,
+  Col
 } from 'react-bootstrap';
 import {
   searchFood,
@@ -84,6 +87,9 @@ class SearchBar extends Component {
        }
        else currentPanel = null;
     return (
+  <Grid>
+    <Row className="show-grid">
+      <Col sm={12} md={7}>
       <div className='form-search' tabIndex="1" onBlur={this.onSearchBarBlur}>
       <form>
       <FormGroup bsSize="sm" controlId="search">
@@ -105,6 +111,9 @@ class SearchBar extends Component {
       </form>
       {currentPanel}
      </div>
+      </Col>
+    </Row>
+  </Grid>
     );
   }
 }

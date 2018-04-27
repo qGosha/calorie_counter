@@ -6,7 +6,14 @@ import {
   ListGroupItem,
   Tab,
   Tabs,
-  Image
+  Image,
+  Row,
+  Col,
+  NavItem,
+  NavDropdown,
+  MenuItem,
+  Nav
+
 } from 'react-bootstrap';
 export const SearchResult = ({ foundFood, term }) => {
   if (!foundFood) return null;
@@ -46,141 +53,45 @@ export const SearchResult = ({ foundFood, term }) => {
     }
 
     return (
-      <Tabs
-        defaultActiveKey={1}
-        id="uncontrolled-tab-example">
-        <Tab eventKey={1} title="All">
-          { self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} />) : null }
-          { common.length ? foodListGroup('Common food', <FoodListItem foods={common} />) : null }
-          { branded.length ? foodListGroup('Branded food', <FoodListItem foods={branded} />) : null }
-          { freeform ? foodListGroup('Freeform', freeform) : null }
-        </Tab>
-        <Tab eventKey={2} title="Yor food">
-          Tab 2 content
-      </Tab>
-        <Tab eventKey={3} title="Tab 3">
-          Tab 3 content
-      </Tab>
-      </Tabs>
+      <Tab.Container id="tabs-with-dropdown" defaultActiveKey="1">
+        <Row className="clearfix">
+          <Col sm={12} xsHidden>
+            <Nav bsStyle="tabs">
+              <NavItem eventKey="1">All</NavItem>
+              <NavItem eventKey="2">Your foods</NavItem>
+              <NavItem eventKey="4">Common</NavItem>
+              <NavItem eventKey="5">Branded</NavItem>
+              <NavItem eventKey="6">Freeform</NavItem>  
+            </Nav>
+          </Col>
+          <Col sm={12} smHidden mdHidden lgHidden>
+            <Nav bsStyle="tabs">
+              <NavItem eventKey="1">All</NavItem>
+              <NavDropdown eventKey="3" title="Dropdown" id="nav-dropdown-within-tab">
+                <MenuItem eventKey="2">Your foods</MenuItem>
+                <MenuItem eventKey="4">Common</MenuItem>
+                <MenuItem eventKey="5">Branded</MenuItem>
+                <MenuItem eventKey="6">Freeform</MenuItem>
+              </NavDropdown>
+            </Nav>
+          </Col>
+          <Col sm={12}>
+            <Tab.Content animation>
+              <Tab.Pane eventKey="1">
+                {self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} />) : null}
+                {common.length ? foodListGroup('Common food', <FoodListItem foods={common} />) : null}
+                {branded.length ? foodListGroup('Branded food', <FoodListItem foods={branded} />) : null}
+                {freeform ? foodListGroup('Freeform', freeform) : null}
+              </Tab.Pane>
+              <Tab.Pane eventKey="2">Tab 2 content</Tab.Pane>
+              <Tab.Pane eventKey="4">Tab 3.1 content</Tab.Pane>
+              <Tab.Pane eventKey="5">Tab 3.2 content</Tab.Pane>
+              <Tab.Pane eventKey="6">Tab 3.3 content</Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
     )
   }
 
 }
-
-
-// import React from 'react';
-// import '../style/show_search_result.css';
-// import {
-//   ListGroup,
-//   ListGroupItem,
-//   Tab,
-//   Tabs,
-//   Image
-// } from 'react-bootstrap';
-// export const SearchResult = ({ foundFood, term }) => {
-//   if (!foundFood) return null;
-//   else {
-//     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
-//     const common = foundFood.common.slice(0,5);
-//     const branded = foundFood.branded.slice(0, 5);
-//     const self = foundFood.self.slice(0, 5);
-//
-//     const freeformElement = (
-//         <ListGroupItem
-//         className='food-item' >
-//           <Image
-//             src={foodAvatarUrl}
-//             alt='food'
-//             className='food-image'
-//             />
-//           <div className='food-description'>
-//           <span className='food-name'>{ term }</span>
-//           </div>
-//        </ListGroupItem>
-//       )
-//
-//
-//     let freeform;
-//     if(common.length) {
-//       freeform = (common[0].food_name !== term) ? freeformElement : null;
-//     } else {
-//       freeform = freeformElement;
-//     }
-//
-//     const commonFood = common.map((commonFoodItem) => {
-//       const foodName = commonFoodItem.food_name;
-//       return (
-//         <ListGroupItem
-//         key={commonFoodItem.food_name}
-//         className='food-item' >
-//           <Image
-//             src={commonFoodItem.photo.thumb || foodAvatarUrl}
-//             alt='food'
-//             className='food-image'
-//             />
-//           <div className='food-description'>
-//           <span className='food-name'>{ foodName }</span>
-//           </div>
-//        </ListGroupItem>
-//       )
-//     })
-//     const brandedFood = branded.map((brandedFoodItem) => {
-//       const foodName = brandedFoodItem.food_name;
-//       const brandName = brandedFoodItem.brand_name;
-//       const servingQty = brandedFoodItem.serving_qty;
-//       const servingUnit = brandedFoodItem.serving_unit;
-//       const calorie = brandedFoodItem.nf_calories;
-//       return (
-//         <ListGroupItem
-//           key={brandedFoodItem.food_name}
-//           className='food-item' >
-//           <Image
-//             src={brandedFoodItem.photo.thumb || foodAvatarUrl}
-//             alt='food'
-//             className='food-image'
-//           />
-//           <div className='food-description'>
-//            <div className='food-description-group-1'>
-//             <span className='food-name'>{foodName}</span>
-//             <span className='food-size'>{`${brandName}, ${servingQty} ${servingUnit}`}</span>
-//            </div>
-//            <div className='food-description-group-2'>
-//             <span className='food-calorie'>{calorie}</span>
-//             <span className='food-calorie-name'>cal</span>
-//            </div>
-//           </div>
-//         </ListGroupItem>
-//       )
-//     })
-//     return (
-//       <Tabs
-//         defaultActiveKey={1}
-//         id="uncontrolled-tab-example"
-//       >
-//         <Tab eventKey={1} title="All">
-//           <ListGroup>
-//           <ListGroupItem>
-//             {common.length ? <h5 className='food-group-title'>Common Foods</h5> : null}
-//             { commonFood }
-//           </ListGroupItem>
-//           <ListGroupItem>
-//             {branded.length ? <h5 className= 'food-group-title' > Branded food</h5> : null}
-//              {brandedFood }
-//           </ListGroupItem>
-//             <ListGroupItem>
-//               {freeform ? <h5 className='food-group-title' >Freeform</h5> : null}
-//               {freeform}
-//           </ListGroupItem>
-//           </ListGroup>
-//         </Tab>
-//         <Tab eventKey={2} title="Yor food">
-//           Tab 2 content
-//       </Tab>
-//         <Tab eventKey={3} title="Tab 3">
-//           Tab 3 content
-//       </Tab>
-//       </Tabs>
-//     )
-//   }
-//
-// }
