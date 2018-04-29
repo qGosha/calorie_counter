@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  padding: 5px 8px;
   cursor: pointer;
   overflow-x: auto;
 }

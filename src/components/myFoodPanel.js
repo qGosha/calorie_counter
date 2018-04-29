@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../style/show_search_result.css';
 import { FoodListItem } from '../components/foodListItem';
 import {
-  ListGroup,
-  ListGroupItem,
-  Image
+  ListGroup
 } from 'react-bootstrap';
-export const MyFoodPanel = ({ suggestedFood }) => {
+
+export const MyFoodPanel = ({ suggestedFood, addToBasket }) => {
   const foodArr = suggestedFood.foods;
   if (!foodArr.length) return null;
   const foods = foodArr.slice(0,5);
@@ -14,7 +13,7 @@ export const MyFoodPanel = ({ suggestedFood }) => {
   return(
     <ListGroup>
       <h5 className='food-group-title'>My Food</h5>
-     <FoodListItem foods={foods}/>
+     <FoodListItem foods={foods} addToBasket={addToBasket}/>
     </ListGroup>
   )
 }

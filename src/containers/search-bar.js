@@ -1,26 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import FontAwesome from 'react-fontawesome';
-import '../style/search_bar.css';
 import { SearchResult } from '../components/showSearchResult';
-import { MyFoodPanel } from '../components/myFoodPanel'
-import {
-  Form,
-  Button,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  Alert,
-  InputGroup,
-  Glyphicon,
-  Grid,
-  Row,
-  Col
-} from 'react-bootstrap';
+import { MyFoodPanel } from '../components/myFoodPanel';
+import { SearchBarPanel } from '../components/search-bar-panel';
 import {
   searchFood,
   searchFoodSuccess,
-  searchFoodFailure
+  searchFoodFailure,
+  addToBasket
 } from "../actions/index";
 
 class SearchBar extends Component {
@@ -36,8 +23,6 @@ class SearchBar extends Component {
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
   }
 
-
-
   onInputChange(event) {
     const value = event.target.value;
     if(!value) {
@@ -47,7 +32,7 @@ class SearchBar extends Component {
         myFoodPanel: true
       });
       return;
-    } 
+    }
     this.setState({
       term: value,
       searchPanelView: true,
@@ -58,7 +43,7 @@ class SearchBar extends Component {
   }
 
   onSearchBarFocus() {
-    if(this.state.searchPanelView) return;
+    if(this.state.searchPanelView || this.state.myFoodPanel) return;
      this.setState({
        myFoodPanel: true
      });
@@ -78,42 +63,24 @@ class SearchBar extends Component {
     let currentPanel;
     if (this.state.searchPanelView) {
       currentPanel = <SearchResult
-        foundFood={this.props.foundFood} 
-        term={this.state.term} />;
-    } 
+        foundFood={this.props.foundFood}
+        term={this.state.term}
+        addToBasket={this.props.addToBasket} />;
+    }
        else if (this.state.myFoodPanel) {
-      currentPanel = <MyFoodPanel 
-      suggestedFood={this.props.suggestedFood} />;
+      currentPanel = <MyFoodPanel
+        suggestedFood={this.props.suggestedFood}
+        addToBasket={this.props.addToBasket} />;
        }
        else currentPanel = null;
     return (
-  <Grid>
-    <Row className="show-grid">
-      <Col sm={12} md={7}>
-      <div className='form-search' tabIndex="1" onBlur={this.onSearchBarBlur}>
-      <form>
-      <FormGroup bsSize="sm" controlId="search">
-      <InputGroup bsSize="sm">
-          <FormControl
-            type="text"
-            value={this.state.term}
-            placeholder="Search food"
-            onChange={this.onInputChange}
-            onFocus={this.onSearchBarFocus}
-            className='search-bar'
-            autoComplete="off"
-          />
-          <InputGroup.Addon>
-        <Glyphicon glyph="search" />
-          </InputGroup.Addon>
-        </InputGroup>
-      </FormGroup>
-      </form>
-      {currentPanel}
-     </div>
-      </Col>
-    </Row>
-  </Grid>
+     <SearchBarPanel
+      onBlur={this.onSearchBarBlur}
+      onFocus={this.onSearchBarFocus}
+      onChange={this.onInputChange}
+      term={this.state.term}
+      currentPanel={currentPanel}
+      />
     );
   }
 }
@@ -128,7 +95,8 @@ const mapDispatchToProps = dispatch => {
           dispatch(searchFoodFailure(response.payload.response.data.message));
         }
       });
-    }
+    },
+    addToBasket: foodItem => dispatch(addToBasket(foodItem))
   };
 };
 const mapStateToProps = state => ({
