@@ -3,12 +3,22 @@ import { connect } from "react-redux";
 import Dashboard from "./Dashboard";
 import  Signup  from "./Signup";
 import Login from "./Login";
+import ModalRoot from "./Modal";
 import '../style/app.css';
 class App extends Component {
+
   render() {
-    if (this.props.auth.logged) return <Dashboard />;
-    else if (this.props.auth.signup) return <Signup />;
-    else return <Login />;
+    const combinedComps = (Comp) => {
+      return (
+        <div>
+          {Comp}
+          <ModalRoot/>
+      </div>
+    )
+  }
+    if (this.props.auth.logged) return combinedComps(<Dashboard />);
+    else if (this.props.auth.signup) return combinedComps(<Signup />);
+    else return combinedComps(<Login />);
   }
 }
 

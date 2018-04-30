@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import FontAwesome from 'react-fontawesome';
 import '../style/basket.css';
-import { SearchResult } from '../components/showSearchResult';
-import { MyFoodPanel } from '../components/myFoodPanel'
 import {
   searchFood,
   searchFoodSuccess,
   searchFoodFailure
 } from "../actions/index";
+import {
+  Modal,
+  Button
+} from 'react-bootstrap';
 
-class SearchBar extends Component {
+class Basket extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,25 +20,34 @@ class SearchBar extends Component {
       myFoodPanel: false
     };
  }
+ render() {
+   return(
+     <Modal.Dialog>
+     <Modal>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Contained Modal
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Elit est explicabo ipsum eaque dolorem blanditiis doloribus sed id
+            ipsam, beatae, rem fuga id earum? Inventore et facilis obcaecati.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button>Close</Button>
+          </Modal.Footer>
+        </Modal>
+     </Modal.Dialog>
+   )
+ }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    searchFood: (jwt,term) => {
-      dispatch(searchFood(jwt, term)).then(response => {
-        if (!response.error) {
-          dispatch(searchFoodSuccess(response.payload.data));
-        } else {
-          dispatch(searchFoodFailure(response.payload.response.data.message));
-        }
-      });
-    }
+    hideBasketModal: () => (dispatch(hideModal(modalType))) 
   };
 };
 const mapStateToProps = state => ({
-  userInfo: state.dash.userInfo,
-  suggestedFood: state.dash.suggestedFood,
-  foundFood: state.foodSearch.foundFood,
-  error: state.foodSearch.error
+  basket: state.basket
 });
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Basket);

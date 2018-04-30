@@ -7,7 +7,8 @@ import {
   searchFood,
   searchFoodSuccess,
   searchFoodFailure,
-  addToBasket
+  addToBasket,
+  showModal
 } from "../actions/index";
 
 class SearchBar extends Component {
@@ -21,8 +22,14 @@ class SearchBar extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onSearchBarFocus = this.onSearchBarFocus.bind(this);
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
+    this.onItemClick = this.onItemClick.bind(this);
   }
-
+  
+  onItemClick(foodItem) {
+    this.props.addToBasket(foodItem);
+    this.props.showBasketModal('SHOW_BASKET');
+  }
+  
   onInputChange(event) {
     const value = event.target.value;
     if(!value) {
@@ -65,12 +72,12 @@ class SearchBar extends Component {
       currentPanel = <SearchResult
         foundFood={this.props.foundFood}
         term={this.state.term}
-        addToBasket={this.props.addToBasket} />;
+        addToBasket={this.onItemClick} />;
     }
        else if (this.state.myFoodPanel) {
       currentPanel = <MyFoodPanel
         suggestedFood={this.props.suggestedFood}
-        addToBasket={this.props.addToBasket} />;
+        addToBasket={this.onItemClick} />;
        }
        else currentPanel = null;
     return (
@@ -96,7 +103,8 @@ const mapDispatchToProps = dispatch => {
         }
       });
     },
-    addToBasket: foodItem => dispatch(addToBasket(foodItem))
+    addToBasket: foodItem => dispatch(addToBasket(foodItem)),
+    showBasketModal: modalType => dispatch(showModal(modalType))
   };
 };
 const mapStateToProps = state => ({
