@@ -22,8 +22,9 @@ class Basket extends Component {
  }
  render() {
    return(
-     <Modal.Dialog>
-     <Modal>
+     <Modal
+       show={true}
+       aria-labelledby="contained-modal-title">
           <Modal.Header closeButton>
             <Modal.Title>
               Contained Modal
@@ -37,7 +38,6 @@ class Basket extends Component {
             <Button>Close</Button>
           </Modal.Footer>
         </Modal>
-     </Modal.Dialog>
    )
  }
 }
