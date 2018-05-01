@@ -26,8 +26,13 @@ class SearchBar extends Component {
     this.onItemClick = this.onItemClick.bind(this);
   }
 
-  onItemClick(foodItem) {
-    this.props.addToBasket(foodItem);
+  onItemClick(foodItem) { 
+    const oldBasket = localStorage.getItem('basket') || [];
+    const newBasket = (oldBasket.length) ? JSON.parse(oldBasket) : [];
+    const newBasketForStore = newBasket.concat(foodItem);
+    const newBasketForStorage = JSON.stringify(newBasketForStore);
+    localStorage.setItem('basket', newBasketForStorage);
+    this.props.addToBasket(newBasketForStore);
     if(!this.props.isFromBasket) {
       this.props.showBasketModal(SHOW_BASKET);    
     }

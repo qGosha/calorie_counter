@@ -4,7 +4,11 @@ import {
   Button,
   Grid,
   Col,
-  Row
+  Row,
+  ListGroupItem,
+  Image,
+  FormGroup,
+  form
 } from 'react-bootstrap';
 import '../style/basket.css';
 
@@ -14,10 +18,17 @@ export const BasketPanel = ({ handleHide, basket }) => {
     basketFood = null;
   } else {
     basketFood = basket.map(basketItem => {
+      const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
       return(
         <Row className="show-grid">
         <Col xs={11} >
-
+          <ListGroupItem
+              key={basketItem.food_name}>
+              <Image src={basketItem.photo.thumb || foodAvatarUrl}
+                alt='food'
+                className='food-image'
+              />
+          </ListGroupItem>
         </Col>
         <Col xs={1}>
 
@@ -39,6 +50,10 @@ export const BasketPanel = ({ handleHide, basket }) => {
          </Modal.Header>
          <Modal.Body>
            <Grid>
+            <form>
+              <FormGroup>
+              </FormGroup>
+            </form>
            </Grid>
          </Modal.Body>
          <Modal.Footer>

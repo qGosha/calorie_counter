@@ -5,7 +5,6 @@ import {
  hideModal
 } from "../actions/index";
 
-
 class Basket extends Component {
   constructor(props) {
     super(props);
@@ -16,11 +15,13 @@ class Basket extends Component {
     };
 
  }
+
  render() {
+   const basket = this.props.basket;
    return(
      <BasketPanel
      handleHide={this.props.hideBasketModal}
-     basket={this.props.basket}
+     basket={basket}
      />
    )
  }
