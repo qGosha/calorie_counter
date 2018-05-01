@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import '../style/basket.css';
+import { BasketPanel } from '../components/basketPanel';
 import {
-  searchFood,
-  searchFoodSuccess,
-  searchFoodFailure
+ hideModal
 } from "../actions/index";
-import {
-  Modal,
-  Button
-} from 'react-bootstrap';
+
 
 class Basket extends Component {
   constructor(props) {
@@ -19,32 +14,21 @@ class Basket extends Component {
       searchPanelView: false,
       myFoodPanel: false
     };
+
  }
  render() {
    return(
-     <Modal
-       show={true}
-       aria-labelledby="contained-modal-title">
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Contained Modal
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Elit est explicabo ipsum eaque dolorem blanditiis doloribus sed id
-            ipsam, beatae, rem fuga id earum? Inventore et facilis obcaecati.
-          </Modal.Body>
-          <Modal.Footer>
-            <Button>Close</Button>
-          </Modal.Footer>
-        </Modal>
+     <BasketPanel
+     handleHide={this.props.hideBasketModal}
+     basket={this.props.basket}
+     />
    )
  }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    hideBasketModal: () => (dispatch(hideModal(modalType))) 
+    hideBasketModal: () => dispatch(hideModal())
   };
 };
 const mapStateToProps = state => ({

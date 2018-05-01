@@ -10,10 +10,10 @@ class App extends Component {
   render() {
     const combinedComps = (Comp) => {
       return (
-        <div>
-          {Comp}
-          <ModalRoot/>
-      </div>
+       <div className='container'>
+        {Comp}
+        <ModalRoot/>
+       </div>
     )
   }
     if (this.props.auth.logged) return combinedComps(<Dashboard />);

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel';
 import { SearchBarPanel } from '../components/search-bar-panel';
+import { SHOW_BASKET } from './Modal'
 import {
   searchFood,
   searchFoodSuccess,
@@ -24,12 +25,14 @@ class SearchBar extends Component {
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
     this.onItemClick = this.onItemClick.bind(this);
   }
-  
+
   onItemClick(foodItem) {
     this.props.addToBasket(foodItem);
-    this.props.showBasketModal('SHOW_BASKET');
+    if(!this.props.isFromBasket) {
+      this.props.showBasketModal(SHOW_BASKET);    
+    }
   }
-  
+
   onInputChange(event) {
     const value = event.target.value;
     if(!value) {
