@@ -8,7 +8,8 @@ import {
   ListGroupItem,
   Image,
   FormGroup,
-  form
+  form,
+  FormControl
 } from 'react-bootstrap';
 import '../style/basket.css';
 
@@ -19,16 +20,33 @@ export const BasketPanel = ({ handleHide, basket }) => {
   } else {
     basketFood = basket.map(basketItem => {
       const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
+      const altMesures = basketItem.alt_measures;
+      const foodName = basketItem.food_name;
+      const options = altMesures ? altMesures.map( option => {
+        const value = option.measure;
+        return <option key={value} value={value}>{value}</option>
+      }) : null;
+      const select = altMesures ?
+      <FormControl componentClass="select" placeholder="select">
+       {options}
+      </FormControl> :
+      <FormControl
+        type="text"
+        disabled={true}
+        defaultValue={basketItem.serving_unit}/>;
       return(
         <Row className="show-grid">
         <Col xs={11} >
-          <ListGroupItem
-              key={basketItem.food_name}>
-              <Image src={basketItem.photo.thumb || foodAvatarUrl}
-                alt='food'
-                className='food-image'
-              />
-          </ListGroupItem>
+        <FormGroup key={foodName} >
+          <Image src={basketItem.photo.thumb || foodAvatarUrl}
+            alt='food'
+            className='food-image'/>
+          <span>{foodName}</span>
+          <FormControl
+            type="text"
+            defaultValue='1'/>
+           {select}
+        </FormGroup>
         </Col>
         <Col xs={1}>
 
@@ -52,6 +70,7 @@ export const BasketPanel = ({ handleHide, basket }) => {
            <Grid>
             <form>
               <FormGroup>
+              {basketFood}
               </FormGroup>
             </form>
            </Grid>

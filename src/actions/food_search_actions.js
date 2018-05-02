@@ -10,7 +10,7 @@ export const searchFood = (jwt, query) => {
   const path = "search/instant";
   const response = axios.get(ROOT_URL + path, {
     headers: { ["x-user-jwt"]: jwt },
-    params: { query } 
+    params: { query }
   });
   return {
     type: SEARCHFOOD,

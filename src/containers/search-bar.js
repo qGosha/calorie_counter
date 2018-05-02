@@ -9,7 +9,8 @@ import {
   searchFoodSuccess,
   searchFoodFailure,
   addToBasket,
-  showModal
+  showModal,
+  getDetailedFoodInfo
 } from "../actions/index";
 
 class SearchBar extends Component {
@@ -24,18 +25,26 @@ class SearchBar extends Component {
     this.onSearchBarFocus = this.onSearchBarFocus.bind(this);
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
     this.onItemClick = this.onItemClick.bind(this);
+    this.refreshBasket = this.refreshBasket.bind(this);
+
   }
 
-  onItemClick(foodItem) { 
+  refreshBasket(foodItem) {
     const oldBasket = localStorage.getItem('basket') || [];
     const newBasket = (oldBasket.length) ? JSON.parse(oldBasket) : [];
     const newBasketForStore = newBasket.concat(foodItem);
     const newBasketForStorage = JSON.stringify(newBasketForStore);
     localStorage.setItem('basket', newBasketForStorage);
-    this.props.addToBasket(newBasketForStore);
+    this.props.addToBasket(foodItem);
     if(!this.props.isFromBasket) {
-      this.props.showBasketModal(SHOW_BASKET);    
+      this.props.showBasketModal(SHOW_BASKET);
     }
+  }
+  onItemClick(foodItem) {
+    const jwt = localStorage.getItem('jwt');
+    this.props.getDetailedFoodInfo(jwt, foodItem)
+    .then(response => this.refreshBasket(response))
+
   }
 
   onInputChange(event) {
@@ -111,7 +120,7 @@ const mapDispatchToProps = dispatch => {
         }
       });
     },
-    addToBasket: foodItem => dispatch(addToBasket(foodItem)),
+    getDetailedFoodInfo: (jwt, foodItem) => dispatch(getDetailedFoodInfo(jwt, foodItem)),
     showBasketModal: modalType => dispatch(showModal(modalType))
   };
 };

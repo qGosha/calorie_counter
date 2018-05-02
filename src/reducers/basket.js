@@ -1,4 +1,4 @@
-import { ADDFOODTOBASKET } from '../actions/index';
+import { ADDFOODTOBASKET, GETDETAILEDFOODINFO } from '../actions/index';
 
 const storagedBasket = localStorage.getItem('basket');
 const initialState = storagedBasket ? JSON.parse(storagedBasket) : [];
@@ -8,6 +8,8 @@ export function basket(state = initialState, action) {
   switch (action.type) {
     case ADDFOODTOBASKET:
       return payload;
+    case GETDETAILEDFOODINFO:
+      return state;
     default:
       return state;
   }
