@@ -1,3 +1,27 @@
 #contained-modal-title-lg {
   text-align: center;
 }
+
+.food-description-group-2.basket {
+  text-align: center;
+}
+
+.basket-qty {
+  padding: 2px 3px;
+  text-align: center;
+}
+
+.basket-food-name {
+  text-align: left;
+}
+
+.basket-row {
+  justify-content: space-evenly;
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 15px;
+}
+
+.modal-body {
+  padding: 0;
+}

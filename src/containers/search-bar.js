@@ -3,14 +3,17 @@ import { connect } from "react-redux";
 import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel';
 import { SearchBarPanel } from '../components/search-bar-panel';
-import { SHOW_BASKET } from './Modal'
+import  debounce  from 'lodash.debounce';
+import { SHOW_BASKET } from './Modal';
 import {
   searchFood,
   searchFoodSuccess,
   searchFoodFailure,
-  addToBasket,
   showModal,
-  getDetailedFoodInfo
+  getDetailedFoodInfo,
+  getDetailedFoodInfoSuccess,
+  getDetailedFoodInfoFailure,
+  clearSearchResults
 } from "../actions/index";
 
 class SearchBar extends Component {
@@ -21,6 +24,7 @@ class SearchBar extends Component {
       searchPanelView: false,
       myFoodPanel: false
     };
+    this.onDebouncedInput = debounce(this.props.searchFood, 300, {'leading': true});
     this.onInputChange = this.onInputChange.bind(this);
     this.onSearchBarFocus = this.onSearchBarFocus.bind(this);
     this.onSearchBarBlur = this.onSearchBarBlur.bind(this);
@@ -35,16 +39,19 @@ class SearchBar extends Component {
     const newBasketForStore = newBasket.concat(foodItem);
     const newBasketForStorage = JSON.stringify(newBasketForStore);
     localStorage.setItem('basket', newBasketForStorage);
-    this.props.addToBasket(foodItem);
     if(!this.props.isFromBasket) {
       this.props.showBasketModal(SHOW_BASKET);
     }
   }
   onItemClick(foodItem) {
+    this.setState({
+      term: '',
+      searchPanelView: false,
+      myFoodPanel: false
+    });
     const jwt = localStorage.getItem('jwt');
     this.props.getDetailedFoodInfo(jwt, foodItem)
-    .then(response => this.refreshBasket(response))
-
+    .then((response) => this.refreshBasket(response.payload))
   }
 
   onInputChange(event) {
@@ -63,7 +70,7 @@ class SearchBar extends Component {
       myFoodPanel:false
     });
     const jwt = localStorage.getItem('jwt');
-    this.props.searchFood(jwt, value);
+   this.onDebouncedInput(jwt, value);
   }
 
   onSearchBarFocus() {
@@ -81,6 +88,7 @@ class SearchBar extends Component {
       myFoodPanel: false,
       searchPanelView:false
     });
+    this.props.clearSearchResults();
   }
 
   render() {
@@ -120,8 +128,16 @@ const mapDispatchToProps = dispatch => {
         }
       });
     },
-    getDetailedFoodInfo: (jwt, foodItem) => dispatch(getDetailedFoodInfo(jwt, foodItem)),
-    showBasketModal: modalType => dispatch(showModal(modalType))
+    getDetailedFoodInfo: (jwt, foodItem) => dispatch(getDetailedFoodInfo(jwt, foodItem))
+      .then(response => {
+        if (!response.error) {
+          return dispatch(getDetailedFoodInfoSuccess(response.payload.data.foods));
+        } else {
+          return dispatch(getDetailedFoodInfoFailure(response.payload.response.data.message));
+        }
+      }),
+    showBasketModal: modalType => dispatch(showModal(modalType)),
+    clearSearchResults: () => dispatch(clearSearchResults())
   };
 };
 const mapStateToProps = state => ({

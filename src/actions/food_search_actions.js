@@ -4,7 +4,7 @@ const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 export const SEARCHFOOD = "SEARCHFOOD";
 export const SEARCHFOODSUCCESS = "SEARCHFOODSUCCESS";
 export const SEARCHFOODFAILURE = "SEARCHFOODFAILURE";
-
+export const CLEARSEARCHRESULTS = "CLEARSEARCHRESULTS";
 
 export const searchFood = (jwt, query) => {
   const path = "search/instant";
@@ -26,4 +26,8 @@ export const searchFoodSuccess = response => ({
 export const searchFoodFailure = response => ({
   type: SEARCHFOODFAILURE,
   payload: response
+});
+
+export const clearSearchResults = () => ({
+  type: CLEARSEARCHRESULTS
 });

@@ -41,6 +41,9 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
       )
     }
 
+
+
+
     return (
       <Tab.Container id="tabs-with-dropdown" defaultActiveKey="1">
         <Row className="clearfix">
@@ -65,7 +68,7 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
             </Nav>
           </Col>
           <Col sm={12} >
-            <Tab.Content animation>
+            <Tab.Content animation mountOnEnter>
               <Tab.Pane eventKey="1">
                 {self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} addToBasket={addToBasket}/>) : null}
                 {common.length ? foodListGroup('Common food', <FoodListItem foods={common} addToBasket={addToBasket}/>) : null}

@@ -14,7 +14,7 @@ export const FoodListItem = ({ foods, term, addToBasket }) => {
       const brandName = foodItem.brand_name || '';
       const servingQty = foodItem.serving_qty || '';
       const servingUnit = foodItem.serving_unit || '';
-      const calorie = foodItem.nf_calories || 0;
+      const calorie = foodItem.nf_calories ? Math.round(foodItem.nf_calories) : 0;
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       return  (
         <ListGroupItem
