@@ -1,4 +1,4 @@
-#root .food-item {
+.food-item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -25,13 +25,13 @@
   font-weight: bold;
   color: #28A54C;
 }
-#root .food-name {
+.food-name {
   font-weight: 600;
 }
-#root .food-name::first-letter {
+.food-name::first-letter {
   text-transform: uppercase
 }
-#root .food-description {
+.food-description {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

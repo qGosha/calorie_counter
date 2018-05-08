@@ -10,7 +10,9 @@ import {
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
 import '../style/basket.css';
+import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
+import SearchBar from '../containers/search-bar'
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange }) => {
   let basketFood;
@@ -80,8 +82,8 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
             />
         </Col>
         <Col xs={2} sm={1}>
-           <div className='food-description-group-2 basket'>
-            <span className='food-calorie'>{calorie}</span>
+           <div className='basket-description-group'>
+            <span className='basket-nutritient'>{calorie}</span>
             <span className='food-calorie-name'>cal</span>
           </div>
         </Col>
@@ -95,12 +97,16 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
       )
     })
   }
-  const totalCalories = Math.abs(Math.round(basket.reduce((sum, next) => {
-      return sum += next.nf_calories
-    }, 0) ));
-  const totalProtein = Math.abs(Math.round(basket.reduce((sum, next) => {
-        return sum += next.nf_protein
+  const total = (element) => {
+    return Math.abs(Math.round(basket.reduce((sum, next) => {
+        return sum += next[element]
       }, 0) ));
+  }
+  const totalCalories = total('nf_calories');
+  const totalProtein = total('nf_protein');
+  const totalCarbs = total('nf_total_carbohydrate');
+  const totalFat = total('nf_total_fat');
+  const totalSodium = total('nf_sodium');
   return(
     <Modal
       show={true}
@@ -112,36 +118,40 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
              Basket
            </Modal.Title>
          </Modal.Header>
+
          <Modal.Body>
            <Container fluid style={{padding: '0px'}}>
+           <div className='basket-search'>
+           <SearchBar isFromBasket={true} />
+           </div>
             <form>
-              <FormGroup>
+              <FormGroup className='basket-form'>
               {basketFood}
               </FormGroup>
               <Row nogutter>
                 <Col xs={12}>
-                 <Row nogutter style={{justifyContent: 'space-between'}}>
-                   <span>Totat calories:</span>
-                   <span>{totalCalories}</span>
+                 <Row nogutter className='calorie-basket-row'>
+                   <span>Totat calories: </span>
+                   <span className='basket-nutritient'>{totalCalories}</span>
                  </Row>
                 </Col>
                 <Col xs={12}>
-                 <Row nogutter style={{justifyContent: 'space-evenly'}}>
-                  <Col xs={3}>
-                   <div>Protein:</div>
-                   <div>{totalProtein}</div>
+                 <Row nogutter className='nutrient-basket-row'>
+                  <Col xs={3} className='basket-description-group'>
+                   <span>Protein: </span>
+                   <span className='basket-nutritient'>{totalProtein}g</span>
                   </Col>
-                  <Col xs={3}>
-                  <div>Carbs:</div>
-                  <div>{totalProtein}</div>
+                  <Col xs={3} className='basket-description-group'>
+                  <span>Carbs: </span>
+                  <span className='basket-nutritient'>{totalCarbs}g</span>
                   </Col>
-                  <Col xs={3}>
-                  <div>Fat:</div>
-                  <div>{totalProtein}</div>
+                  <Col xs={3} className='basket-description-group'>
+                  <span>Fat:</span>
+                  <span className='basket-nutritient'>{totalFat}g</span>
                   </Col>
-                  <Col xs={3}>
-                  <div>Sodium:</div>
-                  <div>{totalProtein}</div>
+                  <Col xs={3} className='basket-description-group'>
+                  <span>Sodium: </span>
+                  <span className='basket-nutritient'>{totalSodium}mg</span>
                   </Col>
                  </Row>
                 </Col>
