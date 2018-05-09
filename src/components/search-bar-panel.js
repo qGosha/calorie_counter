@@ -12,9 +12,9 @@ import {
 
 export const SearchBarPanel = ({ onBlur, term, onChange, onFocus, currentPanel }) => {
   return (
-    <Grid>
+    <Grid className='grid-instance'>
       <Row className="show-grid">
-        <Col sm={12}>
+        <Col xs={12}>
         <div className='form-search' tabIndex="1" onBlur={onBlur}>
         <form>
         <FormGroup bsSize="sm" controlId="search">

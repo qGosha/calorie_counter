@@ -34,15 +34,14 @@ class SearchBar extends Component {
   }
 
   refreshBasket(foodItem) {
-    if(this.props.isFromBasket) {
-     this.props.sendItemToTheBasketState(foodItem);
-    }
     const oldBasket = localStorage.getItem('basket') || [];
     const newBasket = (oldBasket.length) ? JSON.parse(oldBasket) : [];
     const newBasketForStore = newBasket.concat(foodItem);
     const newBasketForStorage = JSON.stringify(newBasketForStore);
     localStorage.setItem('basket', newBasketForStorage);
-    this.props.showBasketModal(SHOW_BASKET);
+    if (!this.props.isFromBasket) {
+      this.props.showBasketModal(SHOW_BASKET);
+    }
   }
   onItemClick(foodItem) {
     this.setState({

@@ -70,3 +70,6 @@ z-index: 1000;
 background-color: #fff;
 margin: 0;
 }
+.grid-instance {
+  width: 100% !important;
+}

@@ -1,4 +1,5 @@
-.food-item {
+#dropdown-menu .food-item, 
+#tabs-with-dropdown .food-item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -75,7 +76,7 @@
   overflow-x: hidden;
 }
 .dropdown-tab-cont{
-  padding: 0;
+  padding: 0 !important;
 }
 .dropdown-tab-list {
   background-color: #c1c5c9;
@@ -85,3 +86,4 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
