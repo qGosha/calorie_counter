@@ -14,7 +14,7 @@ import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
 
-export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange }) => {
+export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange, sendItemToTheBasketState }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
@@ -118,12 +118,13 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
              Basket
            </Modal.Title>
          </Modal.Header>
-
+         <Modal.Header>
+            <SearchBar
+            isFromBasket={true}
+            sendItemToTheBasketState={sendItemToTheBasketState}/>
+         </Modal.Header>
          <Modal.Body>
            <Container fluid style={{padding: '0px'}}>
-           <div className='basket-search'>
-           <SearchBar isFromBasket={true} />
-           </div>
             <form>
               <FormGroup className='basket-form'>
               {basketFood}
@@ -157,7 +158,6 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
                 </Col>
               </Row>
             </form>
-
            </Container>
          </Modal.Body>
          <Modal.Footer>

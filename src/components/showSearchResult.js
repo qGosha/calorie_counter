@@ -47,8 +47,8 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
     return (
       <Tab.Container id="tabs-with-dropdown" defaultActiveKey="1">
         <Row className="clearfix">
-          <Col sm={12} xsHidden>
-            <Nav bsStyle="tabs">
+          <Col sm={12} xsHidden className='dropdown-tab-cont'>
+            <Nav bsStyle="tabs" className='dropdown-tab-list flex'>
               <NavItem eventKey="1">All</NavItem>
               <NavItem eventKey="2">Your foods</NavItem>
               <NavItem eventKey="4">Common</NavItem>
@@ -56,8 +56,8 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
               <NavItem eventKey="6">Freeform</NavItem>
             </Nav>
           </Col>
-          <Col sm={12} smHidden mdHidden lgHidden>
-            <Nav bsStyle="tabs">
+          <Col sm={12} smHidden mdHidden lgHidden className='dropdown-tab-cont'>
+            <Nav bsStyle="tabs" className='dropdown-tab-list'>
               <NavItem eventKey="1">All</NavItem>
               <NavDropdown eventKey="3" title="Other options">
                 <MenuItem eventKey="2">Your foods</MenuItem>

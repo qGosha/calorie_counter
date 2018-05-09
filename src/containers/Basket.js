@@ -7,6 +7,7 @@ import {
 } from "../actions/index";
 
 class Basket extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +19,7 @@ class Basket extends Component {
   this.refreshBasket = this.refreshBasket.bind(this);
   this.onQtyChange = this.onQtyChange.bind(this);
   this.onMeasureChange = this.onMeasureChange.bind(this);
+  this.sendItemToTheBasketState = this.sendItemToTheBasketState.bind(this);
  }
 
 componentWillUnmount() {
@@ -39,8 +41,8 @@ componentWillUnmount() {
  localStorage.setItem('basket', newBasketForStorage);
 }
 
-onMeasureChange(event,id) {
 
+onMeasureChange(event,id) {
   const getNutrition = (nutr) => {
    const result = basket[id].full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
    return result[0].value;
@@ -87,7 +89,7 @@ onQtyChange(event, id) {
   const basket = this.state.basket;
   const value = event.target.value;
   const servingQty = basket[id].serving_qty;
-  const multiplier = value / basket[id].original_qty || basket[id].serving_qty;
+  const multiplier = value / (basket[id].original_qty || basket[id].serving_qty);
   const calories = basket[id].originalCal || basket[id].nf_calories;
   const protein = basket[id].original_protein || basket[id].nf_protein;
   const fat = basket[id].original_fat || basket[id].nf_total_fat;
@@ -115,6 +117,12 @@ onQtyChange(event, id) {
   this.setState({ basket });
 }
 
+sendItemToTheBasketState(foodItem) {
+  const oldBasket = this.state.basket;
+  const basket = oldBasket.concat(foodItem);
+  this.setState({ basket });
+}
+
  refreshBasket(id) {
    const oldBasket = this.state.basket;
    const basket = oldBasket.filter( (item, i) => i !== id);
@@ -130,6 +138,7 @@ onQtyChange(event, id) {
      deleteItem={this.refreshBasket}
      onQtyChange={this.onQtyChange}
      onMeasureChange={this.onMeasureChange}
+     sendItemToTheBasketState={this.sendItemToTheBasketState}
      />
    )
  }

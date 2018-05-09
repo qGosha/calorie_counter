@@ -56,13 +56,17 @@
 .nutrient-basket-row .basket-description-group:not(:last-child) {
   border-right: 1px solid #c1c5c9;
 }
-.basket-search .form-search {
+
+
+.form-search {
   position: relative;
 }
-.basket-search .form-search #tabs-with-dropdown {
+#tabs-with-dropdown, #dropdown-menu {
 position: absolute;
 top: 100%;
+width: 100%;
 left: 0;
 z-index: 1000;
 background-color: #fff;
+margin: 0;
 }

@@ -14,7 +14,7 @@ export const SearchBarPanel = ({ onBlur, term, onChange, onFocus, currentPanel }
   return (
     <Grid>
       <Row className="show-grid">
-        <Col sm={12} md={7}>
+        <Col sm={12}>
         <div className='form-search' tabIndex="1" onBlur={onBlur}>
         <form>
         <FormGroup bsSize="sm" controlId="search">

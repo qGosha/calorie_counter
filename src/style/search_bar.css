@@ -12,4 +12,5 @@
 
 .form-search[tabindex] {
   outline: none;
+  position: relative;
 }

@@ -11,7 +11,7 @@ export const MyFoodPanel = ({ suggestedFood, addToBasket }) => {
   const foods = foodArr.slice(0,5);
 
   return(
-    <ListGroup>
+    <ListGroup id='dropdown-menu'>
       <h5 className='food-group-title'>My Food</h5>
      <FoodListItem foods={foods} addToBasket={addToBasket}/>
     </ListGroup>

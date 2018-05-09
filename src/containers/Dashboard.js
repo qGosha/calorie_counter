@@ -70,11 +70,12 @@ constructor(props) {
     } else {
       return (
       <div className='dashboard'>
+        <SearchBar/>
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
         <button onClick={() => this.props.showBasketModal(SHOW_BASKET)}>Basket</button>
-        <SearchBar/>
+
       </div>
         )
     }
