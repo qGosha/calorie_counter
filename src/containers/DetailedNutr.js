@@ -22,6 +22,7 @@ const DetailedNutr = (props) => {
     <Modal
       show={true}
       keyboard={true}
+      onHide={() => hideDetailedModal(SHOW_DETAILED_NUTR)}
       aria-labelledby="contained-modal-title">
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-lg">

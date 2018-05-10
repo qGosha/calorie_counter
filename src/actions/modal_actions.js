@@ -1,8 +1,9 @@
 export const SHOWMODAL = "SHOWMODAL";
 export const HIDEMODAL = "HIDEMODAL";
 
-export const showModal = modalType => ({
+export const showModal = (modalType,id) => ({
   type: SHOWMODAL,
+  id: id,
   modalType: modalType
 })
 
