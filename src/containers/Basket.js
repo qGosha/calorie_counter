@@ -153,7 +153,7 @@ const mapDispatchToProps = dispatch => {
   return {
     hideBasketModal: modalType => dispatch(hideModal(modalType)),
     setNewBasket: (basket) => dispatch(setNewBasket(basket)),
-    showDetailedModal: modalType => dispatch(showModal(modalType))
+    showDetailedModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps))
   };
 };
 const mapStateToProps = state => ({

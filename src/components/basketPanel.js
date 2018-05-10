@@ -80,6 +80,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
         <FontAwesome
           className='fas fa-info-circle'
           name='info'
+          onClick={() => showDetailedModal(SHOW_DETAILED_NUTR, {id: i})}
             />
         </Col>
         <Col xs={2} sm={1}>
@@ -161,9 +162,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
             </form>
            </Container>
          </Modal.Body>
-         <Modal.Footer>
-        <Button bsStyle="primary" 
-        onClick={() => showDetailedModal(SHOW_DETAILED_NUTR)}>Detailed</Button>     
+         <Modal.Footer>    
         <Button bsStyle="danger" onClick={() => handleHide(SHOW_BASKET)}>Close</Button>
          </Modal.Footer>
        </Modal>

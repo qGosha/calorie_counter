@@ -18,6 +18,7 @@ import {
 
 const DetailedNutr = (props) => {
   const hideDetailedModal = props.hideDetailedModal;
+  const currentItem = props.basket[props.id];
   return (
     <Modal
       show={true}
@@ -39,7 +40,7 @@ const DetailedNutr = (props) => {
             </FormGroup>
             <Row nogutter>
               <Col xs={12}>
-              sdlpjvoisdjoivoisdjoiv
+             { currentItem.original_carbs || currentItem.nf_total_carbohydrate }
               ssdlpjvoisdjoivoisdjoivdlpjvoisdjoivoisdjoiv
 sdlpjvoisdjoivoisdjoiv
               sdlpjvoisdjoivoisdjoiv
