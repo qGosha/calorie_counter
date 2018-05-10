@@ -6,6 +6,7 @@ export const showModal = modalType => ({
   modalType: modalType
 })
 
-export const hideModal = () => ({
-  type: HIDEMODAL
+export const hideModal = modalType => ({
+  type: HIDEMODAL,
+  modalType: modalType
 })

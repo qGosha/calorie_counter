@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { BasketPanel } from '../components/basketPanel';
 import {
  hideModal,
- setNewBasket
+ setNewBasket,
+ showModal
 } from "../actions/index";
 
 class Basket extends Component {
@@ -142,6 +143,7 @@ onQtyChange(event, id) {
      deleteItem={this.refreshBasket}
      onQtyChange={this.onQtyChange}
      onMeasureChange={this.onMeasureChange}
+     showDetailedModal={this.props.showDetailedModal}
      />
    )
  }
@@ -149,8 +151,9 @@ onQtyChange(event, id) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    hideBasketModal: () => dispatch(hideModal()),
-    setNewBasket: (basket) => dispatch(setNewBasket(basket))
+    hideBasketModal: modalType => dispatch(hideModal(modalType)),
+    setNewBasket: (basket) => dispatch(setNewBasket(basket)),
+    showDetailedModal: modalType => dispatch(showModal(modalType))
   };
 };
 const mapStateToProps = state => ({

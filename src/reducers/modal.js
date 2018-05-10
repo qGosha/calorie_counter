@@ -1,15 +1,13 @@
 import { SHOWMODAL, HIDEMODAL } from '../actions/index';
 
-const initialState = {
-  modalType: null
-}
 
-export function modal(state = initialState, action) {
+
+export function modal(state = [], action) {
   switch (action.type) {
     case SHOWMODAL:
-      return { ...state, modalType: action.modalType };
+      return [...state, action.modalType];
     case HIDEMODAL:
-      return initialState
+      return state.filter(item => item !== action.modalType);
     default:
       return state;
   }

@@ -13,8 +13,9 @@ import '../style/basket.css';
 import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
+import { SHOW_DETAILED_NUTR, SHOW_BASKET } from '../containers/Modal';
 
-export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange, sendItemToTheBasketState }) => {
+export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange, sendItemToTheBasketState, showDetailedModal }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
@@ -110,7 +111,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
   return(
     <Modal
       show={true}
-      onHide={handleHide}
+      onHide={() => handleHide(SHOW_BASKET)}
       keyboard={true}
       aria-labelledby="contained-modal-title">
          <Modal.Header closeButton>
@@ -161,7 +162,9 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
            </Container>
          </Modal.Body>
          <Modal.Footer>
-           <Button bsStyle="danger" onClick={handleHide}>Close</Button>
+        <Button bsStyle="primary" 
+        onClick={() => showDetailedModal(SHOW_DETAILED_NUTR)}>Detailed</Button>     
+        <Button bsStyle="danger" onClick={() => handleHide(SHOW_BASKET)}>Close</Button>
          </Modal.Footer>
        </Modal>
   )
