@@ -10,13 +10,12 @@ class Basket extends Component {
 
   constructor(props) {
     super(props);
-    
+
   this.renewBasket = this.renewBasket.bind(this);
   this.refreshBasket = this.refreshBasket.bind(this);
   this.onQtyChange = this.onQtyChange.bind(this);
   this.onMeasureChange = this.onMeasureChange.bind(this);
  }
-
 
 renewBasket(basket) {
     let checkedBasked;
@@ -37,13 +36,10 @@ renewBasket(basket) {
 
 }
 
-
-
-
 onMeasureChange(event,id) {
   const getNutrition = (nutr) => {
    const result = basket[id].full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
-   return result[0].value;
+   return (result[0] && result[0].value) ? result[0].value : 0;
   }
   const basket = this.props.basket;
   const value = event.target.value;
@@ -85,9 +81,24 @@ onMeasureChange(event,id) {
 
 onQtyChange(event, id) {
   const basket = this.props.basket;
-  let value = event.target.value || 0;
-  const servingQty = basket[id].serving_qty;
-  basket[id].original_qty = basket[id].original_qty || basket[id].serving_qty;
+  let value = event.target.value;
+  if(isNaN(parseInt(value)) || isNaN(value)) {
+    if(!basket[id].original_qty) {
+      basket[id].originalCal = basket[id].nf_calories;
+      basket[id].original_qty = basket[id].serving_qty;
+      basket[id].original_protein = basket[id].nf_protein;
+      basket[id].original_fat = basket[id].nf_total_fat;
+      basket[id].original_carbs = basket[id].nf_total_carbohydrate;
+      basket[id].original_sodium = basket[id].nf_sodium;
+      basket[id].original_saturated_fat = basket[id].nf_saturated_fat;
+    }
+    basket[id].serving_qty = false;
+    basket[id].unformatted_qty = value;
+    this.renewBasket(basket);
+    return;
+  }
+
+
   const multiplier = (value / (basket[id].original_qty || basket[id].serving_qty)) || 0;
   const calories = basket[id].originalCal || basket[id].nf_calories;
   const protein = basket[id].original_protein || basket[id].nf_protein;
@@ -102,9 +113,10 @@ onQtyChange(event, id) {
   const resultSodium = multiplier * sodium;
   const resultSatFat = multiplier * satFat;
 
-  if(!Number.isNaN(+value) && Number.isFinite(+value)) {
+  if(!isNaN(+value) && isFinite(+value)) {
     basket[id].last_serving_qty = Math.abs(+value);
   }
+  basket[id].serving_qty = value;
   basket[id].nf_protein = resultProt
   basket[id].serving_qty = value;
   basket[id].nf_calories = resultCal;

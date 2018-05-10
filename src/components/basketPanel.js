@@ -14,14 +14,14 @@ import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
 
-export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange }) => {
+export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange, sendItemToTheBasketState }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
   } else {
     basketFood = basket.map((basketItem, i) => {
       const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
-      const qty =  basketItem.serving_qty || '';
+      const qty =  basketItem.serving_qty || basketItem.unformatted_qty;
       const altMesures = basketItem.alt_measures;
       const foodName = basketItem.food_name;
       const calorie = basketItem.nf_calories ? Math.abs(Math.round(basketItem.nf_calories)) : 0;
@@ -120,7 +120,8 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
          </Modal.Header>
          <Modal.Header>
             <SearchBar
-            isFromBasket={true} />
+            isFromBasket={true}
+            sendItemToTheBasketState={sendItemToTheBasketState}/>
          </Modal.Header>
          <Modal.Body>
            <Container fluid style={{padding: '0px'}}>
