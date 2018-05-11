@@ -24,6 +24,7 @@ const DetailedNutr = props => {
   const qty =  basketItem.serving_qty || basketItem.unformatted_qty;
   const servingUnit = basketItem.serving_unit;
   const foodName = basketItem.food_name;
+  const servingWeight = basketItem.current_serving_weight || basketItem.serving_weight_grams;
   const brandName = basketItem.brand_name ? <p className='nutr-brand-name'>{basketItem.brand_name}</p> : null;
   const calorie = basketItem.nf_calories ? Math.abs(Math.round(basketItem.nf_calories)) : 0;
   return (
@@ -56,7 +57,7 @@ const DetailedNutr = props => {
          <Col className='nutr-table-container'>
           <div className='nutr-table-heading'>Nutrition Facts</div>
           <div>{foodName}</div>
-          <div className='nutr-table-servunit'>Serving size: {servingUnit}</div>
+          <div className='nutr-table-servunit'>Serving size: {qty} {servingUnit} ({servingWeight}g)</div>
          </Col>
         </Row>
         </Container>

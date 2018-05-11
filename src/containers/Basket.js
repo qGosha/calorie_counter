@@ -45,8 +45,11 @@ onMeasureChange(event,id) {
   const basket = this.props.basket;
   const value = event.target.value;
   const index = event.target.selectedIndex;
+
   const servWeight = basket[id].alt_measures[index].serving_weight;
+
   const foodWeight = basket[id].serving_weight_grams;
+
   const resultCal = (getNutrition(208)/foodWeight) * servWeight;
   const resultProt = (getNutrition(203)/foodWeight) * servWeight;
   const resultFat = (getNutrition(204)/foodWeight) * servWeight;
@@ -74,6 +77,9 @@ onMeasureChange(event,id) {
   basket[id].nf_saturated_fat = resultSatFat;
 
   basket[id].serving_unit = value;
+
+  basket[id].serving_weight_grams = servWeight;
+  basket[id].current_serving_weight = servWeight;
 
   basket[id].original_qty = newQty;
   basket[id].serving_qty = newQty;
@@ -107,12 +113,14 @@ onQtyChange(event, id) {
   const carbs = basket[id].original_carbs || basket[id].nf_total_carbohydrate;
   const sodium = basket[id].original_sodium || basket[id].nf_sodium;
   const satFat = basket[id].original_saturated_fat || basket[id].nf_saturated_fat;
+  
   const resultCal = multiplier * calories;
   const resultProt = multiplier * protein;
   const resultFat = multiplier * fat;
   const resultCarbs = multiplier * carbs;
   const resultSodium = multiplier * sodium;
   const resultSatFat = multiplier * satFat;
+  const resultModifiedServQty = multiplier * value * basket[id].serving_weight_grams;
 
   if(!isNaN(+value) && isFinite(+value)) {
     basket[id].last_serving_qty = Math.abs(+value);
@@ -125,6 +133,8 @@ onQtyChange(event, id) {
   basket[id].nf_total_carbohydrate = resultCarbs;
   basket[id].nf_sodium = resultSodium;
   basket[id].nf_saturated_fat = resultSatFat;
+  basket[id].nf_saturated_fat = resultSatFat;
+  basket[id].current_serving_weight = resultModifiedServQty;
   this.renewBasket(basket);
 }
 
