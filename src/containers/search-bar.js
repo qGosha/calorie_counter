@@ -4,7 +4,7 @@ import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel';
 import { SearchBarPanel } from '../components/search-bar-panel';
 import  debounce  from 'lodash.debounce';
-import { SHOW_BASKET } from './Modal';
+import { BASKET } from './Modal';
 import {
   searchFood,
   searchFoodSuccess,
@@ -40,7 +40,7 @@ class SearchBar extends Component {
     const newBasketForStorage = JSON.stringify(newBasketForStore);
     localStorage.setItem('basket', newBasketForStorage);
     if (!this.props.isFromBasket) {
-      this.props.showBasketModal(SHOW_BASKET);
+      this.props.showBasketModal(BASKET);
     }
   }
   onItemClick(foodItem) {

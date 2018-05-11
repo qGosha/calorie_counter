@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SearchBar from './search-bar';
 import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
-import { SHOW_BASKET } from './Modal';
+import { BASKET } from './Modal';
 import {
   signOutUser,
   getUser,
@@ -74,7 +74,7 @@ constructor(props) {
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
-        <button onClick={() => this.props.showBasketModal(SHOW_BASKET)}>Basket</button>
+        <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
 
       </div>
         )

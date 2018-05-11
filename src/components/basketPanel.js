@@ -13,9 +13,10 @@ import '../style/basket.css';
 import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
-import { SHOW_DETAILED_NUTR, SHOW_BASKET } from '../containers/Modal';
+import { DETAILED_NUTR, BASKET } from '../containers/Modal';
 
-export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMeasureChange, sendItemToTheBasketState, showDetailedModal }) => {
+export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
+  onMeasureChange, sendItemToTheBasketState, showDetailedModal }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
@@ -78,9 +79,10 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
         </Col>
         <Col xs={1} sm={1}>
         <FontAwesome
-          className='fas fa-info-circle'
-          name='info'
-          onClick={() => showDetailedModal(SHOW_DETAILED_NUTR, {id: i})}
+          className='info-circle'
+          name='info-circle'
+          onClick={() => showDetailedModal(DETAILED_NUTR, {id: i})}
+          style={{}}
             />
         </Col>
         <Col xs={2} sm={1}>
@@ -112,7 +114,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
   return(
     <Modal
       show={true}
-      onHide={() => handleHide(SHOW_BASKET)}
+      onHide={() => handleHide(BASKET)}
       keyboard={true}
       aria-labelledby="contained-modal-title">
          <Modal.Header closeButton>
@@ -162,8 +164,8 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange, onMea
             </form>
            </Container>
          </Modal.Body>
-         <Modal.Footer>    
-        <Button bsStyle="danger" onClick={() => handleHide(SHOW_BASKET)}>Close</Button>
+         <Modal.Footer>
+        <Button bsStyle="danger" onClick={() => handleHide(BASKET)}>Close</Button>
          </Modal.Footer>
        </Modal>
   )

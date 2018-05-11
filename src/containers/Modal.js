@@ -4,12 +4,12 @@ import Basket from "./Basket";
 import DetailedNutr from "./DetailedNutr";
 
 
-export const SHOW_BASKET = 'SHOW_BASKET';
-export const SHOW_DETAILED_NUTR = 'SHOW_DETAILED_NUTR';
+export const BASKET = 'BASKET';
+export const DETAILED_NUTR = 'DETAILED_NUTR';
 
 const MODAL_COMPONENTS = {
-  SHOW_BASKET: Basket,
-  SHOW_DETAILED_NUTR: DetailedNutr
+  BASKET: Basket,
+  DETAILED_NUTR: DetailedNutr
 };
 
 const ModalRoot = ({...modal}) => {
@@ -18,9 +18,9 @@ const ModalRoot = ({...modal}) => {
   if (!modalType || !modalType.length) {
     return null;
   }
-  const modals = modalType.map( window => {
+  const modals = modalType.map( (window, i) => {
   const SpecificModal = MODAL_COMPONENTS[window];
-  return <div><SpecificModal {...modalProps}/></div>;
+  return <SpecificModal {...modalProps} key={window}/>;
   })
   return <div> {modals} </div>;
 

@@ -73,3 +73,8 @@ margin: 0;
 .grid-instance {
   width: 100% !important;
 }
+
+.info-circle {
+  cursor: pointer;
+  margin-top: 9px
+}
