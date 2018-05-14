@@ -7,7 +7,7 @@ import {
 
 export const MyFoodPanel = ({ suggestedFood, addToBasket }) => {
   const foodArr = suggestedFood.foods;
-  if (!foodArr.length) return null;
+  if (!foodArr || !foodArr.length) return null;
   const foods = foodArr.slice(0,5);
 
   return(

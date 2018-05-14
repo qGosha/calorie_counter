@@ -23,7 +23,7 @@ export const logBasketFood = (jwt, basket) => {
       method: "POST",
       url: ROOT_URL + "log",
       headers,
-      obj
+      data: obj
     });
 
   return {
