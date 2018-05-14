@@ -16,7 +16,7 @@ import SearchBar from '../containers/search-bar'
 import { DETAILED_NUTR, BASKET, CONFIRM } from '../containers/Modal';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
-  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket }) => {
+  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
@@ -103,7 +103,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
     })
   }
   const confirmText = 'Are you sure you want to clear basket?';
-
+  const jwt = localStorage.getItem('jwt');
 
   const total = (element) => {
     return Math.abs(Math.round(basket.reduce((sum, next) => {
@@ -176,7 +176,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
                 disabled={!basket.length}
                 block
                 bsStyle="success"
-                onClick={() => handleHide(BASKET)}>
+                onClick={() => log(jwt, basket)}>
                 Log {basket.length ? basket.length : null} foods
               </Button>
              </Col>

@@ -1,4 +1,12 @@
-import { GETDETAILEDFOODINFO, GETDETAILEDFOODINFOFAILURE, GETDETAILEDFOODINFOSUCCESS, SETNEWBASKET } from '../actions/index';
+import { 
+  GETDETAILEDFOODINFO, 
+  GETDETAILEDFOODINFOFAILURE, 
+  GETDETAILEDFOODINFOSUCCESS, 
+  SETNEWBASKET,
+  LOGBASKETFOOD,
+  LOGBASKETFOODSUCCESS,
+  LOGBASKETFOODFAILURE 
+  } from '../actions/index';
 
 const storagedBasket = localStorage.getItem('basket');
 const initialState = storagedBasket ? JSON.parse(storagedBasket) : [];
@@ -14,6 +22,12 @@ export function basket(state = initialState, action) {
       return payload;
     case GETDETAILEDFOODINFOFAILURE:
       return state;
+    case LOGBASKETFOOD:
+      return state;
+    case LOGBASKETFOODSUCCESS:
+      return [];
+    case LOGBASKETFOODFAILURE:
+      return state;      
     default:
       return state;
   }

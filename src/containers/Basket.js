@@ -4,7 +4,10 @@ import { BasketPanel } from '../components/basketPanel';
 import {
  hideModal,
  setNewBasket,
- showModal
+ showModal,
+ logBasketFood,
+ logBasketFoodSuccess,
+ logBasketFoodFailure
 } from "../actions/index";
 
 class Basket extends Component {
@@ -141,6 +144,7 @@ onQtyChange(event, id) {
      onMeasureChange={this.onMeasureChange}
      showModal={this.props.showModal}
      clearBasket={this.clearBasket}
+     log={this.props.log}
      />
    )
  }
@@ -150,7 +154,16 @@ const mapDispatchToProps = dispatch => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType)),
     setNewBasket: (basket) => dispatch(setNewBasket(basket)),
-    showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps))
+    showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps)),
+    log: (jwt, basket) => {
+      dispatch(logBasketFood(jwt, basket)).then(response => {
+        if (!response.error) {
+          dispatch(logBasketFoodSuccess(response.payload.data));
+        } else {
+          dispatch(logBasketFoodFailure(response.payload.response.data.message));
+        }
+      });
+    }
   };
 };
 const mapStateToProps = state => ({
