@@ -13,7 +13,7 @@ export function basket(state = initialState, action) {
     case SETNEWBASKET:
       return payload;
     case GETDETAILEDFOODINFOFAILURE:
-      return false;
+      return state;
     default:
       return state;
   }

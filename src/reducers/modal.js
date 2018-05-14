@@ -1,7 +1,7 @@
 import { SHOWMODAL, HIDEMODAL } from '../actions/index';
 
 const initialState = {
-  modalType: [],
+  modalType: ['BASKET'],
   modalProps: {}
 }
 

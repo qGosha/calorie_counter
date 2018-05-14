@@ -13,17 +13,18 @@ import '../style/basket.css';
 import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
-import { DETAILED_NUTR, BASKET } from '../containers/Modal';
+import { DETAILED_NUTR, BASKET, CONFIRM } from '../containers/Modal';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
-  onMeasureChange, sendItemToTheBasketState, showDetailedModal }) => {
+  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket }) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
   } else {
     basketFood = basket.map((basketItem, i) => {
       const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
-      const qty =  basketItem.serving_qty || basketItem.unformatted_qty;
+
+      const qty =  (basketItem.value === undefined) ? basketItem.serving_qty : basketItem.value;
       const altMesures = basketItem.alt_measures;
       const foodName = basketItem.food_name;
       const calorie = basketItem.nf_calories ? Math.abs(Math.round(basketItem.nf_calories)) : 0;
@@ -81,7 +82,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
         <FontAwesome
           className='info-circle'
           name='info-circle'
-          onClick={() => showDetailedModal(DETAILED_NUTR, {id: i})}
+          onClick={() => showModal(DETAILED_NUTR, {id: i})}
           style={{}}
             />
         </Col>
@@ -101,6 +102,9 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
       )
     })
   }
+  const confirmText = 'Are you sure you want to clear basket?';
+
+
   const total = (element) => {
     return Math.abs(Math.round(basket.reduce((sum, next) => {
         return sum += next[element]
@@ -164,8 +168,36 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
             </form>
            </Container>
          </Modal.Body>
+         <Modal.Footer className='basket-first-footer'>
+          <Container fluid>
+            <Row style={{justifyContent:'center'}}>
+             <Col xs={12} lg={10} style={{marginBottom:'20px'}}>
+              <Button
+                disabled={!basket.length}
+                block
+                bsStyle="success"
+                onClick={() => handleHide(BASKET)}>
+                Log {basket.length ? basket.length : null} foods
+              </Button>
+             </Col>
+            </Row>
+             <Row style={{justifyContent:'center'}}>
+              <Col xs={12} lg={10}>
+               <Button
+                 block
+                 bsStyle="danger"
+                 onClick={() => showModal(CONFIRM, {
+                  text: confirmText,
+                  confirmFunk: clearBasket
+                })}>
+                 Clear basket
+               </Button>
+              </Col>
+            </Row>
+          </Container>
+         </Modal.Footer>
          <Modal.Footer>
-        <Button bsStyle="danger" onClick={() => handleHide(BASKET)}>Close</Button>
+        <Button bsStyle="primary" onClick={() => handleHide(BASKET)}>Close</Button>
          </Modal.Footer>
        </Modal>
   )

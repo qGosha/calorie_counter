@@ -6,6 +6,9 @@
   font-size: 1.7rem;
   font-weight: bold;
 }
+.nutr-name::first-letter {
+  text-transform: uppercase;
+}
 .nutr-brand-name {
   color: #969398;
   font-style: italic;
@@ -13,6 +16,9 @@
 .nutr-table-container {
   border: 1px solid #000;
   padding: 7px !important;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  font-size: 1.3rem;
 }
 .nutr-table-heading {
   font-size: 2.2rem;
@@ -20,4 +26,34 @@
 }
 .nutr-table-servunit {
   color: #969398;
+}
+.nutr-line-divider {
+  border-top: 12px solid #222;
+}
+.nutr-line {
+  padding: 1px 0;
+  border-top: 1px solid #222;
+}
+.nutr-line-indent {
+  margin-left: 15px !important;
+  padding: 1px 0;
+  border-top: 1px solid #222;
+}
+
+.line-perserving {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+.nutr-bar-row {
+  border-top: 5px solid #222;
+  padding: 1px 0;
+}
+.nutr-col-right {
+  text-align: right;
+}
+
+.nutr-bottom-text {
+  padding: .8rem 0 0 .9rem;
+  color: #777;
 }

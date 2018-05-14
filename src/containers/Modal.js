@@ -2,14 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import Basket from "./Basket";
 import DetailedNutr from "./DetailedNutr";
-
+import ConfirmWindow from './ConfirmWindow';
 
 export const BASKET = 'BASKET';
 export const DETAILED_NUTR = 'DETAILED_NUTR';
+export const CONFIRM = 'CONFIRM';
 
 const MODAL_COMPONENTS = {
   BASKET: Basket,
-  DETAILED_NUTR: DetailedNutr
+  DETAILED_NUTR: DetailedNutr,
+  CONFIRM: ConfirmWindow
 };
 
 const ModalRoot = ({...modal}) => {
