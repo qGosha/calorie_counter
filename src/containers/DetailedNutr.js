@@ -20,7 +20,10 @@ import {
 const DetailedNutr = props => {
   if(!props.basket.length) return null;
 
-  const round = (item) => { return Math.abs(Math.round(item)) };
+  const round = (item) => { 
+    if (!item) return 0;
+    return Math.abs(Math.round(item)) 
+    };
   const fixed = (item) => {
     if(!item) return 0;
     return Math.abs(item.toFixed(1))
