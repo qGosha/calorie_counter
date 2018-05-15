@@ -7,7 +7,10 @@ import {
  showModal,
  logBasketFood,
  logBasketFoodSuccess,
- logBasketFoodFailure
+ logBasketFoodFailure,
+ getFoodLog,
+ getFoodLogSuccess,
+ getFoodLogFailure
 } from "../actions/index";
 import { BASKET } from '../containers/Modal';
 
@@ -151,7 +154,7 @@ onQtyChange(event, id) {
  }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType)),
     setNewBasket: (basket) => dispatch(setNewBasket(basket)),
@@ -159,15 +162,31 @@ const mapDispatchToProps = dispatch => {
     log: (jwt, basket) => {
       dispatch(logBasketFood(jwt, basket)).then(response => {
         if (!response.error) {
-          Promise.resolve(dispatch(logBasketFoodSuccess(response.payload.data))).then(
-            () => { dispatch(hideModal(BASKET)) } ).then( () => {
-              localStorage.setItem('basket', '[]');
-            })
+          Promise.resolve(dispatch(logBasketFoodSuccess(response.payload.data)))
+           .then( () => dispatch(getFoodLog(jwt))
+             .then(response => {
+               if (!response.error) {
+                 dispatch(getFoodLogSuccess(response.payload.data))
+               } else {
+                 dispatch(getFoodLogFailure(response.payload.response.data.message))
+               }
+             }))
+           .then( () => { dispatch(hideModal(BASKET)) } )
+           .then( () => { localStorage.setItem('basket', '[]') })
         } else {
           dispatch(logBasketFoodFailure(response.payload.response.data.message));
         }
       });
     }
+    // getFoodLog: jwt => { 
+    //   dispatch(getFoodLog(jwt)).then( response => {
+    //     if (!response.error) {
+    //       dispatch(getFoodLogSuccess(response.payload.data))
+    //     } else {
+    //       dispatch(getFoodLogFailure(response.payload.response.data.message))
+    //     }
+    //   } )
+    //   }
   };
 };
 const mapStateToProps = state => ({

@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const GETDFOODLOG = "GETDFOODLOG";
-export const GETDFOODLOGSUCCESS = "GETDFOODLOGSUCCESS";
-export const GETDFOODLOGFAILURE = "GETDFOODLOGFAILURE";
+export const GETFOODLOG = "GETFOODLOG";
+export const GETFOODLOGSUCCESS = "GETFOODLOGSUCCESS";
+export const GETFOODLOGFAILURE = "GETFOODLOGFAILURE";
 
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
 
-export const getFoodLoog = (jwt, basket) => {
+export const getFoodLog = (jwt, basket) => {
   const headers = {
     ["x-user-jwt"]: jwt
   }
@@ -26,15 +26,15 @@ export const getFoodLoog = (jwt, basket) => {
     });
 
   return {
-    type: GETDFOODLOG,
+    type: GETFOODLOG,
     payload: response
   }
 }
 
-export const logBasketFoodSuccess = () => ({
-  type: LOGBASKETFOODSUCCESS,
+export const getFoodLogSuccess = () => ({
+  type: GETFOODLOGSUCCESS,
 })
 
-export const logBasketFoodFailure = () => ({
-  type: LOGBASKETFOODFAILURE,
+export const getFoodLogFailure = () => ({
+  type: GETFOODLOGFAILURE,
 })
