@@ -9,6 +9,7 @@ import {
  logBasketFoodSuccess,
  logBasketFoodFailure
 } from "../actions/index";
+import { BASKET } from '../containers/Modal';
 
 class Basket extends Component {
 
@@ -158,7 +159,10 @@ const mapDispatchToProps = dispatch => {
     log: (jwt, basket) => {
       dispatch(logBasketFood(jwt, basket)).then(response => {
         if (!response.error) {
-          dispatch(logBasketFoodSuccess(response.payload.data));
+          Promise.resolve(dispatch(logBasketFoodSuccess(response.payload.data))).then(
+            () => { dispatch(hideModal(BASKET)) } ).then( () => {
+              localStorage.setItem('basket', '[]');
+            })
         } else {
           dispatch(logBasketFoodFailure(response.payload.response.data.message));
         }
