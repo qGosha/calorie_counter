@@ -7,7 +7,7 @@ export const GETFOODLOGFAILURE = "GETFOODLOGFAILURE";
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
 
-export const getFoodLog = (jwt, basket) => {
+export const getFoodLog = jwt => {
   const headers = {
     ["x-user-jwt"]: jwt
   }
@@ -31,10 +31,12 @@ export const getFoodLog = (jwt, basket) => {
   }
 }
 
-export const getFoodLogSuccess = () => ({
+export const getFoodLogSuccess = response => ({
   type: GETFOODLOGSUCCESS,
+  payload: response
 })
 
-export const getFoodLogFailure = () => ({
+export const getFoodLogFailure = response => ({
   type: GETFOODLOGFAILURE,
+  payload: response
 })
