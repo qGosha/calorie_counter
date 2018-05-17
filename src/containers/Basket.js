@@ -163,15 +163,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(logBasketFood(jwt, basket)).then(response => {
         if (!response.error) {
           Promise.resolve(dispatch(logBasketFoodSuccess(response.payload.data)))
-           .then( () => { dispatch(getFoodLog(jwt))
-              .then( response => {
+            .then(() => dispatch(getFoodLog(jwt)) )
+            .then( response => {
                if (!response.error) {
-                 dispatch(getFoodLogSuccess(response.payload.data))
+                 dispatch(getFoodLogSuccess(response.payload.data.foods))
                } else {
                  dispatch(getFoodLogFailure(response.payload.response.data.message))
-               }
-             } )
-            } )
+               } } )  
            .then( () => { dispatch(hideModal(BASKET)) } )
            .then( () => { localStorage.setItem('basket', '[]') })
         } else {

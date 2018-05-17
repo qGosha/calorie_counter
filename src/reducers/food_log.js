@@ -4,16 +4,19 @@ import {
   GETFOODLOGSUCCESS,
 } from '../actions/index';
 
-
-export function foodLog(state = [], action) {
+const initialState = {
+  error: false,
+  log: []
+}
+export function foodLog(state = initialState, action) {
   const payload = action.payload;
   switch (action.type) {
     case GETFOODLOG:
       return state;
     case GETFOODLOGFAILURE:
-      return state;
+      return {...state, error: action.payload};
     case GETFOODLOGSUCCESS:
-      return [ ...state, payload ];
+      return {...state, log: action.payload };
     default:
       return state;
   }
