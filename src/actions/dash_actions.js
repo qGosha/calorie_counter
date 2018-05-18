@@ -8,6 +8,7 @@ export const FETCHSUGGESTEDFOODSUCCESS = "FETCHSUGGESTEDFOODSUCCESS";
 export const FETCHDASHINFOFAILURE = "FETCHDASHINFOFAILURE";
 export const SIGNOUT = "SIGNOUT";
 export const DASHBOARDLOADING = "DASHBOARDLOADING";
+export const DASHBOARDLOADED = "DASHBOARDLOADED";
 
 export const getUser = jwt => {
   const path = "me";
@@ -25,7 +26,7 @@ export const getSuggestedFood = (jwt) => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const response = axios.get(ROOT_URL + path, {
     headers: { ["x-user-jwt"]: jwt },
-    params: { timezone }  
+    params: { timezone }
   });
   return {
     type: GETSUGGESTEDFOOD,
@@ -50,6 +51,10 @@ export const fetchDashInfoFailure = response => ({
 
 export const showLoadingScreen = () => ({
   type: DASHBOARDLOADING
+})
+
+export const hideLoadingScreen = () => ({
+  type: DASHBOARDLOADED
 })
 
 export const signOutUser = () => {

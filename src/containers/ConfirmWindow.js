@@ -39,7 +39,7 @@ const ConfirmWindow = props => {
      <Modal.Body>
      <Container fluid>
      <Row>
-      <Col>
+      <Col style={{padding:'30px 15px'}}>
        {modalText}
       </Col>
      </Row>
@@ -47,6 +47,7 @@ const ConfirmWindow = props => {
         <Col style={{margin:'0 20px 20px 0'}}>
          <Button
            bsStyle="danger"
+           style={{margin: '0 20px 0 0'}}
            onClick={confirmFunc}>
            Yes
          </Button>

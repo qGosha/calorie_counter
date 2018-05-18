@@ -41,23 +41,6 @@
   padding: 0;
 }
 
-.calorie-basket-row {
-  justify-content: space-between;
-  background-color: #c1c5c9;
-  padding: 10px 15px;
-}
-
-.nutrient-basket-row {
-  justify-content: space-between;
-  background-color: #9c909e36;
-  padding: 10px 15px;
-}
-
-.nutrient-basket-row .basket-description-group:not(:last-child) {
-  border-right: 1px solid #c1c5c9;
-}
-
-
 .form-search {
   position: relative;
 }
@@ -79,5 +62,5 @@ margin: 0;
   margin-top: 9px
 }
 .basket-first-footer {
- padding: 30px 15px;  
+ padding: 30px 15px;
 }

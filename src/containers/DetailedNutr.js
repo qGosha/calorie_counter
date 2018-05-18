@@ -20,9 +20,9 @@ import {
 const DetailedNutr = props => {
   if(!props.basket.length) return null;
 
-  const round = (item) => { 
+  const round = (item) => {
     if (!item) return 0;
-    return Math.abs(Math.round(item)) 
+    return Math.abs(Math.round(item))
     };
   const fixed = (item) => {
     if(!item) return 0;
@@ -130,7 +130,7 @@ const DetailedNutr = props => {
           <Col className='nutr-col-right'><strong>{fatDVP}</strong>%</Col>
          </Row>
          <Row nogutter className='nutr-line-indent'>
-          <Col xs={7}>Saturated Fat {satFat}g</Col>
+          <Col xs={9}>Saturated Fat {satFat}g</Col>
           <Col className='nutr-col-right'><strong>{satFatDVP}</strong>%</Col>
          </Row>
          <Row nogutter className='nutr-line-indent'>

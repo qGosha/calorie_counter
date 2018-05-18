@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './search-bar';
+import FoodLog from './FoodLog';
 import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
 import { BASKET } from './Modal';
@@ -12,7 +13,10 @@ import {
   fetchSuggestedFoodSuccess,
   fetchDashInfoFailure,
   showLoadingScreen,
-  showModal
+  hideLoadingScreen,
+  showModal,
+  getFoodLog,
+  getFoodLogSuccess
 } from "../actions/index";
 
 class Dashboard extends Component {
@@ -38,6 +42,10 @@ constructor(props) {
     .then( () => {
       return this.props.getSuggestedFood(jwt);
     })
+    .then( () => {
+      return this.props.getLog(jwt);
+    })
+    .then( () => this.props.hideLoadingScreen() )
     .catch( error => {
       this.props.fetchDashInfoFailure(error.payload.response.data.message);
     } )
@@ -71,6 +79,7 @@ constructor(props) {
       return (
       <div className='dashboard'>
         <SearchBar/>
+        <FoodLog />
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
@@ -87,28 +96,30 @@ constructor(props) {
 const mapDispatchToProps = dispatch => {
   return {
     signOutUser: () => dispatch(signOutUser()),
-    getUser: (jwt) => dispatch(getUser(jwt))
+    getUser: jwt => dispatch(getUser(jwt))
      .then( response => {
        if(response.error) {
          return Promise.reject(response);
        }
         dispatch(fetchUserObjectSuccess(response.payload.data));
-      } )
-      .catch( error => {
-        return new Promise((res,rej) => rej(error));
       } ),
-    getSuggestedFood: (jwt) => dispatch(getSuggestedFood(jwt))
+    getSuggestedFood: jwt => dispatch(getSuggestedFood(jwt))
      .then( response => {
        if(response.error) {
          return Promise.reject(response);
        }
         dispatch(fetchSuggestedFoodSuccess(response.payload.data));
-    } )
-    .catch( error => {
-      return new Promise((res,rej) => rej(error));
+    } ),
+    getLog: jwt => dispatch(getFoodLog(jwt))
+     .then( response => {
+       if(response.error) {
+         return Promise.reject(response);
+       }
+      dispatch(getFoodLogSuccess(response.payload.data.foods));
     } ),
     fetchDashInfoFailure: (error) => dispatch(fetchDashInfoFailure(error)),
     showLoadingScreen: () => dispatch(showLoadingScreen()),
+    hideLoadingScreen: () => dispatch(hideLoadingScreen()),
     showBasketModal: modalType => dispatch(showModal(modalType))
   }
 }

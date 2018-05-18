@@ -9,6 +9,7 @@ import {
   FormControl
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
+import { TotalPanel } from './totalPanel';
 import '../style/basket.css';
 import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
@@ -105,16 +106,6 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
   const confirmText = 'Are you sure you want to clear basket?';
   const jwt = localStorage.getItem('jwt');
 
-  const total = (element) => {
-    return Math.abs(Math.round(basket.reduce((sum, next) => {
-        return sum += next[element]
-      }, 0) ));
-  }
-  const totalCalories = total('nf_calories');
-  const totalProtein = total('nf_protein');
-  const totalCarbs = total('nf_total_carbohydrate');
-  const totalFat = total('nf_total_fat');
-  const totalSodium = total('nf_sodium');
   return(
     <Modal
       show={true}
@@ -137,34 +128,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
               <FormGroup className='basket-form'>
               {basketFood}
               </FormGroup>
-              <Row nogutter>
-                <Col xs={12}>
-                 <Row nogutter className='calorie-basket-row'>
-                   <span>Totat calories: </span>
-                   <span className='basket-nutritient'>{totalCalories}</span>
-                 </Row>
-                </Col>
-                <Col xs={12}>
-                 <Row nogutter className='nutrient-basket-row'>
-                  <Col xs={3} className='basket-description-group'>
-                   <span>Protein: </span>
-                   <span className='basket-nutritient'>{totalProtein}g</span>
-                  </Col>
-                  <Col xs={3} className='basket-description-group'>
-                  <span>Carbs: </span>
-                  <span className='basket-nutritient'>{totalCarbs}g</span>
-                  </Col>
-                  <Col xs={3} className='basket-description-group'>
-                  <span>Fat:</span>
-                  <span className='basket-nutritient'>{totalFat}g</span>
-                  </Col>
-                  <Col xs={3} className='basket-description-group'>
-                  <span>Sodium: </span>
-                  <span className='basket-nutritient'>{totalSodium}mg</span>
-                  </Col>
-                 </Row>
-                </Col>
-              </Row>
+              <TotalPanel foods={basket} />
             </form>
            </Container>
          </Modal.Body>

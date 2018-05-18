@@ -13,7 +13,10 @@ const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
 export const logBasketFood = (jwt, basket) => {
   const clearBasket = basket.map( (item, i) => {
-   if(item.hasOwnProperty('value')) item['value'] = undefined;
+   if(item.hasOwnProperty('value')) {
+     item['serving_qty'] = item['value'];
+     item['value'] = undefined;
+   }
    if(item.hasOwnProperty('current_serving_weight')) item['current_serving_weight'] = undefined;
    if(item.hasOwnProperty('last_good_value')) item['last_good_value'] = undefined;
    return item;
