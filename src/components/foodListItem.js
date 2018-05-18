@@ -6,10 +6,10 @@ import {
 } from 'react-bootstrap';
 
 
-export const FoodListItem = ({ foods, term, addToBasket }) => {
+export const FoodListItem = ({ foods, addToBasket }) => {
     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
 
-    const myFood = foods.map((foodItem) => {
+    const myFood = foods.map((foodItem, i) => {
       const foodName = foodItem.food_name;
       const brandName = foodItem.brand_name || '';
       const servingQty = foodItem.serving_qty || '';
@@ -18,7 +18,7 @@ export const FoodListItem = ({ foods, term, addToBasket }) => {
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       return  (
         <ListGroupItem
-          key={foodItem.food_name}
+          key={foodItem.food_name + i}
           className='food-item'
           onClick={ () => addToBasket(foodItem) }>
           <Image src={foodItem.photo.thumb || foodAvatarUrl}

@@ -1,5 +1,6 @@
 #dropdown-menu .food-item, 
-#tabs-with-dropdown .food-item {
+#tabs-with-dropdown .food-item,
+.food-log-panel .food-item {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

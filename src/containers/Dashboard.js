@@ -39,15 +39,19 @@ constructor(props) {
     const jwt = localStorage.getItem('jwt');
     setTimeout(this.onLongLoading, 800);
     this.props.getUser(jwt)
+    .then(() => {
+        return this.props.getLog(jwt);
+      })
     .then( () => {
       return this.props.getSuggestedFood(jwt);
     })
     .then( () => {
-      return this.props.getLog(jwt);
-    })
-    .then( () => this.props.hideLoadingScreen() )
+      if (this.props.loading) {
+        this.props.hideLoadingScreen()
+      } } )
     .catch( error => {
-      this.props.fetchDashInfoFailure(error.payload.response.data.message);
+      const err = error.payload.response.data.message || 'Technical error'
+      this.props.fetchDashInfoFailure(err);
     } )
 
   }

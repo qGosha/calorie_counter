@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TotalPanel } from '../components/totalPanel';
+import { LogFoodPanel } from '../components/logFoodPanel';
 
 class FoodLog extends Component {
 constructor(props) {
@@ -8,9 +9,15 @@ constructor(props) {
 }
 
   render() {
+    const foods = this.props.loggedFood
+    const breakfast = foods.filter( (item,i) => {
+      const time = new Date(item.consumed_at).getHours();
+      if (time < 12) return item;
+    }) 
     return (
   <div>
-  <TotalPanel foods={this.props.loggedFood}/>
+    <LogFoodPanel foods={foods} />
+    <TotalPanel foods={breakfast} />
   </div>
     )
   }
