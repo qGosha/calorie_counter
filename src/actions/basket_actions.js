@@ -14,22 +14,23 @@ const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 export const logBasketFood = (jwt, basket) => {
 
   const clearBasket = basket.map( (item, i) => {
-    if(item.hasOwnProperty('value')) {
-      item['serving_qty'] = item['value'];
-      item['value'] = undefined;
-    }
   
    const fullNutr = item['full_nutrients'].map( i => {
-     const value = i['value'];
+     const servQty = item['serving_qty'];
+     const value = i['value'] ;
+     const multiplier = item['value'] ? item['value'] / servQty : servQty; 
      const servingWeight = item['serving_weight_grams'];
      const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
-     const servQty = item['serving_qty'];
-     const n = ((value / servingWeight) * currentWeight) * servQty;
+     const n = ((value / servingWeight) * currentWeight) * multiplier;
       return {
         attr_id: i['attr_id'],
         value: n
       }
     })
+   if (item.hasOwnProperty('value')) {
+     item['serving_qty'] = item['value'];
+     item['value'] = undefined;
+   }
    item['full_nutrients'] = fullNutr;
 
    if(item.hasOwnProperty('current_serving_weight'))  {

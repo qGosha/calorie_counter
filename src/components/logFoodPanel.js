@@ -57,7 +57,7 @@ const totalNutrients = nutr => {
   const intake = (arr, time1, time2) => {
     return foods.filter( (item,i) => {
       const consumed = new Date(item.consumed_at).getHours();
-      if (consumed >= time1 && time2 ? (consumed < time2) : true ) return item;
+      if (consumed >= time1 && (time2 ? (consumed < time2) : true )) return item;
     })
   }
   const total = (element, arr) => {
