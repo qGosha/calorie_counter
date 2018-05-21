@@ -5,6 +5,7 @@ import FoodLog from './FoodLog';
 import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
 import { BASKET } from './Modal';
+import { Container, Row, Col } from 'react-grid-system';
 import {
   signOutUser,
   getUser,
@@ -81,15 +82,18 @@ constructor(props) {
       )
     } else {
       return (
-      <div className='dashboard'>
+       <Container fluid>
         <SearchBar/>
-        <FoodLog />
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
         <button onClick={this.onSignOut}>Sign out</button>
         <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
-
-      </div>
+        <Row nogutter>
+         <Col xs={12} md={6}>
+          <FoodLog />
+         </Col>
+        </Row>
+        </Container>
         )
     }
 

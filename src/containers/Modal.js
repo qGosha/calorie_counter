@@ -3,15 +3,20 @@ import { connect } from "react-redux";
 import Basket from "./Basket";
 import DetailedNutr from "./DetailedNutr";
 import ConfirmWindow from './ConfirmWindow';
+import IntakeLog from './IntakeLog';
+
 
 export const BASKET = 'BASKET';
 export const DETAILED_NUTR = 'DETAILED_NUTR';
 export const CONFIRM = 'CONFIRM';
+export const INTAKELOG = 'INTAKELOG';
 
 const MODAL_COMPONENTS = {
   BASKET: Basket,
   DETAILED_NUTR: DetailedNutr,
-  CONFIRM: ConfirmWindow
+  CONFIRM: ConfirmWindow,
+  INTAKELOG: IntakeLog
+
 };
 
 const ModalRoot = ({...modal}) => {

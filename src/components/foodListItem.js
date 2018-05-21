@@ -4,9 +4,11 @@ import {
   ListGroupItem,
   Image
 } from 'react-bootstrap';
+import { v4 } from 'uuid';
 
 
 export const FoodListItem = ({ foods, addToBasket }) => {
+  if(!foods || !foods.length) return null;
     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
 
     const myFood = foods.map((foodItem, i) => {
@@ -18,7 +20,7 @@ export const FoodListItem = ({ foods, addToBasket }) => {
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       return  (
         <ListGroupItem
-          key={foodItem.food_name + i}
+          key={v4()}
           className='food-item'
           onClick={ () => addToBasket(foodItem) }>
           <Image src={foodItem.photo.thumb || foodAvatarUrl}

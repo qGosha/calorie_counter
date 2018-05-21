@@ -15,6 +15,7 @@ import '../style/show_search_result.css';
 import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
 import { DETAILED_NUTR, BASKET, CONFIRM } from '../containers/Modal';
+import { v4 } from 'uuid';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
   onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log }) => {
@@ -31,7 +32,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
       const calorie = basketItem.nf_calories ? Math.abs(Math.round(basketItem.nf_calories)) : 0;
       const options = altMesures ? altMesures.map( (option, j) => {
         const value = option.measure;
-        return <option key={value + j} value={value}>{value}</option>
+        return <option key={v4()} value={value}>{value}</option>
       }) : null;
       let select;
       if(altMesures && altMesures.length){
@@ -54,7 +55,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
         )
       }
       return(
-      <Row key={foodName + i} nogutter className='basket-row'>
+      <Row key={v4()} nogutter className='basket-row'>
         <Col xs={2} md={1}>
           <Image src={basketItem.photo.thumb || foodAvatarUrl}
             alt='food'
@@ -84,7 +85,6 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
           className='info-circle'
           name='info-circle'
           onClick={() => showModal(DETAILED_NUTR, {id: i})}
-          style={{}}
             />
         </Col>
         <Col xs={2} sm={1}>

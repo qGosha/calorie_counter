@@ -12,12 +12,30 @@ export const LOGBASKETFOODFAILURE = "LOGBASKETFOODFAILURE";
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
 export const logBasketFood = (jwt, basket) => {
+
   const clearBasket = basket.map( (item, i) => {
-   if(item.hasOwnProperty('value')) {
-     item['serving_qty'] = item['value'];
-     item['value'] = undefined;
+    if(item.hasOwnProperty('value')) {
+      item['serving_qty'] = item['value'];
+      item['value'] = undefined;
+    }
+  
+   const fullNutr = item['full_nutrients'].map( i => {
+     const value = i['value'];
+     const servingWeight = item['serving_weight_grams'];
+     const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
+     const servQty = item['serving_qty'];
+     const n = ((value / servingWeight) * currentWeight) * servQty;
+      return {
+        attr_id: i['attr_id'],
+        value: n
+      }
+    })
+   item['full_nutrients'] = fullNutr;
+
+   if(item.hasOwnProperty('current_serving_weight'))  {
+     item['serving_weight_grams'] = item['current_serving_weight'];
+     item['current_serving_weight'] = undefined;
    }
-   if(item.hasOwnProperty('current_serving_weight')) item['current_serving_weight'] = undefined;
    if(item.hasOwnProperty('last_good_value')) item['last_good_value'] = undefined;
    return item;
   })
@@ -26,7 +44,7 @@ export const logBasketFood = (jwt, basket) => {
   }
  const obj = {
    consumed_at: new Date(),
-   foods: basket
+   foods: clearBasket
  }
    const response = axios({
       method: "POST",

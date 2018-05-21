@@ -28,7 +28,7 @@
   color: #969398;
 }
 .nutr-line-divider {
-  border-top: 12px solid #222;
+  border-top: 12px solid #222 !important;
 }
 .nutr-line {
   padding: 1px 0;
