@@ -51,7 +51,17 @@ constructor(props) {
         this.props.hideLoadingScreen()
       } } )
     .catch( error => {
-      const err = error.payload.response.data.message || 'Technical error'
+      let err;
+      if(error
+        && error.payload
+        && error.payload.response
+        && error.payload.response.data
+        && error.payload.response.data.message) {
+          err = error.payload.response.data.message;
+        }
+        else {
+         err  = 'Technical error';
+        }
       this.props.fetchDashInfoFailure(err);
     } )
 

@@ -3,16 +3,9 @@ import React from 'react';
 import '../style/nutr_details.css';
 import { Container, Row, Col } from 'react-grid-system';
 import { Image } from 'react-bootstrap';
-
+import { fixed, round } from '../helpers/help_functions';
 export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
-  const round = (item) => {
-    if (!item) return 0;
-    return Math.abs(Math.round(item))
-    };
-  const fixed = (item) => {
-    if(!item) return 0;
-    return Math.abs(item.toFixed(1))
-  };
+
 
   const getNutrition = (nutr) => {
    const result = foodObj.full_nutrients.filter(a => {if (a.attr_id === nutr) return a});

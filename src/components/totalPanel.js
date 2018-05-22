@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from 'react-grid-system';
 import '../style/total_panel.css';
+import { INTAKELOG } from '../containers/Modal';
 
-
-export const TotalPanel = ({ foods }) => {
+export const TotalPanel = ({ foods, isFromLog, showModal, totalDailyNutr }) => {
 
     const total = (element) => {
       return Math.abs(Math.round(foods.reduce((sum, next) => {
@@ -16,7 +16,11 @@ export const TotalPanel = ({ foods }) => {
     const totalFat = total('nf_total_fat');
     const totalSodium = total('nf_sodium');
     return (
-      <Row nogutter>
+      <Row
+      nogutter
+      style={{cursor: isFromLog ? 'pointer' : 'auto'}}
+      onClick={ () =>  isFromLog ?
+        showModal(INTAKELOG, { foods: totalDailyNutr }) : false }>
         <Col xs={12}>
          <Row nogutter className='calorie-total-row'>
            <span>Totat calories: </span>

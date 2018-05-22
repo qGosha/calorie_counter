@@ -8,39 +8,10 @@ import { FoodListItem } from '../components/foodListItem';
 import FontAwesome from 'react-fontawesome';
 import { INTAKELOG } from '../containers/Modal';
 import { v4 } from 'uuid';
+import { totalNutrients, total } from '../helpers/help_functions';
 
 
 export const LogFoodPanel = ({ foods, showModal }) => {
-
-const totalNutrients = nutr => {
-  if(!nutr || !nutr.length) return null;
-  const arrays = nutr.map((item) => item['full_nutrients']);
-  const x = [].concat.apply([], arrays);
-  x.sort((a,b) => a['attr_id'] - b['attr_id']);
-  let y = [[]];
-  let c = x[0]['attr_id'];
-  let count = 0;
-  x.map( a => {
-    if(a['attr_id'] === c) {
-      y[count].push(a);
-    } else {
-      count+=1;
-      c = a['attr_id'];
-      y.push([a]);
-    }
-  })
-  const final = y.map( a => {
-    const id = a[0]['attr_id'];
-    const s = a.reduce((sum, next) => {
-      return sum + next['value'];
-    }, 0)
-    return {
-      attr_id: id,
-      value: s
-    }
-  })
-  return final;
-}
 
   const totalPeriodNutr = (period) => {
     if(!period || !period.length) return [];
@@ -60,11 +31,7 @@ const totalNutrients = nutr => {
       if (consumed >= time1 && (time2 ? (consumed < time2) : true )) return item;
     })
   }
-  const total = (element, arr) => {
-    return Math.abs(arr.reduce((sum, next) => {
-        return sum += next[element] || 0
-      }, 0) );
-  }
+
 
   const breakfast = intake(foods, 6, 12);
   const lunch = intake(foods, 12, 17);

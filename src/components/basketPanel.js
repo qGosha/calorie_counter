@@ -68,7 +68,8 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
               type="text"
               value={qty}
               onChange={(event) => onQtyChange(event, i)}
-              className='basket-qty'/>
+              className='basket-qty'
+              autoFocus={true}/>
           </Col>
           <Col xs={8} sm={8} md={9}>
              {select}
