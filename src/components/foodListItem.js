@@ -4,7 +4,6 @@ import {
   ListGroupItem,
   Image
 } from 'react-bootstrap';
-import { v4 } from 'uuid';
 
 
 export const FoodListItem = ({ foods, addToBasket }) => {
@@ -20,7 +19,7 @@ export const FoodListItem = ({ foods, addToBasket }) => {
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       return  (
         <ListGroupItem
-          key={v4()}
+          key={foodItem.id}
           className='food-item'
           onClick={ () => addToBasket(foodItem) }>
           <Image src={foodItem.photo.thumb || foodAvatarUrl}

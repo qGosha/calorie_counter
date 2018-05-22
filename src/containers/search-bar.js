@@ -4,6 +4,7 @@ import { SearchResult } from '../components/showSearchResult';
 import { MyFoodPanel } from '../components/myFoodPanel';
 import { SearchBarPanel } from '../components/search-bar-panel';
 import  debounce  from 'lodash.debounce';
+import { v4 } from 'uuid';
 import { BASKET } from './Modal';
 import {
   searchFood,
@@ -122,6 +123,18 @@ const mapDispatchToProps = dispatch => {
     searchFood: (jwt,term) => {
       dispatch(searchFood(jwt, term)).then(response => {
         if (!response.error) {
+          const data = response.payload.data;
+          let idData;
+          if (data) {
+            Object.keys(data).map((item) => {
+              if (data[item] && data[item].length) data[item].map( i => {
+                if (i && !i['id']) {
+                  i.id = v4();
+                  return  i;
+                }
+              })
+            })
+          }
           dispatch(searchFoodSuccess(response.payload.data));
         } else {
           dispatch(searchFoodFailure(response.payload.response.data.message));

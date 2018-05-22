@@ -7,7 +7,6 @@ import {
 import { FoodListItem } from '../components/foodListItem';
 import FontAwesome from 'react-fontawesome';
 import { INTAKELOG } from '../containers/Modal';
-import { v4 } from 'uuid';
 import { totalNutrients, total } from '../helpers/help_functions';
 
 
@@ -68,7 +67,7 @@ export const LogFoodPanel = ({ foods, showModal }) => {
 
   const period = (name, totalCal, per) => {
     return (
-      <Panel bsStyle="success" style={{margin:'0'}} key={v4()}>
+      <Panel bsStyle="success" style={{margin:'0'}}>
         <Panel.Heading style={headStyle}>
         <Row nogutter>
          <Col xs={9}>{name}</Col>

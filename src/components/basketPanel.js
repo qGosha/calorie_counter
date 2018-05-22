@@ -55,7 +55,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
         )
       }
       return(
-      <Row key={v4()} nogutter className='basket-row'>
+        <Row key={basketItem['consumed_at']+i} nogutter className='basket-row'>
         <Col xs={2} md={1}>
           <Image src={basketItem.photo.thumb || foodAvatarUrl}
             alt='food'
