@@ -6,6 +6,8 @@ import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
 import { BASKET } from './Modal';
 import { Container, Row, Col } from 'react-grid-system';
+import { CalorieLimit } from '../components/calorieLimit';
+
 import {
   signOutUser,
   getUser,
@@ -17,7 +19,10 @@ import {
   hideLoadingScreen,
   showModal,
   getFoodLog,
-  getFoodLogSuccess
+  getFoodLogSuccess,
+  setDailyCal,
+  setDailyCalSuccess,
+  setDailyCalFailure
 } from "../actions/index";
 
 class Dashboard extends Component {
@@ -25,6 +30,7 @@ constructor(props) {
   super(props);
   this.onSignOut = this.onSignOut.bind(this);
   this.onLongLoading = this.onLongLoading.bind(this);
+  this.dailyCalChange = this.dailyCalChange.bind(this);
 }
 
   onSignOut(event) {
@@ -36,6 +42,14 @@ constructor(props) {
       this.props.showLoadingScreen();
     }
   }
+
+  dailyCalChange(value) {
+    const jwt = localStorage.getItem('jwt');
+    const userInfo = this.props.userInfo;
+    userInfo['daily_kcal'] = value;
+    this.props.setDailyCal(jwt, userInfo);
+  }
+
   componentDidMount() {
     const jwt = localStorage.getItem('jwt');
     setTimeout(this.onLongLoading, 800);
@@ -96,11 +110,14 @@ constructor(props) {
         <SearchBar/>
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
+        <CalorieLimit 
+          value={userInfo['daily_kcal']}
+          onClick={this.dailyCalChange} />
         <button onClick={this.onSignOut}>Sign out</button>
         <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
         <Row nogutter>
          <Col xs={12} md={6}>
-          <FoodLog />
+          <FoodLog />  
          </Col>
         </Row>
         </Container>
@@ -138,7 +155,15 @@ const mapDispatchToProps = dispatch => {
     fetchDashInfoFailure: (error) => dispatch(fetchDashInfoFailure(error)),
     showLoadingScreen: () => dispatch(showLoadingScreen()),
     hideLoadingScreen: () => dispatch(hideLoadingScreen()),
-    showBasketModal: modalType => dispatch(showModal(modalType))
+    showBasketModal: modalType => dispatch(showModal(modalType)),
+    setDailyCal: (jwt, user) => dispatch(setDailyCal(jwt, user))
+      .then(response => {
+        if (!response.error) {
+          dispatch(setDailyCalSuccess(response.payload.data))
+        } else {
+          dispatch(setDailyCalFailure(response.payload.response.data.message))
+        }
+      }) 
   }
 }
 

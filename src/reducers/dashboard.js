@@ -5,7 +5,10 @@ import {
   FETCHSUGGESTEDFOODSUCCESS,
   FETCHDASHINFOFAILURE,
   DASHBOARDLOADING,
-  DASHBOARDLOADED } from '../actions/index';
+  DASHBOARDLOADED,
+  SETDAILYCAL,
+  SETDAILYCALSUCCESS,
+  SETDAILYCALFAILURE } from '../actions/index';
 
 export function dash (state = {userInfo: false, loading: false, error: false, suggestedFood:false}, action) {
   switch (action.type) {
@@ -23,6 +26,12 @@ export function dash (state = {userInfo: false, loading: false, error: false, su
       return { ...state, loading: true }
     case DASHBOARDLOADED:
       return { ...state, loading: false }
+    case SETDAILYCAL:
+      return { ...state }
+    case SETDAILYCALSUCCESS:
+      return { ...state, userInfo: action.payload } 
+    case SETDAILYCALFAILURE:
+      return { ...state, error: action.payload}  
     default:
       return state;
   }

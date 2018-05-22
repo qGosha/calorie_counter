@@ -9,6 +9,10 @@ export const FETCHDASHINFOFAILURE = "FETCHDASHINFOFAILURE";
 export const SIGNOUT = "SIGNOUT";
 export const DASHBOARDLOADING = "DASHBOARDLOADING";
 export const DASHBOARDLOADED = "DASHBOARDLOADED";
+export const SETDAILYCAL = "SETDAILYCAL";
+export const SETDAILYCALSUCCESS = "SETDAILYCALSUCCESS";
+export const SETDAILYCALFAILURE = "SETDAILYCALFAILURE";
+
 
 export const getUser = jwt => {
   const path = "me";
@@ -63,3 +67,28 @@ export const signOutUser = () => {
     type: SIGNOUT
   }
 }
+export const setDailyCal = (jwt, user) => {
+  const path = ROOT_URL + "me/preferences";
+  const headers = {
+    ["x-user-jwt"]: jwt
+  }
+  const response = axios({
+    method: "PUT",
+    url: path,
+    headers,
+    data: user
+  });
+  return {
+    type: SETDAILYCAL,
+    payload: response
+  };
+}
+
+export const setDailyCalSuccess = response => ({
+  type: SETDAILYCALSUCCESS,
+  payload: response
+});
+export const setDailyCalFailure = response => ({
+  type: SETDAILYCALFAILURE,
+  payload: response
+});

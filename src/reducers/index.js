@@ -5,6 +5,7 @@ import { foodSearch } from './food_search';
 import { basket } from './basket';
 import { modal } from './modal';
 import { foodLog } from './food_log';
+import { dailyCal } from './daily_cal';
 
 const rootReducer = combineReducers({ dash, auth, foodSearch, basket, modal, foodLog});
 
