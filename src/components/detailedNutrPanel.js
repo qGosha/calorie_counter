@@ -4,9 +4,8 @@ import '../style/nutr_details.css';
 import { Container, Row, Col } from 'react-grid-system';
 import { Image } from 'react-bootstrap';
 import { fixed, round } from '../helpers/help_functions';
+
 export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
-
-
   const getNutrition = (nutr) => {
    const result = foodObj.full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
    return (result[0] && result[0].value) ? result[0].value : 0;

@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Modal,
-  Button
+  Button,
 } from 'react-bootstrap';
 import {
   hideModal
@@ -12,7 +12,7 @@ import { DetailedNutrPanel } from '../components/detailedNutrPanel'
 import { connect } from "react-redux";
 
 const IntakeLog = props => {
-  // if(!props.basket.length) return <div>No food added</div>;
+  const foods = props.foods;
   const hideModal = props.hideModal;
   return (
     <Modal
@@ -27,7 +27,7 @@ const IntakeLog = props => {
       </Modal.Header>
       <Modal.Body>
        <DetailedNutrPanel
-       foodObj={props.foods}
+          foodObj={foods}
        isFromBasket={false}/>
       </Modal.Body>
       <Modal.Footer>

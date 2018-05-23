@@ -2,7 +2,10 @@ import React from "react";
 import { Container, Row, Col } from 'react-grid-system';
 import {
   ListGroup,
-  Panel
+  Panel,
+  Popover,
+  OverlayTrigger,
+  Tooltip
 } from 'react-bootstrap';
 import { FoodListItem } from '../components/foodListItem';
 import FontAwesome from 'react-fontawesome';
@@ -13,7 +16,7 @@ import { totalNutrients, total } from '../helpers/help_functions';
 export const LogFoodPanel = ({ foods, showModal }) => {
 
   const totalPeriodNutr = (period) => {
-    if(!period || !period.length) return [];
+    if(!period || !period.length) return false;
     return {
       nf_calories: total('nf_calories', period),
       nf_total_fat: total('nf_total_fat', period),
@@ -65,6 +68,20 @@ export const LogFoodPanel = ({ foods, showModal }) => {
     color: '#837474'
   }
 
+  const tooltip = (obj, name) => {
+    if (!obj) {
+      return (
+        <Tooltip id="tooltip">
+          <strong>No added food for {name}</strong>
+        </Tooltip>
+      )
+    } else {
+      return (
+        <span id='none'></span>
+      )
+    } 
+};
+
   const period = (name, totalCal, per) => {
     return (
       <Panel bsStyle="success" style={{margin:'0'}}>
@@ -74,10 +91,17 @@ export const LogFoodPanel = ({ foods, showModal }) => {
          <Col style={colStyle} xs={3}>
            <Row nogutter style={{justifyContent:'space-between'}}>
             <Col xs={5}>
+<OverlayTrigger
+onClick={ () => 
+  totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name] }) : false }
+placement="bottom"
+triger='focus'
+overlay={tooltip(totalIntake[name], name)}
+>
              <FontAwesome
                style={iconStyle}
-               name='info-circle'
-               onClick={() => showModal(INTAKELOG, {foods: totalIntake[name] })} />
+               name='info-circle' />
+            </OverlayTrigger>
             </Col>
             <Col xs={7}>
              {totalCal}
