@@ -22,7 +22,8 @@ import {
   getFoodLogSuccess,
   setDailyCal,
   setDailyCalSuccess,
-  setDailyCalFailure
+  setDailyCalFailure,
+  setDailyCalNoteRemove
 } from "../actions/index";
 
 class Dashboard extends Component {
@@ -45,9 +46,10 @@ constructor(props) {
 
   dailyCalChange(value) {
     const jwt = localStorage.getItem('jwt');
-    const userInfo = this.props.userInfo;
-    userInfo['daily_kcal'] = value;
-    this.props.setDailyCal(jwt, userInfo);
+    const request = {
+      'daily_kcal': value
+    };
+    this.props.setDailyCal(jwt, request);
   }
 
   componentDidMount() {
@@ -110,14 +112,19 @@ constructor(props) {
         <SearchBar/>
         <h1>This is Dashboard</h1>
         <h3>Hello, {userInfo.first_name}</h3>
-        <CalorieLimit 
-          value={userInfo['daily_kcal']}
-          onClick={this.dailyCalChange} />
+        <Row nogutter>
+         <Col xs={12} md={6}>
+         <CalorieLimit
+           value={userInfo['daily_kcal']}
+           onClick={this.dailyCalChange}
+           dailyCalUpSuccess={this.props.dailyCalUpSuccess}/>
+         </Col>
+         </Row>
         <button onClick={this.onSignOut}>Sign out</button>
         <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
         <Row nogutter>
          <Col xs={12} md={6}>
-          <FoodLog />  
+          <FoodLog />
          </Col>
         </Row>
         </Container>
@@ -159,11 +166,12 @@ const mapDispatchToProps = dispatch => {
     setDailyCal: (jwt, user) => dispatch(setDailyCal(jwt, user))
       .then(response => {
         if (!response.error) {
-          dispatch(setDailyCalSuccess(response.payload.data))
+          dispatch(setDailyCalSuccess(response.payload.data));
+          setTimeout(() => { dispatch(setDailyCalNoteRemove()) }, 3000)
         } else {
           dispatch(setDailyCalFailure(response.payload.response.data.message))
         }
-      }) 
+      })
   }
 }
 
@@ -171,6 +179,7 @@ const mapStateToProps = state => ({
   userInfo: state.dash.userInfo,
   suggestedFood: state.dash.suggestedFood,
   error: state.dash.error,
-  loading: state.dash.loading
+  loading: state.dash.loading,
+  dailyCalUpSuccess: state.dash.dailyCalUpSuccess
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

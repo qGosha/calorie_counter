@@ -12,7 +12,7 @@ export const DASHBOARDLOADED = "DASHBOARDLOADED";
 export const SETDAILYCAL = "SETDAILYCAL";
 export const SETDAILYCALSUCCESS = "SETDAILYCALSUCCESS";
 export const SETDAILYCALFAILURE = "SETDAILYCALFAILURE";
-
+export const SETDAILYCALNOTEREMOVE = "SETDAILYCALNOTEREMOVE";
 
 export const getUser = jwt => {
   const path = "me";
@@ -85,10 +85,15 @@ export const setDailyCal = (jwt, user) => {
 }
 
 export const setDailyCalSuccess = response => ({
-  type: SETDAILYCALSUCCESS,
-  payload: response
-});
+    type: SETDAILYCALSUCCESS,
+    payload: response
+  });
+
 export const setDailyCalFailure = response => ({
   type: SETDAILYCALFAILURE,
   payload: response
+});
+
+export const setDailyCalNoteRemove = response => ({
+  type: SETDAILYCALNOTEREMOVE
 });

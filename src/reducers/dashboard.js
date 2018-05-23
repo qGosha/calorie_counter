@@ -8,9 +8,18 @@ import {
   DASHBOARDLOADED,
   SETDAILYCAL,
   SETDAILYCALSUCCESS,
-  SETDAILYCALFAILURE } from '../actions/index';
+  SETDAILYCALFAILURE,
+  SETDAILYCALNOTEREMOVE } from '../actions/index';
 
-export function dash (state = {userInfo: false, loading: false, error: false, suggestedFood:false}, action) {
+  const initialState = {
+    userInfo: false,
+    loading: false,
+    error: false,
+    suggestedFood:false,
+    dailyCalUpSuccess: false
+  }
+
+export function dash (state = initialState, action) {
   switch (action.type) {
     case GETUSEROBJECT:
       return { ...state};
@@ -29,9 +38,11 @@ export function dash (state = {userInfo: false, loading: false, error: false, su
     case SETDAILYCAL:
       return { ...state }
     case SETDAILYCALSUCCESS:
-      return { ...state, userInfo: action.payload } 
+      return { ...state, userInfo: action.payload, dailyCalUpSuccess: true }
     case SETDAILYCALFAILURE:
-      return { ...state, error: action.payload}  
+      return { ...state, error: action.payload}
+    case SETDAILYCALNOTEREMOVE:
+      return { ...state, dailyCalUpSuccess: false}
     default:
       return state;
   }

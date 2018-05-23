@@ -3,7 +3,8 @@ import {
   Button,
   FormGroup,
   FormControl,
-  Panel
+  Panel,
+  Alert
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
 
@@ -20,23 +21,37 @@ export class CalorieLimit extends Component {
     this.setState({value});
   }
  render() {
+   const updateStatus = this.props.dailyCalUpSuccess ?
+     <Alert bsStyle="success">
+       <div>Daily calorie limit has been updated</div>
+   </Alert> : null;
   return(
+
    <Panel>
      <Panel.Heading>Your daily limit</Panel.Heading>
      <Panel.Body>
-       <FormGroup>
+       <Row nogutter>
+      <Col xs={5}>
+        <FormGroup>
          <FormControl
            type="text"
            value={this.state.value}
            autoComplete="off"
            onChange={this.onValueChange}
          />
-       </FormGroup> 
+        </FormGroup>
+       </Col>
+       <Col xs={7}>
        <Button
+         style={{marginLeft:'15px'}}
          onClick={() => this.props.onClick(this.state.value)}>
-         Submit</Button>
+         Save</Button>
+        </Col>
+        </Row>
+        {updateStatus}
      </Panel.Body>
-   </Panel>    
+   </Panel>
+
  )
 }
 }
