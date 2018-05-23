@@ -124,7 +124,8 @@ constructor(props) {
         <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
         <Row nogutter>
          <Col xs={12} md={6}>
-          <FoodLog />
+          <FoodLog 
+            value={userInfo['daily_kcal']}/>
          </Col>
         </Row>
         </Container>

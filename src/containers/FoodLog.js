@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TotalPanel } from '../components/totalPanel';
 import { LogFoodPanel } from '../components/logFoodPanel';
+import { ProgressPanel } from '../components/progressPanel';
 import {
  showModal
 } from "../actions/index";
@@ -29,8 +30,12 @@ constructor(props) {
       }
     }
     const totalDailyNutr = newDailyNutr(foods);
+    const totalDailyCal = totalDailyNutr['nf_calories'];
     return (
   <div>
+    <ProgressPanel
+    value={this.props.value} 
+    now={totalDailyCal}/>
     <TotalPanel
     foods={foods}
     showModal={this.props.showModal}
