@@ -95,7 +95,7 @@ export const LogFoodPanel = ({ foods, showModal }) => {
 onClick={ () => 
   totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name] }) : false }
 placement="bottom"
-triger='focus'
+triger='hover'
 overlay={tooltip(totalIntake[name], name)}
 >
              <FontAwesome

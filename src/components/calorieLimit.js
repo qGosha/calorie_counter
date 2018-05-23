@@ -7,7 +7,6 @@ import {
   Alert
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
-
 export class CalorieLimit extends Component {
   constructor(props){
     super(props);

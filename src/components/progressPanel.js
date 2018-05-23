@@ -4,14 +4,14 @@ import {
   ProgressBar 
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
+import { round } from '../helpers/help_functions';
 
 
 
 export const ProgressPanel =({value, now}) => {
   if(!value || !now) return null;
-  const nowCal = Math.round(now);
-  const val = Math.round(value);
-  const rest = Math.round(val - now); 
+
+  const rest = round(value - now); 
   const valueStyle = { fontWeight: 'bold'};
   const descrStyle = {
     fontSize: '1.2rem',
@@ -25,20 +25,22 @@ export const ProgressPanel =({value, now}) => {
    <Panel style={{ backgroundColor: '#eee'}}>
      <Row style={{ padding: '15px 5px 5px' }}>
     <Col style={{textAlign: 'left'}}>
-         <div style={valueStyle}>{nowCal}</div>
+         <div style={valueStyle}>{round(now)}</div>
       <div style={descrStyle}>Cal intake</div>
     </Col>
     <Col style={{textAlign: 'right'}}>
          <div style={valueStyle}>{rest}</div>
-      <div style={descrStyle}>Cal remaining</div>
+      <div style={descrStyle}>
+           {(value - now) > 0 ? 'Cal remaining' : 'Cal over'}
+      </div>
     </Col>
    </Row>
    <ProgressBar 
      striped
-     bsStyle={nowCal <= value ? 'success' : 'danger'}
-     now={nowCal}
+     bsStyle={now <= value ? 'success' : 'danger'}
+     now={round(now)}
      style={barStyle}
-     max={val}/>
+     max={round(value)}/>
    </Panel>
  )
 }
