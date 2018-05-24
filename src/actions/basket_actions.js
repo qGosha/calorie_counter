@@ -18,7 +18,7 @@ export const logBasketFood = (jwt, basket) => {
    const fullNutr = item['full_nutrients'].map( i => {
      const servQty = item['serving_qty'];
      const value = i['value'] ;
-     const multiplier = item['value'] ? item['value'] / servQty : servQty; 
+     const multiplier = item['value'] ? (item['value'] / servQty) : (servQty / servQty) ; 
      const servingWeight = item['serving_weight_grams'];
      const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
      const n = ((value / servingWeight) * currentWeight) * multiplier;

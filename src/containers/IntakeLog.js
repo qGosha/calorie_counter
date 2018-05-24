@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 
 const IntakeLog = props => {
   const foods = props.foods;
+  const title = props.title;
   const hideModal = props.hideModal;
   return (
     <Modal
@@ -22,13 +23,14 @@ const IntakeLog = props => {
       aria-labelledby="nutr-modal-title">
       <Modal.Header closeButton>
         <Modal.Title id="nutr-modal-title-lg">
-            Nutrition details
-           </Modal.Title>
+            { title } Total
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
        <DetailedNutrPanel
-          foodObj={foods}
-       isFromBasket={false}/>
+       foodObj={foods}
+       isFromBasket={false}
+       dailyCal={props.dailyCal}/>
       </Modal.Body>
       <Modal.Footer>
         <Button bsStyle="danger"
@@ -38,10 +40,14 @@ const IntakeLog = props => {
   )
 }
 
+const mapStateToProps = state => ({
+  dailyCal: state.dash.userInfo['daily_kcal']
+});
+
 const mapDispatchToProps = dispatch => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType))
   };
 };
 
-export default connect(null, mapDispatchToProps)(IntakeLog);
+export default connect(mapStateToProps, mapDispatchToProps)(IntakeLog);

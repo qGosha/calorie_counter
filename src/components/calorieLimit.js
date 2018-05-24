@@ -43,7 +43,7 @@ export class CalorieLimit extends Component {
        <Col xs={7}>
        <Button
          style={{marginLeft:'15px'}}
-         onClick={() => this.props.onClick(this.state.value)}>
+         onClick={() => this.props.onClick(+this.state.value || 2000)}>
          Save</Button>
         </Col>
         </Row>

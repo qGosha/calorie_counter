@@ -18,7 +18,7 @@ import { DETAILED_NUTR, BASKET, CONFIRM } from '../containers/Modal';
 import { v4 } from 'uuid';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
-  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log }) => {
+  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log}) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;

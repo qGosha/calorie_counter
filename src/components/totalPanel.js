@@ -20,7 +20,7 @@ export const TotalPanel = ({ foods, isFromLog, showModal, totalDailyNutr }) => {
       nogutter
       style={{cursor: isFromLog ? 'pointer' : 'auto'}}
       onClick={ () =>  isFromLog ?
-        showModal(INTAKELOG, { foods: totalDailyNutr }) : false }>
+        showModal(INTAKELOG, { foods: totalDailyNutr, title: 'Daily' }) : false }>
         <Col xs={12}>
          <Row nogutter className='calorie-total-row'>
            <span>Totat calories: </span>

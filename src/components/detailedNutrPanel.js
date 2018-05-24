@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { Image } from 'react-bootstrap';
 import { fixed, round } from '../helpers/help_functions';
 
-export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
+export const DetailedNutrPanel = ({ foodObj, isFromBasket, dailyCal }) => {
   const getNutrition = (nutr) => {
    const result = foodObj.full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
    return (result[0] && result[0].value) ? result[0].value : 0;
@@ -15,7 +15,7 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
   ? qty : foodObj.value;
 
   const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
-
+  const dailyCalMult = dailyCal / 2000;
   const servingUnit = foodObj.serving_unit;
   const foodName = foodObj.food_name;
   const servingWeight = round(foodObj.current_serving_weight || foodObj.serving_weight_grams);
@@ -23,13 +23,13 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
   const calorie = foodObj.nf_calories ? round(foodObj.nf_calories) : 0;
   const fat = fixed(foodObj.nf_total_fat);
   const calorieFromFat = round(fat * 9);
-  const fatDVP = round((calorieFromFat / 500) * 100);
+  const fatDVP = round((calorieFromFat / (600 * dailyCalMult)) * 100);
   const satFat = fixed(foodObj.nf_saturated_fat);
-  const satFatDVP = round((round(satFat * 9) / 170) * 100);
+  const satFatDVP = round((round(satFat * 9) / (170 * dailyCalMult)) * 100);
   const sodium = round(foodObj.nf_sodium);
   const sodiumDVP = round((sodium / 2300) * 100);
   const totalCarbs = round(foodObj.nf_total_carbohydrate);
-  const totalCarbsDVP = round((totalCarbs / 300) * 100);
+  const totalCarbsDVP = round((totalCarbs / (300 * dailyCalMult)) * 100);
   const protein = round(foodObj.nf_protein);
 
 
@@ -47,18 +47,18 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
   const potassium = condCalc(getNutrition(306), round);
   const potassiumDVP = round((potassium / 4250) * 100);
   const dietFiber = condCalc(getNutrition(291), fixed);
-  const dietFiberDVP = round((dietFiber / 25) * 100);
+  const dietFiberDVP = round(( dietFiber / ((dailyCal/1000) * 14) ) * 100);
   const sugar = condCalc(getNutrition(269), fixed);
-  const sugarDVP = round((sugar / 30) * 100);
+  const sugarDVP = round((sugar / (30 * dailyCalMult)) * 100);
   const vitaminAsum = condCalc(getNutrition(320), fixed);
   const vitaminCsum = condCalc(getNutrition(401), fixed);
   const calciumSum = condCalc(getNutrition(301), fixed);
   const ironSum = condCalc(getNutrition(303), fixed);
-  const vitaminA = round( (vitaminAsum / 900) * 100);
-  const vitaminC = round( (vitaminCsum / 90) * 100);
-  const calcium = round( (calciumSum / 1300) * 100);
-  const iron = round( (ironSum / 18) * 100);
-
+  const vitaminA = round((vitaminAsum / (900 * dailyCalMult)) * 100);
+  const vitaminC = round((vitaminCsum / (90 * dailyCalMult)) * 100);
+  const calcium = round((calciumSum / (1300 * dailyCalMult)) * 100);
+  const iron = round((ironSum / (18 * dailyCalMult)) * 100);
+ 
   const basketSection = (
       <Row nogutter style={{padding: '10px'}}>
        <Col>
@@ -170,9 +170,7 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket }) => {
      </Row>
      <Row nogutter className='nutr-line nutr-bottom-text'>
       <Col>
-       <span>
-        * Percent Daily Values are based on a 2000 calorie diet.
-       </span>
+       <span>* Percent Daily Values are based on a {dailyCal} calorie diet.</span>
       </Col>
      </Row>
      </Col>

@@ -69,17 +69,11 @@ export const LogFoodPanel = ({ foods, showModal }) => {
   }
 
   const tooltip = (obj, name) => {
-    if (!obj) {
       return (
-        <Tooltip id="tooltip">
+        <Tooltip id="tooltip" style={{ display: obj ? 'none': 'auto'}}>
           <strong>No added food for {name}</strong>
         </Tooltip>
       )
-    } else {
-      return (
-        <span id='none'></span>
-      )
-    } 
 };
 
   const period = (name, totalCal, per) => {
@@ -91,13 +85,13 @@ export const LogFoodPanel = ({ foods, showModal }) => {
          <Col style={colStyle} xs={3}>
            <Row nogutter style={{justifyContent:'space-between'}}>
             <Col xs={5}>
-<OverlayTrigger
-onClick={ () => 
-  totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name] }) : false }
-placement="bottom"
-triger='hover'
-overlay={tooltip(totalIntake[name], name)}
->
+            <OverlayTrigger
+            onClick={ () => 
+              totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name], title: name}) : false }
+            placement="bottom"
+            triger='hover'
+            overlay={tooltip(totalIntake[name], name)}
+            >
              <FontAwesome
                style={iconStyle}
                name='info-circle' />

@@ -29,7 +29,8 @@ const DetailedNutr = props => {
       <Modal.Body>
        <DetailedNutrPanel
        foodObj={basketItem}
-       isFromBasket={true}/>
+       isFromBasket={true}
+       dailyCal={props.dailyCal}/>
       </Modal.Body>
       <Modal.Footer>
         <Button bsStyle="danger"
@@ -45,6 +46,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => ({
-  basket: state.basket
+  basket: state.basket,
+  dailyCal: state.dash.userInfo['daily_kcal']
 });
 export default connect(mapStateToProps, mapDispatchToProps)(DetailedNutr);
