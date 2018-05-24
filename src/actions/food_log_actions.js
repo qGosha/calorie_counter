@@ -3,9 +3,12 @@ import axios from "axios";
 export const GETFOODLOG = "GETFOODLOG";
 export const GETFOODLOGSUCCESS = "GETFOODLOGSUCCESS";
 export const GETFOODLOGFAILURE = "GETFOODLOGFAILURE";
+export const DELETEFOODLOGITEM = "DELETEFOODLOGITEM";
+export const DELETEFOODLOGITEMFAILURE = "DELETEFOODLOGITEMFAILURE";
 
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
+const jwt = localStorage.getItem('jwt');
 
 export const getFoodLog = jwt => {
   const headers = {
@@ -50,5 +53,29 @@ export const getFoodLogSuccess = response => ({
 
 export const getFoodLogFailure = response => ({
   type: GETFOODLOGFAILURE,
+  payload: response
+})
+
+export const deleteFoodLogItem = item => {
+  const headers = {
+    ["x-user-jwt"]: jwt
+  }
+  const obj = {
+    foods: [{id: item['id']}]
+  }
+  const response = axios({
+    method: "DELETE",
+    url: ROOT_URL + "log",
+    headers,
+    data: obj
+  });
+  return {
+    type: DELETEFOODLOGITEM,
+    payload: response
+  }
+}
+
+export const deleteFoodLogItemFailure = response => ({
+  type: DELETEFOODLOGITEMFAILURE,
   payload: response
 })

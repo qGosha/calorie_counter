@@ -4,9 +4,9 @@ import {
   ListGroupItem,
   Image
 } from 'react-bootstrap';
+import { INTAKELOG } from '../containers/Modal';
 
-
-export const FoodListItem = ({ foods, addToBasket }) => {
+export const FoodListItem = ({ foods, addToBasket, showModal }) => {
   if(!foods || !foods.length) return null;
     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
 
@@ -21,8 +21,9 @@ export const FoodListItem = ({ foods, addToBasket }) => {
         <ListGroupItem
           key={foodItem.id}
           className='food-item'
-          onClick={ () => addToBasket(foodItem) }>
-          <Image src={foodItem.photo.thumb || foodAvatarUrl}
+          onClick={() => 
+            showModal ? showModal(INTAKELOG, { foods: foodItem, title: 'Edit food', isFromFoodItem: true}) : addToBasket(foodItem) }>
+          <Image src={ foodItem.photo.thumb || foodAvatarUrl }
           alt='food'
           className='food-image'
           />

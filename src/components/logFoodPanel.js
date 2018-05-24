@@ -105,7 +105,9 @@ export const LogFoodPanel = ({ foods, showModal }) => {
         </Row>
         </Panel.Heading>
         <ListGroup>
-          <FoodListItem foods={per} />
+          <FoodListItem 
+          foods={per} 
+          showModal={showModal}/>
         </ListGroup>
       </Panel>
     )

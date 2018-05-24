@@ -4,7 +4,12 @@ import {
   Button,
 } from 'react-bootstrap';
 import {
-  hideModal
+  hideModal,
+  getFoodLog,
+  getFoodLogSuccess,
+  getFoodLogFailure,
+  deleteFoodLogItem,
+  deleteFoodLogItemFailure
 } from "../actions/index";
 import '../style/nutr_details.css';
 import { INTAKELOG } from '../containers/Modal';
@@ -14,7 +19,16 @@ import { connect } from "react-redux";
 const IntakeLog = props => {
   const foods = props.foods;
   const title = props.title;
+  const isFromFoodItem = props.isFromFoodItem;
   const hideModal = props.hideModal;
+  const deleteFoodLogItem = props.deleteFoodLogItem;
+
+  const deleteButton = isFromFoodItem ? <Button bsStyle="danger"
+    onClick={() => deleteFoodLogItem(foods)}>Delete</Button> : null;
+
+  const copyButton = isFromFoodItem ? <Button bsStyle="info"
+        onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
+       
   return (
     <Modal
       show={true}
@@ -33,7 +47,9 @@ const IntakeLog = props => {
        dailyCal={props.dailyCal}/>
       </Modal.Body>
       <Modal.Footer>
-        <Button bsStyle="danger"
+        {deleteButton}
+        {copyButton}
+        <Button
           onClick={() => hideModal(INTAKELOG)}>Close</Button>
       </Modal.Footer>
     </Modal>
@@ -46,7 +62,24 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    hideModal: modalType => dispatch(hideModal(modalType))
+    hideModal: modalType => dispatch(hideModal(modalType)),
+    deleteFoodLogItem: item => {
+      dispatch(deleteFoodLogItem(item)).then( response => {
+        if (!response.error) { 
+          const jwt = localStorage.getItem('jwt');
+          dispatch(getFoodLog(jwt)).then(response => {
+            if (!response.error) {
+              dispatch(getFoodLogSuccess(response.payload.data.foods));
+              dispatch(hideModal(INTAKELOG));
+            } else {
+              dispatch(getFoodLogFailure(response.payload.response.data.message))
+            }
+          }) 
+          } else {
+           dispatch(deleteFoodLogItemFailure())  
+          } 
+      }) 
+    }
   };
 };
 
