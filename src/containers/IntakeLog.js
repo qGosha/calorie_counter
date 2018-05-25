@@ -24,8 +24,14 @@ constructor(props) {
   this.state = {
     foods: this.props.foods
   }
+  this.onQtyChange = this.onQtyChange.bind(this);
 }
-
+  onQtyChange(event) {
+    const value = event.target.value;
+    const foods = this.state.foods;
+    foods['serving_qty'] = value;
+    this.setState({foods});
+  }
 render() {
   const foods = this.state.foods;
   const props = this.props;
@@ -47,7 +53,9 @@ render() {
   const copyButton = isFromFoodItem ? <Button bsStyle="info"
     onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
 
-  const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem foods={[foods]}/> : null;
+  const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem 
+    foods={[foods]}
+    onQtyChange={this.onQtyChange}/> : null;
 
   return (
     <Modal

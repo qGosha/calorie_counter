@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import { INTAKELOG } from '../containers/Modal';
 
-export const FoodListItem = ({ foods, addToBasket, showModal }) => {
+export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => {
   if(!foods || !foods.length) return null;
     const foodAvatarUrl = 'https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png';
 
@@ -25,12 +25,16 @@ export const FoodListItem = ({ foods, addToBasket, showModal }) => {
       const style = {
         cursor: (!showModal && !addToBasket) ? 'default' : 'pointer'
       }
+      const listGroup = <div className='food-description-group-1'>
+        <span className='food-name'>{foodName} </span>
+        <span className='food-size'>{`${brandName ? brandName + ',' : ''} ${servingQty} ${servingUnit}`}</span>
+      </div>;
 
-      const qty = (!showModal && !addToBasket) ? <FormControl
+      const qty = (!showModal && !addToBasket) ? <span><FormControl
         type="text"
+        style={{maxWidth: '70px'}}
         value={servingQty}
-        // onChange={(event) => onQtyChange(event, i)}
-        /> : servingQty
+        onChange={(event) => onQtyChange(event)} /> {servingUnit} of {foodName}</span> : listGroup
 
       return  (
         <ListGroupItem
@@ -43,10 +47,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal }) => {
           className='food-image'
           />
           <div className='food-description'>
-           <div className='food-description-group-1'>
-            <span className='food-name'>{foodName} </span>
-            <span className='food-size'>{`${brandName ? brandName + ',' : ''} ${qty} ${servingUnit}`}</span>
-           </div>
+          {qty}
            { ifCaloried ? <div className='food-description-group-2'>
             <span className='food-calorie'>{calorie}</span>
             <span className='food-calorie-name'>cal</span>
