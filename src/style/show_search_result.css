@@ -1,5 +1,6 @@
-#dropdown-menu .food-item, 
+#dropdown-menu .food-item,
 #tabs-with-dropdown .food-item,
+.modal-dialog .food-item,
 .food-log-panel .food-item {
   display: flex;
   flex-direction: row;
@@ -87,4 +88,3 @@
   flex-direction: row;
   justify-content: space-between;
 }
-

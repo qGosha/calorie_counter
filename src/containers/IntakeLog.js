@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   Button,
@@ -9,26 +9,46 @@ import {
   getFoodLogSuccess,
   getFoodLogFailure,
   deleteFoodLogItem,
-  deleteFoodLogItemFailure
+  deleteFoodLogItemFailure,
+  showModal
 } from "../actions/index";
 import '../style/nutr_details.css';
-import { INTAKELOG } from '../containers/Modal';
+import { INTAKELOG, CONFIRM } from '../containers/Modal';
 import { DetailedNutrPanel } from '../components/detailedNutrPanel'
+import { FoodListItem } from '../components/foodListItem';
 import { connect } from "react-redux";
 
-const IntakeLog = props => {
-  const foods = props.foods;
+class IntakeLog extends Component {
+constructor(props) {
+  super(props);
+  this.state = {
+    foods: this.props.foods
+  }
+}
+
+render() {
+  const foods = this.state.foods;
+  const props = this.props;
   const title = props.title;
   const isFromFoodItem = props.isFromFoodItem;
   const hideModal = props.hideModal;
   const deleteFoodLogItem = props.deleteFoodLogItem;
+  const showModal = props.showModal;
+  const jwt = localStorage.getItem('jwt');
+  const confirmText = 'Are you sure you want to delete this item?';
 
-  const deleteButton = isFromFoodItem ? <Button bsStyle="danger"
-    onClick={() => deleteFoodLogItem(foods)}>Delete</Button> : null;
+  const deleteButton = isFromFoodItem ?
+    <Button bsStyle="danger"
+     onClick={ () => showModal(CONFIRM, {
+     text: confirmText,
+     confirmFunk: () => this.props.deleteFoodLogItem(jwt, foods)
+   }) } >Delete</Button> : null;
 
   const copyButton = isFromFoodItem ? <Button bsStyle="info"
-        onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
-       
+    onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
+
+  const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem foods={[foods]}/> : null;
+
   return (
     <Modal
       show={true}
@@ -41,6 +61,7 @@ const IntakeLog = props => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      {qtyPanelAdjust}
        <DetailedNutrPanel
        foodObj={foods}
        isFromBasket={false}
@@ -55,6 +76,7 @@ const IntakeLog = props => {
     </Modal>
   )
 }
+}
 
 const mapStateToProps = state => ({
   dailyCal: state.dash.userInfo['daily_kcal']
@@ -63,23 +85,23 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType)),
-    deleteFoodLogItem: item => {
+    deleteFoodLogItem: (jwt, item) => {
       dispatch(deleteFoodLogItem(item)).then( response => {
-        if (!response.error) { 
-          const jwt = localStorage.getItem('jwt');
+        if (!response.error) {
+          dispatch(hideModal(INTAKELOG));
           dispatch(getFoodLog(jwt)).then(response => {
             if (!response.error) {
               dispatch(getFoodLogSuccess(response.payload.data.foods));
-              dispatch(hideModal(INTAKELOG));
             } else {
               dispatch(getFoodLogFailure(response.payload.response.data.message))
             }
-          }) 
+          })
           } else {
-           dispatch(deleteFoodLogItemFailure())  
-          } 
-      }) 
-    }
+           dispatch(deleteFoodLogItemFailure())
+          }
+      })
+    },
+    showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps))
   };
 };
 
