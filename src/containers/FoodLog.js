@@ -6,7 +6,7 @@ import { ProgressPanel } from '../components/progressPanel';
 import {
  showModal
 } from "../actions/index";
-import { totalNutrients, total } from '../helpers/help_functions';
+import { totalNutrients, total, getFullNutrition } from '../helpers/help_functions';
 
 
 class FoodLog extends Component {
@@ -24,7 +24,8 @@ constructor(props) {
       }
     }
     const totalDailyNutr = newDailyNutr(foods);
-    const totalDailyCal = totalDailyNutr['nf_calories'];
+    const totalDailyCal = totalDailyNutr['full_nutrients'] ? totalDailyNutr['full_nutrients']
+    .filter( a => a['attr_id'] === 208)[0]['value'] : 0
     return (
   <div>
     <ProgressPanel

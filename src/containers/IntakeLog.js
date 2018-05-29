@@ -29,16 +29,19 @@ constructor(props) {
   onQtyChange(event) {
     const foods = this.state.foods;
     const newValue = event.target.value;
-    const oldValue = foods['serving_qty'];
-    const fullNutr = foods['full_nutrients'].map(i => {
-      const n = i['value'] * (newValue / oldValue);
-    return {
-        attr_id: i['attr_id'],
-        value: n
-      }
-    })
-    foods['serving_qty'] = newValue;
-    foods['full_nutrients'] = fullNutr;
+    if (!(isNaN(parseInt(newValue)) || isNaN(newValue) || !newValue)) {
+      const oldValue = foods['serving_qty'];
+      const fullNutr = foods['full_nutrients'].map(i => {
+        const n = i['value'] * (newValue / oldValue);
+        return {
+          attr_id: i['attr_id'],
+          value: n
+        }
+      })
+      foods['serving_qty'] = newValue;
+      foods['full_nutrients'] = fullNutr;
+    }
+    
     this.setState({foods});
   }
 render() {

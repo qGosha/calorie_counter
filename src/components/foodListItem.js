@@ -26,6 +26,10 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
       const style = {
         cursor: (!showModal && !addToBasket) ? 'default' : 'pointer'
       }
+      const inputStyle = {
+        maxWidth: '70px',
+        textAlign: 'center'
+      }
       const listGroup = <div className='food-description-group-1'>
         <span className='food-name'>{foodName} </span>
         <span className='food-size'>{`${brandName ? brandName + ',' : ''} ${servingQty} ${servingUnit}`}</span>
@@ -33,7 +37,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
 
       const qty = (!showModal && !addToBasket) ? <span><FormControl
         type="text"
-        style={{maxWidth: '70px'}}
+        style={inputStyle}
         value={servingQty}
         onChange={(event) => onQtyChange(event)} /> {servingUnit} of {foodName}</span> : listGroup
 
