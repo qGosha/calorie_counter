@@ -43,3 +43,8 @@ export const fixed = (item) => {
   if(!item) return 0;
   return Math.abs(item.toFixed(1))
 };
+
+export const getFullNutrition = (nutr, obj) => {
+  const result = obj['full_nutrients'].filter(a => { if (a.attr_id === nutr) return a });
+  return (result[0] && result[0].value) ? result[0].value : 0;
+}

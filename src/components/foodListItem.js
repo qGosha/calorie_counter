@@ -6,6 +6,7 @@ import {
   FormControl
 } from 'react-bootstrap';
 import { INTAKELOG } from '../containers/Modal';
+import { round, getFullNutrition } from '../helpers/help_functions';
 
 export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => {
   if(!foods || !foods.length) return null;
@@ -16,7 +17,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
       const brandName = foodItem.brand_name || '';
       const servingQty = foodItem.serving_qty || '';
       const servingUnit = foodItem.serving_unit || '';
-      const calorie = foodItem.nf_calories ? Math.round(foodItem.nf_calories) : 0;
+      const calorie = foodItem.full_nutrients ? round(getFullNutrition(208, foodItem)) : 0;
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       const clickFunc = () => {
           showModal ? showModal(INTAKELOG, { foods: foodItem, title: 'Edit food', isFromFoodItem: true}) :

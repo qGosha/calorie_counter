@@ -3,12 +3,11 @@ import React from 'react';
 import '../style/nutr_details.css';
 import { Container, Row, Col } from 'react-grid-system';
 import { Image } from 'react-bootstrap';
-import { fixed, round } from '../helpers/help_functions';
+import { fixed, round, getFullNutrition } from '../helpers/help_functions';
 
 export const DetailedNutrPanel = ({ foodObj, isFromBasket, dailyCal }) => {
   const getNutrition = (nutr) => {
-   const result = foodObj.full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
-   return (result[0] && result[0].value) ? result[0].value : 0;
+    return getFullNutrition(nutr, foodObj);
   }
   const qty =  foodObj.serving_qty;
   const value = (foodObj.value === undefined || isNaN(parseInt(foodObj.value)) || isNaN(foodObj.value))
@@ -20,17 +19,16 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket, dailyCal }) => {
   const foodName = foodObj.food_name;
   const servingWeight = round(foodObj.current_serving_weight || foodObj.serving_weight_grams);
   const brandName = foodObj.brand_name ? <p className='nutr-brand-name'>{foodObj.brand_name}</p> : null;
-  const calorie = foodObj.nf_calories ? round(foodObj.nf_calories) : 0;
-  const fat = fixed(foodObj.nf_total_fat);
-  const calorieFromFat = round(fat * 9);
-  const fatDVP = round((calorieFromFat / (600 * dailyCalMult)) * 100);
-  const satFat = fixed(foodObj.nf_saturated_fat);
-  const satFatDVP = round((round(satFat * 9) / (170 * dailyCalMult)) * 100);
-  const sodium = round(foodObj.nf_sodium);
-  const sodiumDVP = round((sodium / 2300) * 100);
-  const totalCarbs = round(foodObj.nf_total_carbohydrate);
-  const totalCarbsDVP = round((totalCarbs / (300 * dailyCalMult)) * 100);
-  const protein = round(foodObj.nf_protein);
+
+  // const calorie = round(foodObj.nf_calories);
+  // const fat = fixed(foodObj.nf_total_fat);
+  // const calorieFromFat = round(fat * 9);
+  // const satFat = fixed(foodObj.nf_saturated_fat);
+  // const sodium = round(foodObj.nf_sodium);
+  // const totalCarbs = round(foodObj.nf_total_carbohydrate);
+  // const protein = round(foodObj.nf_protein);
+
+
 
 
   const multiplier = (value / qty) || 0;
@@ -39,6 +37,22 @@ export const DetailedNutrPanel = ({ foodObj, isFromBasket, dailyCal }) => {
   const condCalc = (nutr, func) => {
     return isFromBasket ? func( ((nutr/foodObj.serving_weight_grams) * servingWeight) * multiplier) : func(nutr);
   }
+
+
+  const calorie = condCalc(getNutrition(208), round);
+  const fat = condCalc(getNutrition(204), fixed);
+  const calorieFromFat = round(fat * 9);
+  const satFat = condCalc(getNutrition(606), fixed);
+  const sodium = condCalc(getNutrition(307), round);
+  const totalCarbs = condCalc(getNutrition(205), round);
+  const protein = condCalc(getNutrition(203), round);
+
+  const satFatDVP = round((round(satFat * 9) / (170 * dailyCalMult)) * 100);
+  const fatDVP = round((calorieFromFat / (600 * dailyCalMult)) * 100);
+  const sodiumDVP = round((sodium / 2300) * 100);
+  const totalCarbsDVP = round((totalCarbs / (300 * dailyCalMult)) * 100);
+
+
   const transFat = condCalc(getNutrition(605), fixed);
   const polysatFat = condCalc(getNutrition(646), fixed);
   const monosatFat = condCalc(getNutrition(645), fixed);
