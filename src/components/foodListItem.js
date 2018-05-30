@@ -34,7 +34,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
         type="text"
         style={{maxWidth: '70px'}}
         value={servingQty}
-        onChange={(event) => onQtyChange(event)} /> {servingUnit} of {foodName}</span> : listGroup
+        onChange={(event) => onQtyChange(event)} /> {servingUnit}  {foodName}</span> : listGroup
 
       return  (
         <ListGroupItem

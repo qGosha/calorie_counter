@@ -53,7 +53,7 @@ render() {
   const copyButton = isFromFoodItem ? <Button bsStyle="info"
     onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
 
-  const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem 
+  const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem
     foods={[foods]}
     onQtyChange={this.onQtyChange}/> : null;
 
