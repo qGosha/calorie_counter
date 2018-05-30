@@ -10,13 +10,15 @@ import {
   getFoodLogFailure,
   deleteFoodLogItem,
   deleteFoodLogItemFailure,
-  showModal
+  showModal,
+  setNewBasket
 } from "../actions/index";
 import '../style/nutr_details.css';
-import { INTAKELOG, CONFIRM } from '../containers/Modal';
+import { INTAKELOG, CONFIRM, BASKET } from '../containers/Modal';
 import { DetailedNutrPanel } from '../components/detailedNutrPanel'
 import { FoodListItem } from '../components/foodListItem';
 import { connect } from "react-redux";
+import { v4 } from 'uuid';
 
 class IntakeLog extends Component {
 constructor(props) {
@@ -25,6 +27,7 @@ constructor(props) {
     foods: this.props.foods
   }
   this.onQtyChange = this.onQtyChange.bind(this);
+  this.renewBasket = this.renewBasket.bind(this);
 }
   onQtyChange(event) {
     const foods = this.state.foods;
@@ -50,6 +53,32 @@ constructor(props) {
     }
   }
 
+  renewBasket(item) {
+      // let checkedBasked;
+      // if (basket && basket.length) {
+      //   checkedBasked = basket.map((item, i) => {
+      //     const itemQty = item.value;
+      //     if (itemQty === undefined) return item;
+      //     if (!(!isNaN(+itemQty) && isFinite(+itemQty))) {
+      //       item.value = basket[i].last_good_value || 0;
+      //     }
+      //     return item;
+      //   })
+      // } else {
+      //   checkedBasked = basket
+      // };
+      const basket = this.props.basket;
+      item.id = v4();
+      const newBasket = basket.concat(item);
+      this.props.hideModal(INTAKELOG);
+      this.props.setNewBasket(newBasket);
+      this.props.showModal(BASKET);
+      // const newBasketForStorage = JSON.stringify(checkedBasked);
+      // localStorage.setItem('basket', newBasketForStorage);
+
+  }
+
+
 render() {
   const foods = this.state.foods;
   const props = this.props;
@@ -69,7 +98,8 @@ render() {
    }) } >Delete</Button> : null;
 
   const copyButton = isFromFoodItem ? <Button bsStyle="info"
-    onClick={() => hideModal(INTAKELOG)}>Copy</Button> : null;
+    onClick={() => this.renewBasket(foods)}>Copy</Button> : null;
+
 
   const qtyPanelAdjust =  isFromFoodItem ? <FoodListItem
     foods={[foods]}
@@ -105,7 +135,8 @@ render() {
 }
 
 const mapStateToProps = state => ({
-  dailyCal: state.dash.userInfo['daily_kcal']
+  dailyCal: state.dash.userInfo['daily_kcal'],
+  basket: state.basket
 });
 
 const mapDispatchToProps = dispatch => {
@@ -127,7 +158,8 @@ const mapDispatchToProps = dispatch => {
           }
       })
     },
-    showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps))
+    showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps)),
+    setNewBasket: (basket) => dispatch(setNewBasket(basket))
   };
 };
 
