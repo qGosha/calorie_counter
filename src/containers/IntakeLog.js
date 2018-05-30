@@ -29,21 +29,27 @@ constructor(props) {
   onQtyChange(event) {
     const foods = this.state.foods;
     const newValue = event.target.value;
-    if (!(isNaN(parseInt(newValue)) || isNaN(newValue) || !newValue)) {
-      const oldValue = foods['serving_qty'];
-      const fullNutr = foods['full_nutrients'].map(i => {
-        const n = i['value'] * (newValue / oldValue);
-        return {
-          attr_id: i['attr_id'],
-          value: n
-        }
-      })
+    const oldValue = foods['serving_qty'];
+    const isnan = (value) => isNaN(parseInt(value)) || isNaN(value) || !(+value);
+    if(isnan(newValue)) {
       foods['serving_qty'] = newValue;
-      foods['full_nutrients'] = fullNutr;
+      if(!foods['last_good__qty']) foods['last_good__qty'] = oldValue;
+      this.setState({foods});
+    } else {
+      const fullNutr = foods['full_nutrients'].map(i => {
+          const n = i['value'] * (newValue / (isnan(oldValue) ? foods['last_good__qty'] : oldValue));
+          return {
+            attr_id: i['attr_id'],
+            value: n
+          }
+        })
+        foods['last_good__qty'] = newValue;
+        foods['serving_qty'] = newValue;
+        foods['full_nutrients'] = fullNutr;
+      this.setState({foods});
     }
-    
-    this.setState({foods});
   }
+
 render() {
   const foods = this.state.foods;
   const props = this.props;
