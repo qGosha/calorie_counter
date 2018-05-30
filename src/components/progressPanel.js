@@ -9,7 +9,9 @@ import { round } from '../helpers/help_functions';
 
 
 export const ProgressPanel =({value, now}) => {
-  if(!value || !now) return null;
+  if(!value) value = 0;
+  if (!now) now = 0;
+
 
   const rest = round(value - now); 
   const valueStyle = { fontWeight: 'bold'};
