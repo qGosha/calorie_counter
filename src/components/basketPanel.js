@@ -16,6 +16,7 @@ import FontAwesome from 'react-fontawesome';
 import SearchBar from '../containers/search-bar'
 import { DETAILED_NUTR, BASKET, CONFIRM } from '../containers/Modal';
 import { v4 } from 'uuid';
+import { round, getFullNutrition } from '../helpers/help_functions';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
   onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log}) => {
@@ -29,7 +30,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
       const qty =  (basketItem.value === undefined) ? basketItem.serving_qty : basketItem.value;
       const altMesures = basketItem.alt_measures;
       const foodName = basketItem.food_name;
-      const calorie = basketItem.nf_calories ? Math.abs(Math.round(basketItem.nf_calories)) : 0;
+      const calorie = basketItem.full_nutrients ? round(getFullNutrition(208, basketItem)) : 0;
       const options = altMesures ? altMesures.map( (option, j) => {
         const value = option.measure;
         return <option key={v4()} value={value}>{value}</option>

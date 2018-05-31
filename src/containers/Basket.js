@@ -58,28 +58,42 @@ onMeasureChange(event,id) {
   const index = event.target.selectedIndex;
 
   const servWeight = basket[id].alt_measures[index].serving_weight;
-
-  const foodWeight = basket[id].serving_weight_grams;
-  const resultCal = (getNutrition(208)/foodWeight) * servWeight;
-  const resultProt = (getNutrition(203)/foodWeight) * servWeight;
-  const resultFat = (getNutrition(204)/foodWeight) * servWeight;
-  const resultCarbs = (getNutrition(205)/foodWeight) * servWeight;
-  const resultSodium = (getNutrition(307)/foodWeight) * servWeight;
-  const resultSatFat = (getNutrition(606)/foodWeight) * servWeight;
-
   const newQty = basket[id].alt_measures[index].qty;
+  const foodWeight = basket[id].serving_weight_grams;
+  const fullBasketNutr = basket[id]['full_nutrients'];
+  const fullNutr = fullBasketNutr.map( i => {
+    const value = i['value'] ;
+    // const multiplier = item['value'] ? (item['value'] / newQty) : (newQty / newQty) ;
+    // const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
+    const n = (value / (basket[id].last_good_value * foodWeight)) * servWeight;
+     return {
+       attr_id: i['attr_id'],
+       value: n
+     }
+   })
+
+  // const resultCal = (getNutrition(208)/foodWeight) * servWeight;
+  // const resultProt = (getNutrition(203)/foodWeight) * servWeight;
+  // const resultFat = (getNutrition(204)/foodWeight) * servWeight;
+  // const resultCarbs = (getNutrition(205)/foodWeight) * servWeight;
+  // const resultSodium = (getNutrition(307)/foodWeight) * servWeight;
+  // const resultSatFat = (getNutrition(606)/foodWeight) * servWeight;
+
+
   const weightMultiplier = servWeight / newQty;
 
-  basket[id].nf_calories = resultCal;
-  basket[id].nf_protein = resultProt;
-  basket[id].nf_total_fat = resultFat;
-  basket[id].nf_total_carbohydrate = resultCarbs;
-  basket[id].nf_sodium = resultSodium;
-  basket[id].nf_saturated_fat = resultSatFat;
-
+  // basket[id].nf_calories = resultCal;
+  // basket[id].nf_protein = resultProt;
+  // basket[id].nf_total_fat = resultFat;
+  // basket[id].nf_total_carbohydrate = resultCarbs;
+  // basket[id].nf_sodium = resultSodium;
+  // basket[id].nf_saturated_fat = resultSatFat;
+  basket[id].full_nutrients = fullNutr;
   basket[id].serving_unit = value;
-  basket[id].current_serving_weight = servWeight;
+  basket[id].serving_weight_grams = servWeight;
+  // basket[id].current_serving_weight = servWeight;
   basket[id].value = newQty;
+  // basket[id].last_good_value = newQty;
   basket[id].serving_qty = newQty;
   this.renewBasket(basket);
 }
@@ -96,33 +110,44 @@ onQtyChange(event, id) {
     this.renewBasket(basket);
     return;
   }
-  const servingWeight = basket[id].current_serving_weight || basket[id].serving_weight_grams;
+  const servingWeight = basket[id].serving_weight_grams;
   const multiplier = (value / basket[id].serving_qty) || 0;
+  const fullBasketNutr = basket[id]['full_nutrients'];
+  const fullNutr = fullBasketNutr.map( i => {
+    const value = i['value'];
 
-  const calories = (getNutrition(208) / basket[id].serving_weight_grams) * servingWeight;
-  const protein = (getNutrition(203) / basket[id].serving_weight_grams) * servingWeight;
-  const fat = (getNutrition(204) / basket[id].serving_weight_grams) * servingWeight;
-  const carbs = (getNutrition(205) / basket[id].serving_weight_grams) * servingWeight;
-  const sodium = (getNutrition(307) / basket[id].serving_weight_grams) * servingWeight;
-  const satFat = (getNutrition(606) / basket[id].serving_weight_grams) * servingWeight;
-
-  const resultCal = multiplier * calories;
-  const resultProt = multiplier * protein;
-  const resultFat = multiplier * fat;
-  const resultCarbs = multiplier * carbs;
-  const resultSodium = multiplier * sodium;
-  const resultSatFat = multiplier * satFat;
+    const n = value * (multiplier / (basket[id].last_good_value || basket[id].serving_qty) );
+     return {
+       attr_id: i['attr_id'],
+       value: n
+     }
+   })
+  // const calories = (getNutrition(208) / basket[id].serving_weight_grams) * servingWeight;
+  // const protein = (getNutrition(203) / basket[id].serving_weight_grams) * servingWeight;
+  // const fat = (getNutrition(204) / basket[id].serving_weight_grams) * servingWeight;
+  // const carbs = (getNutrition(205) / basket[id].serving_weight_grams) * servingWeight;
+  // const sodium = (getNutrition(307) / basket[id].serving_weight_grams) * servingWeight;
+  // const satFat = (getNutrition(606) / basket[id].serving_weight_grams) * servingWeight;
+  //
+  // const resultCal = multiplier * calories;
+  // const resultProt = multiplier * protein;
+  // const resultFat = multiplier * fat;
+  // const resultCarbs = multiplier * carbs;
+  // const resultSodium = multiplier * sodium;
+  // const resultSatFat = multiplier * satFat;
 
   if(!isNaN(+value) && isFinite(+value)) {
     basket[id].last_good_value = Math.abs(+value);
   }
   basket[id].value = value;
-  basket[id].nf_protein = resultProt
-  basket[id].nf_calories = resultCal;
-  basket[id].nf_total_fat = resultFat;
-  basket[id].nf_total_carbohydrate = resultCarbs;
-  basket[id].nf_sodium = resultSodium;
-  basket[id].nf_saturated_fat = resultSatFat;
+  //
+  // basket[id].nf_protein = resultProt
+  // basket[id].nf_calories = resultCal;
+  // basket[id].nf_total_fat = resultFat;
+  // basket[id].nf_total_carbohydrate = resultCarbs;
+  // basket[id].nf_sodium = resultSodium;
+  // basket[id].nf_saturated_fat = resultSatFat;
+  basket[id].full_nutrients = fullNutr;
   this.renewBasket(basket);
 }
 
@@ -169,7 +194,7 @@ const mapDispatchToProps = (dispatch) => {
                  dispatch(getFoodLogSuccess(response.payload.data.foods))
                } else {
                  dispatch(getFoodLogFailure(response.payload.response.data.message))
-               } } )  
+               } } )
            .then( () => { dispatch(hideModal(BASKET)) } )
            .then( () => { localStorage.setItem('basket', '[]') })
         } else {
