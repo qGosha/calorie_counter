@@ -5,7 +5,8 @@ import { Container, Row, Col } from 'react-grid-system';
 import { Image } from 'react-bootstrap';
 import { fixed, round, getFullNutrition } from '../helpers/help_functions';
 
-export const DetailedNutrPanel = ({ foodObj, isFromBasket, dailyCal }) => {
+export const DetailedNutrPanel = ({ foodObj, dailyCal }) => {
+  const isFromBasket = false;
   const getNutrition = (nutr) => {
     return getFullNutrition(nutr, foodObj);
   }

@@ -61,11 +61,20 @@ onMeasureChange(event,id) {
   const newQty = basket[id].alt_measures[index].qty;
   const foodWeight = basket[id].serving_weight_grams;
   const fullBasketNutr = basket[id]['full_nutrients'];
+  const isFromFoodLog = basket[id]['isFromFoodLog'];
+  // const conditional = isFromFoodLog ? newQty : basket[id].serving_qty; 
+  const divider = (basket[id]['value'] || newQty) / basket[id].serving_qty;
   const fullNutr = fullBasketNutr.map( i => {
     const value = i['value'] ;
     // const multiplier = item['value'] ? (item['value'] / newQty) : (newQty / newQty) ;
     // const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
-    const n = (value / (basket[id].last_good_value * foodWeight)) * servWeight;
+    let n;
+    if (isFromFoodLog){
+      // n = (value / foodWeight / basket[id].serving_qty) * servWeight;
+      n = (value / foodWeight / (basket[id].value || basket[id].serving_qty)) * servWeight;
+    } else {
+      n = (value / (divider * foodWeight)) * servWeight;
+    }
      return {
        attr_id: i['attr_id'],
        value: n
@@ -88,12 +97,13 @@ onMeasureChange(event,id) {
   // basket[id].nf_total_carbohydrate = resultCarbs;
   // basket[id].nf_sodium = resultSodium;
   // basket[id].nf_saturated_fat = resultSatFat;
+  if (basket[id]['isFromFoodLog']) basket[id]['isFromFoodLog'] = undefined;
   basket[id].full_nutrients = fullNutr;
   basket[id].serving_unit = value;
   basket[id].serving_weight_grams = servWeight;
   // basket[id].current_serving_weight = servWeight;
   basket[id].value = newQty;
-  // basket[id].last_good_value = newQty;
+  basket[id].last_good_value =newQty;
   basket[id].serving_qty = newQty;
   this.renewBasket(basket);
 }
@@ -105,13 +115,13 @@ onQtyChange(event, id) {
   }
   const basket = this.props.basket;
   const value = event.target.value;
-  if(isNaN(parseInt(value)) || isNaN(value)) {
+  if (isNaN(parseInt(value)) || isNaN(value) || +value === 0) {
     basket[id].value = value;
     this.renewBasket(basket);
     return;
   }
   const servingWeight = basket[id].serving_weight_grams;
-  const multiplier = (value / basket[id].serving_qty) || 0;
+  const multiplier = (Math.abs(value)) || 0;
   const fullBasketNutr = basket[id]['full_nutrients'];
   const fullNutr = fullBasketNutr.map( i => {
     const value = i['value'];
@@ -136,10 +146,12 @@ onQtyChange(event, id) {
   // const resultSodium = multiplier * sodium;
   // const resultSatFat = multiplier * satFat;
 
-  if(!isNaN(+value) && isFinite(+value)) {
+  if(!isNaN(+value) && isFinite(+value) && +value > 0) {
     basket[id].last_good_value = Math.abs(+value);
   }
-  basket[id].value = value;
+  // if (basket[id]['isFromFoodLog']) basket[id]['isFromFoodLog'] = false;
+  basket[id].value = Math.abs(value);
+  
   //
   // basket[id].nf_protein = resultProt
   // basket[id].nf_calories = resultCal;

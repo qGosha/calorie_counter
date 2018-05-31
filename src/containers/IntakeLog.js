@@ -25,15 +25,14 @@ constructor(props) {
   super(props);
   this.state = {
     foods: false,
-    originalNutr: false
+    originalFoods: false
   }
   this.onQtyChange = this.onQtyChange.bind(this);
   this.renewBasket = this.renewBasket.bind(this);
 }
   componentDidMount() {
     const foods = this.props.foods;
-    const originalNutr = foods['full_nutrients'];
-    this.setState({ foods, originalNutr });
+    this.setState({ foods, originalFoods : foods});
   }
 
   onQtyChange(event) {
@@ -43,18 +42,18 @@ constructor(props) {
     const isnan = (value) => isNaN(parseInt(value)) || isNaN(value) || !(+value);
     if(isnan(newValue)) {
       newFoods['serving_qty'] = newValue;
-      if (!newFoods['last_good__qty']) newFoods['last_good__qty'] = oldValue;
+      if (!newFoods['last_good_value']) newFoods['last_good_value'] = oldValue;
       this.setState({ foods: newFoods});
     } else {
       const fullNutr = newFoods['full_nutrients'].map(i => {
-        const n = i['value'] * (newValue / (isnan(oldValue) ? newFoods['last_good__qty'] : oldValue));
+        const n = i['value'] * (newValue / (isnan(oldValue) ? newFoods['last_good_value'] : oldValue));
           return {
             attr_id: i['attr_id'],
             value: n
           }
         })
-      newFoods['last_good__qty'] = newValue;
-      newFoods['serving_weight_grams'] = newFoods['serving_weight_grams'] * (newValue / (isnan(oldValue) ? newFoods['last_good__qty'] : oldValue));
+      newFoods['last_good_value'] = newValue;
+      // newFoods['serving_weight_grams'] = newFoods['serving_weight_grams'] * (newValue / (isnan(oldValue) ? newFoods['last_good_value'] : oldValue));
       newFoods['serving_qty'] = newValue;
       newFoods['full_nutrients'] = fullNutr;
       this.setState({ foods: newFoods});
@@ -75,8 +74,19 @@ constructor(props) {
       // } else {
       //   checkedBasked = basket
       // };
+    const fullNutr = item['full_nutrients'].map(i => {
+      const n = i['value'] * (this.state.originalFoods['serving_qty'] / this.state.foods['serving_qty']);
+      return {
+        attr_id: i['attr_id'],
+        value: n
+      }
+    })
       const basket = this.props.basket;
-      const newItem = { ...item, id: v4(), full_nutrients: this.state.originalNutr};
+      const newItem = { ...item, id: v4(), 
+        full_nutrients: this.state.foods['full_nutrients'], 
+        // serving_qty: this.state.originalFoods['serving_qty'],
+        isFromFoodLog: true 
+        };
       const newBasket = basket.concat(newItem);
       this.props.hideModal(INTAKELOG);
       this.props.setNewBasket(newBasket);
