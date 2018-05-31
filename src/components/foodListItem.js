@@ -20,8 +20,11 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
       const calorie = foodItem.full_nutrients ? round(getFullNutrition(208, foodItem)) : 0;
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       const clickFunc = () => {
-          showModal ? showModal(INTAKELOG, { foods: foodItem, title: 'Edit food', isFromFoodItem: true}) :
+        if (showModal) {
+          showModal(INTAKELOG, { foods: foodItem, title: 'Edit food', isFromFoodItem: true })
+        } else {
           addToBasket ? addToBasket(foodItem) : false;
+        }
         }
       const style = {
         cursor: (!showModal && !addToBasket) ? 'default' : 'pointer'

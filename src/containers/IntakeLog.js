@@ -24,32 +24,40 @@ class IntakeLog extends Component {
 constructor(props) {
   super(props);
   this.state = {
-    foods: this.props.foods
+    foods: false,
+    originalNutr: false
   }
   this.onQtyChange = this.onQtyChange.bind(this);
   this.renewBasket = this.renewBasket.bind(this);
 }
+  componentDidMount() {
+    const foods = this.props.foods;
+    const originalNutr = foods['full_nutrients'];
+    this.setState({ foods, originalNutr });
+  }
+
   onQtyChange(event) {
-    const foods = this.state.foods;
+    const newFoods = Object.assign({}, this.state.foods);
     const newValue = event.target.value;
-    const oldValue = foods['serving_qty'];
+    const oldValue = newFoods['serving_qty'];
     const isnan = (value) => isNaN(parseInt(value)) || isNaN(value) || !(+value);
     if(isnan(newValue)) {
-      foods['serving_qty'] = newValue;
-      if(!foods['last_good__qty']) foods['last_good__qty'] = oldValue;
-      this.setState({foods});
+      newFoods['serving_qty'] = newValue;
+      if (!newFoods['last_good__qty']) newFoods['last_good__qty'] = oldValue;
+      this.setState({ foods: newFoods});
     } else {
-      const fullNutr = foods['full_nutrients'].map(i => {
-          const n = i['value'] * (newValue / (isnan(oldValue) ? foods['last_good__qty'] : oldValue));
+      const fullNutr = newFoods['full_nutrients'].map(i => {
+        const n = i['value'] * (newValue / (isnan(oldValue) ? newFoods['last_good__qty'] : oldValue));
           return {
             attr_id: i['attr_id'],
             value: n
           }
         })
-        foods['last_good__qty'] = newValue;
-        foods['serving_qty'] = newValue;
-        foods['full_nutrients'] = fullNutr;
-      this.setState({foods});
+      newFoods['last_good__qty'] = newValue;
+      newFoods['serving_weight_grams'] = newFoods['serving_weight_grams'] * (newValue / (isnan(oldValue) ? newFoods['last_good__qty'] : oldValue));
+      newFoods['serving_qty'] = newValue;
+      newFoods['full_nutrients'] = fullNutr;
+      this.setState({ foods: newFoods});
     }
   }
 
@@ -68,8 +76,8 @@ constructor(props) {
       //   checkedBasked = basket
       // };
       const basket = this.props.basket;
-      item.id = v4();
-      const newBasket = basket.concat(item);
+      const newItem = { ...item, id: v4(), full_nutrients: this.state.originalNutr};
+      const newBasket = basket.concat(newItem);
       this.props.hideModal(INTAKELOG);
       this.props.setNewBasket(newBasket);
       this.props.showModal(BASKET);
