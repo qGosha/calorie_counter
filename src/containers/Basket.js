@@ -48,6 +48,38 @@ renewBasket(basket) {
 
 
 
+// onMeasureChange(event,id) {
+//   const getNutrition = (nutr) => {
+//    const result = basket[id].full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
+//    return (result[0] && result[0].value) ? result[0].value : 0;
+//   }
+//   const basket = this.props.basket;
+//   const value = event.target.value;
+//   const index = event.target.selectedIndex;
+//
+//   const servWeight = basket[id].alt_measures[index].serving_weight;
+//   const newQty = basket[id].alt_measures[index].qty;
+//   const foodWeight = basket[id].serving_weight_grams;
+//   const fullBasketNutr = basket[id]['full_nutrients'];
+//   const isFromFoodLog = basket[id]['isFromFoodLog'];
+//   // const conditional = isFromFoodLog ? newQty : basket[id].serving_qty;
+//   const divider = (basket[id]['value'] || newQty) / basket[id].serving_qty;
+//   const fullNutr = fullBasketNutr.map( i => {
+//     const value = i['value'] ;
+//     // const multiplier = item['value'] ? (item['value'] / newQty) : (newQty / newQty) ;
+//     // const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
+//     let n;
+//     if (isFromFoodLog){
+//       // n = (value / foodWeight / basket[id].serving_qty) * servWeight;
+//       n = (value / foodWeight / (basket[id].value || basket[id].serving_qty)) * servWeight;
+//     } else {
+//       n = (value / (divider * foodWeight)) * servWeight;
+//     }
+//      return {
+//        attr_id: i['attr_id'],
+//        value: n
+//      }
+//    })
 onMeasureChange(event,id) {
   const getNutrition = (nutr) => {
    const result = basket[id].full_nutrients.filter(a => {if (a.attr_id === nutr) return a});
@@ -62,25 +94,28 @@ onMeasureChange(event,id) {
   const foodWeight = basket[id].serving_weight_grams;
   const fullBasketNutr = basket[id]['full_nutrients'];
   const isFromFoodLog = basket[id]['isFromFoodLog'];
-  // const conditional = isFromFoodLog ? newQty : basket[id].serving_qty; 
-  const divider = (basket[id]['value'] || newQty) / basket[id].serving_qty;
+  const oldOriginalQty = basket[id].alt_measures.filter( i => {
+    return i.measure === basket[id].serving_unit
+  })[0].qty;
+  // const conditional = isFromFoodLog ? newQty : basket[id].serving_qty;
+  // const divider = (basket[id]['value'] || newQty) / basket[id].serving_qty;
   const fullNutr = fullBasketNutr.map( i => {
     const value = i['value'] ;
     // const multiplier = item['value'] ? (item['value'] / newQty) : (newQty / newQty) ;
     // const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
-    let n;
-    if (isFromFoodLog){
-      // n = (value / foodWeight / basket[id].serving_qty) * servWeight;
-      n = (value / foodWeight / (basket[id].value || basket[id].serving_qty)) * servWeight;
-    } else {
-      n = (value / (divider * foodWeight)) * servWeight;
-    }
+    const isFromFoodLog = basket[id]['isFromFoodLog'];
+
+    const n = value / basket[id].serving_weight_grams /
+
+    ((basket[id].value/(isFromFoodLog ? oldOriginalQty : basket[id].serving_qty)) || (basket[id].serving_qty/(isFromFoodLog ? oldOriginalQty : basket[id].serving_qty)))
+
+    * servWeight;
+
      return {
        attr_id: i['attr_id'],
        value: n
      }
    })
-
   // const resultCal = (getNutrition(208)/foodWeight) * servWeight;
   // const resultProt = (getNutrition(203)/foodWeight) * servWeight;
   // const resultFat = (getNutrition(204)/foodWeight) * servWeight;
@@ -151,7 +186,7 @@ onQtyChange(event, id) {
   }
   // if (basket[id]['isFromFoodLog']) basket[id]['isFromFoodLog'] = false;
   basket[id].value = Math.abs(value);
-  
+
   //
   // basket[id].nf_protein = resultProt
   // basket[id].nf_calories = resultCal;
