@@ -14,11 +14,13 @@ import {
   updateQtyFailure
 } from "../actions/index";
 import "../style/nutr_details.css";
+import { Container, Row, Col } from 'react-grid-system';
 import { INTAKELOG, CONFIRM, BASKET } from "../containers/Modal";
 import { DetailedNutrPanel } from "../components/detailedNutrPanel";
 import { FoodListItem } from "../components/foodListItem";
 import { connect } from "react-redux";
 import { v4 } from "uuid";
+import FontAwesome from 'react-fontawesome';
 
 class IntakeLog extends Component {
   constructor(props) {
@@ -111,21 +113,34 @@ class IntakeLog extends Component {
           })
         }
       >
-        Delete
+        <FontAwesome
+          className='fas fa-trash'
+          name='fa-trash'
+        /> Delete
       </Button>
     ) : null;
 
     const copyButton = isFromFoodItem ? (
       <Button bsStyle="info" onClick={() => this.renewBasket(foods)}>
-        Copy
+        <FontAwesome
+          className='fas fa-copy'
+          name='fa-copy'
+        /> Copy
       </Button>
     ) : null;
 
     const updateSection = isFromFoodItem ? (
       <Modal.Footer>
+       <Row style={{justifyContent:'center'}}>
         <Button 
-        bsStyle='warning' 
-        onClick={this.updateQty}>Update</Button>
+        bsStyle='success' 
+        onClick={this.updateQty}>
+         <FontAwesome
+          className='fas fa-pencil'
+          name='fa-pencil'
+         /> Update
+        </Button>
+       </Row>
       </Modal.Footer>
     ) : null;
 
@@ -152,9 +167,19 @@ class IntakeLog extends Component {
         </Modal.Body>
          {updateSection}
          <Modal.Footer>
+         <Container>
+          <Row style={{ justifyContent: isFromFoodItem ? 'center' : 'flex-end' }}>
           {deleteButton}
           {copyButton}
-          <Button onClick={() => hideModal(INTAKELOG)}>Close</Button>
+          <Button 
+           onClick={() => hideModal(INTAKELOG)}>
+            <FontAwesome
+              className='fas fa-times'
+              name='fa-times'
+            /> Close
+            </Button>
+          </Row>
+          </Container>
          </Modal.Footer>
       </Modal>
     );
