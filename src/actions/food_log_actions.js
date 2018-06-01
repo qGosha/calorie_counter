@@ -3,12 +3,18 @@ import axios from "axios";
 export const GETFOODLOG = "GETFOODLOG";
 export const GETFOODLOGSUCCESS = "GETFOODLOGSUCCESS";
 export const GETFOODLOGFAILURE = "GETFOODLOGFAILURE";
+
 export const DELETEFOODLOGITEM = "DELETEFOODLOGITEM";
 export const DELETEFOODLOGITEMFAILURE = "DELETEFOODLOGITEMFAILURE";
 
+export const UPDATEQTY = "UPDATEQTY";
+export const UPDATEQTYSUCCESS = "UPDATEQTYSUCCESS";
+export const UPDATEQTYFAILURE = "UPDATEQTYFAILURE";
+
+
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
-const jwt = localStorage.getItem('jwt');
+// const jwt = localStorage.getItem('jwt');
 
 export const getFoodLog = jwt => {
   const headers = {
@@ -79,3 +85,34 @@ export const deleteFoodLogItemFailure = response => ({
   type: DELETEFOODLOGITEMFAILURE,
   payload: response
 })
+
+
+export const updateQty = (jwt, foods) => {
+  const headers = {
+    ["x-user-jwt"]: jwt
+  }
+  const obj = {
+    foods: [foods]
+  }
+  const response = axios({
+    method: "PUT",
+    url: ROOT_URL + "log",
+    headers,
+    data: obj
+  });
+  return {
+    type: UPDATEQTY,
+    payload: response
+  }
+}
+
+export const updateQtySuccess = response => ({
+  type: UPDATEQTYSUCCESS,
+  payload: response
+})
+
+export const updateQtyFailure = response => ({
+  type: UPDATEQTYFAILURE,
+  payload: response
+})
+
