@@ -35,6 +35,15 @@ export const total = (element, arr) => {
     }, 0) );
 }
 
+
+export const totalNutrElem = (elem, foods) => {
+  return round(foods.reduce((sum, next) => {
+    if (next['full_nutrients']) {
+      return sum += next['full_nutrients'].filter(a => a['attr_id'] === elem)[0]['value'];
+  }
+  }, 0) )
+}
+
 export const round = (item) => {
   if (!item) return 0;
   return Math.abs(Math.round(item))

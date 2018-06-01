@@ -15,23 +15,10 @@ export const logBasketFood = (jwt, basket) => {
 
   const clearBasket = basket.map( (item, i) => {
   
-  //  const fullNutr = item['full_nutrients'].map( i => {
-  //    const servQty = item['serving_qty'];
-  //    const value = i['value'] ;
-  //    const multiplier = item['value'] ? (item['value'] / servQty) : (servQty / servQty) ; 
-  //    const servingWeight = item['serving_weight_grams'];
-  //    const currentWeight = item['current_serving_weight'] || item['serving_weight_grams'];
-  //    const n = ((value / servingWeight) * currentWeight) * multiplier;
-  //     return {
-  //       attr_id: i['attr_id'],
-  //       value: n
-  //     }
-  //   })
    if (item.hasOwnProperty('value')) {
      item['serving_qty'] = item['value'];
      item['value'] = undefined;
    }
-  //  item['full_nutrients'] = fullNutr;
 
    if(item.hasOwnProperty('current_serving_weight'))  {
      item['serving_weight_grams'] = item['current_serving_weight'];

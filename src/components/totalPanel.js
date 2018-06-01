@@ -2,19 +2,15 @@ import React from "react";
 import { Container, Row, Col } from 'react-grid-system';
 import '../style/total_panel.css';
 import { INTAKELOG } from '../containers/Modal';
-
+import { totalNutrElem } from '../helpers/help_functions';
 export const TotalPanel = ({ foods, isFromLog, showModal, totalDailyNutr }) => {
 
-    const total = (element) => {
-      return Math.abs(Math.round(foods.reduce((sum, next) => {
-          return sum += next[element]
-        }, 0) ));
-    }
-    const totalCalories = total('nf_calories');
-    const totalProtein = total('nf_protein');
-    const totalCarbs = total('nf_total_carbohydrate');
-    const totalFat = total('nf_total_fat');
-    const totalSodium = total('nf_sodium');
+
+    const totalCalories = totalNutrElem(208, foods);
+    const totalProtein = totalNutrElem(203, foods);
+    const totalCarbs = totalNutrElem(205, foods);
+    const totalFat = totalNutrElem(204, foods);
+    const totalSodium = totalNutrElem(307, foods);
     return (
       <Row
       nogutter
