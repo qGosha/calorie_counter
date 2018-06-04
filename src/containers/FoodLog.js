@@ -30,12 +30,14 @@ constructor(props) {
   <div>
     <ProgressPanel
     value={this.props.value} 
-    now={totalDailyCal}/>
+    now={totalDailyCal}
+    currentDateLimit={this.props.currentDateLimit}/>
     <TotalPanel
     foods={foods}
     showModal={this.props.showModal}
     isFromLog={true}
-    totalDailyNutr={totalDailyNutr} />
+    totalDailyNutr={totalDailyNutr}
+ />
 
     <LogFoodPanel
     foods={foods}
@@ -52,6 +54,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => ({
-  loggedFood: state.foodLog.log
+  loggedFood: state.foodLog.log,
+  currentDateLimit: state.dates.currentDateLimit
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FoodLog);

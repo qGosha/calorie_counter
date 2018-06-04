@@ -2,13 +2,15 @@ import {
   CHANGECURRENTDATE,
   GETMONTHREPORT,
   GETMONTHREPORTSUCCESS,
-  GETMONTHREPORTFAILURE
+  GETMONTHREPORTFAILURE,
+  CURRENTDATECALLIMIT
  } from '../actions/index';
 
  const initialState = {
    currentDate: new Date(),
    dates: [],
-   error: false
+   error: false,
+   currentDateLimit: false
  }
   export function dates (state = initialState, action) {
     const payload = action.payload;
@@ -16,11 +18,13 @@ import {
       case CHANGECURRENTDATE:
         return { ...state, currentDate: payload};
       case GETMONTHREPORT:
-        return { ...state };
+        return { ...state, dates: [] };
       case GETMONTHREPORTSUCCESS:
         return {...state, dates: payload};
       case GETMONTHREPORTFAILURE:
         return { ...state, error: payload }
+      case CURRENTDATECALLIMIT:
+        return { ...state, currentDateLimit: payload }   
       default:
         return state;
     }

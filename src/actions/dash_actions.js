@@ -97,3 +97,5 @@ export const setDailyCalFailure = response => ({
 export const setDailyCalNoteRemove = response => ({
   type: SETDAILYCALNOTEREMOVE
 });
+
+

@@ -9,7 +9,8 @@ import {
   SETDAILYCAL,
   SETDAILYCALSUCCESS,
   SETDAILYCALFAILURE,
-  SETDAILYCALNOTEREMOVE } from '../actions/index';
+  SETDAILYCALNOTEREMOVE,
+  CURRENTDATECALLIMIT } from '../actions/index';
 
   const initialState = {
     userInfo: false,
@@ -42,7 +43,8 @@ export function dash (state = initialState, action) {
     case SETDAILYCALFAILURE:
       return { ...state, error: action.payload}
     case SETDAILYCALNOTEREMOVE:
-      return { ...state, dailyCalUpSuccess: false}
+      return { ...state, dailyCalUpSuccess: false} 
+
     default:
       return state;
   }

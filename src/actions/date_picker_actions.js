@@ -7,7 +7,7 @@ export const CHANGECURRENTDATE = "CHANGECURRENTDATE";
 export const GETMONTHREPORT = "GETMONTHREPORT";
 export const GETMONTHREPORTSUCCESS = "GETMONTHREPORTSUCCESS";
 export const GETMONTHREPORTFAILURE = "GETMONTHREPORTFAILURE";
-
+export const CURRENTDATECALLIMIT = "CURRENTDATECALLIMIT";
 
 export const changeCurrentDate = date => ({
   type: CHANGECURRENTDATE,
@@ -25,7 +25,7 @@ export const getMonthReport = (jwt, date) => {
   const query = {
    timezone,
    begin: dateFunc(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)),
-   end: dateFunc(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))
+   end: dateFunc(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0))
  }
    const response = axios({
       method: "GET",
@@ -50,3 +50,9 @@ export const getMonthReportFailure = response => ({
   type: GETMONTHREPORTFAILURE,
   payload: response
 })
+
+
+export const setCurrentDateCalLimit = response => ({
+  type: CURRENTDATECALLIMIT,
+  payload: response
+});

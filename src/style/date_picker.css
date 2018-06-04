@@ -1,0 +1,22 @@
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
+
+/* .all:hover {
+  border: 1px solid #000;
+}
+
+.custom-calendar button.react-calendar__tile:hover {
+ background-color: none !important;
+ border: 1px solid #000;
+}
+.custom-calendar button.react-calendar__tile {
+  border: 1px solid transparent;
+}
+
+.custom-calendar button.react-calendar__tile:enabled:hover, button.react-calendar__tile:enabled:focus {
+  
+} */

@@ -8,10 +8,10 @@ import { round } from '../helpers/help_functions';
 
 
 
-export const ProgressPanel =({value, now}) => {
+export const ProgressPanel = ({ value, now, currentDateLimit}) => {
   if(!value) value = 0;
   if (!now) now = 0;
-
+  if (currentDateLimit) value = currentDateLimit;
 
   const rest = round(value - now); 
   const valueStyle = { fontWeight: 'bold'};
