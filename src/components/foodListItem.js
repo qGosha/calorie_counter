@@ -21,7 +21,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
       const ifCaloried = foodItem.hasOwnProperty('nf_calories');
       const clickFunc = () => {
         if (showModal) {
-          showModal(INTAKELOG, { foods: foodItem, title: 'Edit food', isFromFoodItem: true })
+          showModal(INTAKELOG, { foods: foodItem, title: 'Edit food'})
         } else {
           addToBasket ? addToBasket(foodItem) : false;
         }

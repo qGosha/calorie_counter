@@ -19,7 +19,7 @@ import { v4 } from 'uuid';
 import { round, getFullNutrition } from '../helpers/help_functions';
 
 export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
-  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log}) => {
+  onMeasureChange, sendItemToTheBasketState, showModal, clearBasket, log, currentDate}) => {
   let basketFood;
   if(!basket.length) {
     basketFood = null;
@@ -142,7 +142,7 @@ export const BasketPanel = ({ handleHide, basket, deleteItem, onQtyChange,
                 disabled={!basket.length}
                 block
                 bsStyle="success"
-                onClick={() => log(jwt, basket)}>
+                onClick={() => log(jwt, basket, currentDate)}>
                 Log {basket.length ? basket.length : null} foods
               </Button>
              </Col>

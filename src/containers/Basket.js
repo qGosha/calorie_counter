@@ -76,16 +76,8 @@ onMeasureChange(event,id) {
        value: n
      }
    })
-  // const resultCal = (getNutrition(208)/foodWeight) * servWeight;
-  // const resultProt = (getNutrition(203)/foodWeight) * servWeight;
-  // const resultFat = (getNutrition(204)/foodWeight) * servWeight;
-  // const resultCarbs = (getNutrition(205)/foodWeight) * servWeight;
-  // const resultSodium = (getNutrition(307)/foodWeight) * servWeight;
-  // const resultSatFat = (getNutrition(606)/foodWeight) * servWeight;
-
 
   const weightMultiplier = servWeight / newQty;
-
 
   if (basket[id]['isFromFoodLog']) basket[id]['isFromFoodLog'] = undefined;
   basket[id].full_nutrients = fullNutr;
@@ -158,6 +150,7 @@ onQtyChange(event, id) {
      showModal={this.props.showModal}
      clearBasket={this.clearBasket}
      log={this.props.log}
+     currentDate={this.props.currentDate}
      />
    )
  }
@@ -168,11 +161,11 @@ const mapDispatchToProps = (dispatch) => {
     hideModal: modalType => dispatch(hideModal(modalType)),
     setNewBasket: (basket) => dispatch(setNewBasket(basket)),
     showModal: (modalType, modalProps) => dispatch(showModal(modalType, modalProps)),
-    log: (jwt, basket) => {
+    log: (jwt, basket, currentDate) => {
       dispatch(logBasketFood(jwt, basket)).then(response => {
         if (!response.error) {
           Promise.resolve(dispatch(logBasketFoodSuccess(response.payload.data)))
-            .then(() => dispatch(getFoodLog(jwt)) )
+            .then(() => dispatch(getFoodLog(jwt, currentDate)) )
             .then( response => {
                if (!response.error) {
                  dispatch(getFoodLogSuccess(response.payload.data.foods))
@@ -189,6 +182,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = state => ({
-  basket: state.basket
+  basket: state.basket,
+  currentDate: state.dates.currentDate
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Basket);

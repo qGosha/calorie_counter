@@ -80,8 +80,8 @@ export const LogFoodPanel = ({ foods, showModal }) => {
            <Row nogutter style={{justifyContent:'space-between'}}>
             <Col xs={5}>
             <OverlayTrigger
-            onClick={ () => 
-              totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name], title: name}) : false }
+            onClick={ () =>
+              totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name], title: name, lessInfo: true}) : false }
             placement="bottom"
             triger='hover'
             overlay={tooltip(totalIntake[name], name)}
@@ -99,8 +99,8 @@ export const LogFoodPanel = ({ foods, showModal }) => {
         </Row>
         </Panel.Heading>
         <ListGroup>
-          <FoodListItem 
-          foods={per} 
+          <FoodListItem
+          foods={per}
           showModal={showModal}/>
         </ListGroup>
       </Panel>

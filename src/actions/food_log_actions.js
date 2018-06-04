@@ -1,4 +1,5 @@
 import axios from "axios";
+import { dateFunc } from '../helpers/help_functions';
 
 export const GETFOODLOG = "GETFOODLOG";
 export const GETFOODLOGSUCCESS = "GETFOODLOGSUCCESS";
@@ -14,30 +15,19 @@ export const UPDATEQTYFAILURE = "UPDATEQTYFAILURE";
 
 const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 
-// const jwt = localStorage.getItem('jwt');
+const jwt = localStorage.getItem('jwt');
 
-export const getFoodLog = jwt => {
+export const getFoodLog = (jwt, date) => {
   const headers = {
     ["x-user-jwt"]: jwt
   }
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const dateFunc = (term) => {
-    const date = new Date(term);
-    const year = date.getFullYear();
-    const month = date.getMonth() < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1;
-    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-    const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
 
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-  }
 
   const query = {
    timezone,
-   begin: dateFunc(new Date().setHours(0,0,0,0)),
-   end: dateFunc(new Date().setHours(23,59,59,999))
-
+   begin: dateFunc(date.setHours(0,0,0,0), 'full'),
+   end: dateFunc(date.setHours(23,59,59,999), 'full')
  }
    const response = axios({
       method: "GET",
@@ -115,4 +105,3 @@ export const updateQtyFailure = response => ({
   type: UPDATEQTYFAILURE,
   payload: response
 })
-

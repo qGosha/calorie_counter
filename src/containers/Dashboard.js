@@ -5,6 +5,7 @@ import FoodLog from './FoodLog';
 import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
 import { BASKET } from './Modal';
+import DatePicker from './DatePicker';
 import { Container, Row, Col } from 'react-grid-system';
 import { CalorieLimit } from '../components/calorieLimit';
 
@@ -23,7 +24,9 @@ import {
   setDailyCal,
   setDailyCalSuccess,
   setDailyCalFailure,
-  setDailyCalNoteRemove
+  setDailyCalNoteRemove,
+  getMonthReport,
+  getMonthReportSuccess
 } from "../actions/index";
 
 class Dashboard extends Component {
@@ -57,8 +60,11 @@ constructor(props) {
     setTimeout(this.onLongLoading, 800);
     this.props.getUser(jwt)
     .then(() => {
-        return this.props.getLog(jwt);
+        return this.props.getLog(jwt, this.props.currentDate);
       })
+    .then( () => {
+      return this.props.getMonthReport(jwt, this.props.currentDate);
+    })
     .then( () => {
       return this.props.getSuggestedFood(jwt);
     })
@@ -119,12 +125,15 @@ constructor(props) {
            onClick={this.dailyCalChange}
            dailyCalUpSuccess={this.props.dailyCalUpSuccess}/>
          </Col>
+         <Col xs={12} md={6}>
+          <DatePicker />
+         </Col>
          </Row>
         <button onClick={this.onSignOut}>Sign out</button>
         <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
         <Row nogutter>
          <Col xs={12} md={6}>
-          <FoodLog 
+          <FoodLog
             value={userInfo['daily_kcal']}/>
          </Col>
         </Row>
@@ -153,13 +162,20 @@ const mapDispatchToProps = dispatch => {
        }
         dispatch(fetchSuggestedFoodSuccess(response.payload.data));
     } ),
-    getLog: jwt => dispatch(getFoodLog(jwt))
+    getLog: (jwt, currentDate) => dispatch(getFoodLog(jwt, currentDate))
      .then( response => {
        if(response.error) {
          return Promise.reject(response);
        }
       dispatch(getFoodLogSuccess(response.payload.data.foods));
     } ),
+    getMonthReport: (jwt, currentDate) => dispatch(getMonthReport(jwt, currentDate))
+     .then( response => {
+       if(response.error) {
+         return Promise.reject(response);
+       }
+        dispatch(getMonthReportSuccess(response.payload.data.dates));
+      } ),
     fetchDashInfoFailure: (error) => dispatch(fetchDashInfoFailure(error)),
     showLoadingScreen: () => dispatch(showLoadingScreen()),
     hideLoadingScreen: () => dispatch(hideLoadingScreen()),
@@ -181,6 +197,7 @@ const mapStateToProps = state => ({
   suggestedFood: state.dash.suggestedFood,
   error: state.dash.error,
   loading: state.dash.loading,
-  dailyCalUpSuccess: state.dash.dailyCalUpSuccess
+  dailyCalUpSuccess: state.dash.dailyCalUpSuccess,
+  currentDate: state.dates.currentDate
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

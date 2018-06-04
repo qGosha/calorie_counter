@@ -40,11 +40,12 @@ class IntakeLog extends Component {
   updateQty() {
     const jwt = localStorage.getItem("jwt");
     const foods = this.state.foods;
+    const currentDate = this.props.currentDate;
     foods["serving_qty"] = +foods.serving_qty
       ? foods.serving_qty
       : foods.last_good_value;
     foods["last_good_value"] = undefined;
-    this.props.updateQty(jwt, foods);
+    this.props.updateQty(jwt, foods, currentDate);
     this.props.hideModal(INTAKELOG)
 
   }
@@ -96,20 +97,20 @@ class IntakeLog extends Component {
     if (!foods) return null;
     const props = this.props;
     const title = props.title;
-    const isFromFoodItem = props.isFromFoodItem;
+    const lessInfo = props.lessInfo;
     const hideModal = props.hideModal;
     const deleteFoodLogItem = props.deleteFoodLogItem;
     const showModal = props.showModal;
     const jwt = localStorage.getItem("jwt");
     const confirmText = "Are you sure you want to delete this item?";
 
-    const deleteButton = isFromFoodItem ? (
+    const deleteButton = !lessInfo ? (
       <Button
         bsStyle="danger"
         onClick={() =>
           showModal(CONFIRM, {
             text: confirmText,
-            confirmFunk: () => this.props.deleteFoodLogItem(jwt, foods)
+            confirmFunk: () => this.props.deleteFoodLogItem(jwt, foods, this.props.currentDate)
           })
         }
       >
@@ -120,7 +121,7 @@ class IntakeLog extends Component {
       </Button>
     ) : null;
 
-    const copyButton = isFromFoodItem ? (
+    const copyButton = !lessInfo ? (
       <Button bsStyle="info" onClick={() => this.renewBasket(foods)}>
         <FontAwesome
           className='fas fa-copy'
@@ -129,11 +130,11 @@ class IntakeLog extends Component {
       </Button>
     ) : null;
 
-    const updateSection = isFromFoodItem ? (
+    const updateSection = !lessInfo ? (
       <Modal.Footer>
        <Row style={{justifyContent:'center'}}>
-        <Button 
-        bsStyle='success' 
+        <Button
+        bsStyle='success'
         onClick={this.updateQty}>
          <FontAwesome
           className='fas fa-pencil'
@@ -144,7 +145,7 @@ class IntakeLog extends Component {
       </Modal.Footer>
     ) : null;
 
-    const qtyPanelAdjust = isFromFoodItem ? (
+    const qtyPanelAdjust = !lessInfo ? (
       <FoodListItem foods={[foods]} onQtyChange={this.onQtyChange} />
     ) : null;
 
@@ -168,10 +169,10 @@ class IntakeLog extends Component {
          {updateSection}
          <Modal.Footer>
          <Container>
-          <Row style={{ justifyContent: isFromFoodItem ? 'center' : 'flex-end' }}>
+          <Row style={{ justifyContent: !lessInfo ? 'center' : 'flex-end' }}>
           {deleteButton}
           {copyButton}
-          <Button 
+          <Button
            onClick={() => hideModal(INTAKELOG)}>
             <FontAwesome
               className='fas fa-times'
@@ -188,17 +189,18 @@ class IntakeLog extends Component {
 
 const mapStateToProps = state => ({
   dailyCal: state.dash.userInfo["daily_kcal"],
-  basket: state.basket
+  basket: state.basket,
+  currentDate: state.dates.currentDate
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType)),
-    deleteFoodLogItem: (jwt, item) => {
+    deleteFoodLogItem: (jwt, item, currentDate) => {
       dispatch(deleteFoodLogItem(item)).then(response => {
         if (!response.error) {
           dispatch(hideModal(INTAKELOG));
-          dispatch(getFoodLog(jwt)).then(response => {
+          dispatch(getFoodLog(jwt, currentDate)).then(response => {
             if (!response.error) {
               dispatch(getFoodLogSuccess(response.payload.data.foods));
             } else {
@@ -215,10 +217,10 @@ const mapDispatchToProps = dispatch => {
     showModal: (modalType, modalProps) =>
       dispatch(showModal(modalType, modalProps)),
     setNewBasket: basket => dispatch(setNewBasket(basket)),
-    updateQty: (jwt, foods) =>
+    updateQty: (jwt, foods, currentDate) =>
       dispatch(updateQty(jwt, foods)).then(response => {
         if (!response.error) {
-          dispatch(getFoodLog(jwt)).then(response => {
+          dispatch(getFoodLog(jwt, currentDate)).then(response => {
             if (!response.error) {
               dispatch(getFoodLogSuccess(response.payload.data.foods));
             } else {
