@@ -132,16 +132,19 @@ constructor(props) {
         <button onClick={this.onSignOut}>Sign out</button>
         <span
         onClick={() => this.props.showBasketModal(BASKET)}
-            className='fa-layers fa-fw'
+            className='fa-stack'
         style={{
           cursor: 'pointer',
           color: this.props.basket.length ? 'green' : 'grey'
         }}>
         <FontAwesome
-         className='fas fa-shopping-basket'
+              className='fas fa-shopping-basket fa-stack-2x'
          name='shopping-basket'
          size='2x' />
-            <span class="fa-layers-counter" style={{background:'Tomato'}}>1,419</span>
+        <span class="fa-stack fa-stack-1x">
+          <i class="fa fa-circle fa-stack-1x"></i>
+          <i class="fa fa-stack-1x fa-inverse char-overlay">3</i>
+        </span>
         </span>
         <Row nogutter>
          <Col xs={12} md={6}>
