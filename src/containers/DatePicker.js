@@ -23,13 +23,13 @@ class DatePicker extends Component {
 
  dateColors = dates => {
    const green = dates.map( i => {
-     if(i['total_cal'] <= i['daily_kcal_limit']) {
-       return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
+     if (i['total_cal'] && i['total_cal'] <= i['daily_kcal_limit']) {
+       return new Date(i['date']).getUTCDate();
      }
    })
    const red = dates.map(i => {
-     if (i['total_cal'] > i['daily_kcal_limit']) {
-       return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
+     if (i['total_cal'] && i['total_cal'] > i['daily_kcal_limit']) {
+       return new Date(i['date']).getUTCDate();
      }
    })
    this.setState({ green, red })
@@ -41,17 +41,16 @@ class DatePicker extends Component {
  }
 
   onDateChange = date => {
-
     const dates = this.props.dates;
     const dateArr = dates.filter(i => new Date(i['date']).getDate() === new Date(date).getDate());
     const newLimit = (dateArr && dateArr.length) ? dateArr[0]['daily_kcal_limit'] : null;
-    this.props.changeCurrentDate(date);
-    this.props.setCurrentDateCalLimit(newLimit);
     const jwt = localStorage.getItem('jwt');
     this.props.getLog(jwt, date)
       .then(() => {
         return this.props.getMonthReport(jwt, date);
       })
+      .then(() => Promise.resolve(this.props.setCurrentDateCalLimit(newLimit)) )
+      .then(() => this.props.changeCurrentDate(date))
       .catch(error => {
         let err;
         if (error

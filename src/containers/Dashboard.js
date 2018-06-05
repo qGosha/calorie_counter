@@ -132,6 +132,7 @@ constructor(props) {
         <button onClick={this.onSignOut}>Sign out</button>
         <span
         onClick={() => this.props.showBasketModal(BASKET)}
+            className='fa-layers fa-fw'
         style={{
           cursor: 'pointer',
           color: this.props.basket.length ? 'green' : 'grey'
@@ -140,6 +141,7 @@ constructor(props) {
          className='fas fa-shopping-basket'
          name='shopping-basket'
          size='2x' />
+            <span class="fa-layers-counter" style={{background:'Tomato'}}>1,419</span>
         </span>
         <Row nogutter>
          <Col xs={12} md={6}>
