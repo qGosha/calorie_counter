@@ -15,10 +15,33 @@ import '../style/date_picker.css';
 class DatePicker extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      green: [],
+      red: []
+    }
   }
 
+ dateColors = dates => {
+   const green = dates.map( i => {
+     if(i['total_cal'] <= i['daily_kcal_limit']) {
+       return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
+     }
+   })
+   const red = dates.map(i => {
+     if (i['total_cal'] > i['daily_kcal_limit']) {
+       return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
+     }
+   })
+   this.setState({ green, red })
+ }
+
+ componentDidMount() {
+   const dates = this.props.dates;
+   this.dateColors(dates);
+ }
+
   onDateChange = date => {
-    
+
     const dates = this.props.dates;
     const dateArr = dates.filter(i => new Date(i['date']).getDate() === new Date(date).getDate());
     const newLimit = (dateArr && dateArr.length) ? dateArr[0]['daily_kcal_limit'] : null;
@@ -46,38 +69,34 @@ class DatePicker extends Component {
   }
 
   onMonthChange = (date) => {
+    this.setState({ green: [], red: [] })
     const jwt = localStorage.getItem('jwt');
-    this.props.getMonthReport(jwt, date['activeStartDate']);
+    this.props.getMonthReport(jwt, date)
+    .then(() => {
+      const dates = this.props.dates;
+      this.dateColors(dates);
+    });
   }
 
   daysColor = ({ date, view }) => {
-    const dates = this.props.dates;
-    if (dates.length && view === 'month') {
-      const green = dates.map( i => {
-        if(i['total_cal'] <= i['daily_kcal_limit']) {
-          return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
-        }
-      })
-      const red = dates.map(i => {
-        if (i['total_cal'] > i['daily_kcal_limit']) {
-          return new Date(new Date(i['date']).setDate(new Date(i['date']).getDate() + 1)).getDate();
-        }
-      })
-      if (view === 'month' && green.includes(date.getDate())) return 'green';
-      else if (view === 'month' && red.includes(date.getDate())) return 'red';
-      else return null
-    }
-  } 
+    const green = this.state.green;
+    const red = this.state.red;
+    if (view === 'month' && green.includes(date.getDate())) return 'green';
+    else if (view === 'month' && red.includes(date.getDate())) return 'red';
+    else return null
+  }
 
   render() {
     return(
       <Calendar
-        onChange={this.onDateChange}
+       onChange={this.onDateChange}
        value={this.props.currentDate}
        showNeighboringMonth={false}
        className={'custom-calendar'}
        tileClassName={(date, view) => this.daysColor(date, view)}
-       onActiveDateChange={activeStartDate => this.onMonthChange(activeStartDate)}/>
+       onActiveDateChange={value => this.onMonthChange(value['activeStartDate'])}
+       onClickMonth={value => this.onMonthChange(value)}
+       />
     )
   }
 

@@ -18,7 +18,7 @@ constructor(props) {
   render() {
     const foods = this.props.loggedFood;
     const newDailyNutr = (period) => {
-      if(!period || !period.length) return [];
+      if(!period || !period.length) return false;
       return {
         full_nutrients: totalNutrients(period)
       }
@@ -29,7 +29,7 @@ constructor(props) {
     return (
   <div>
     <ProgressPanel
-    value={this.props.value} 
+    value={this.props.value}
     now={totalDailyCal}
     currentDateLimit={this.props.currentDateLimit}/>
     <TotalPanel

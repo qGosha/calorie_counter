@@ -1,5 +1,5 @@
 import axios from "axios";
-import { dateFunc } from '../helpers/help_functions';
+import { dateFunc, getFullNutrition } from '../helpers/help_functions';
 
 export const GETFOODLOG = "GETFOODLOG";
 export const GETFOODLOGSUCCESS = "GETFOODLOGSUCCESS";
@@ -78,11 +78,12 @@ export const deleteFoodLogItemFailure = response => ({
 
 
 export const updateQty = (jwt, foods) => {
+  const newFoods = { ...foods, nf_calories: getFullNutrition(208, foods) };
   const headers = {
     ["x-user-jwt"]: jwt
   }
   const obj = {
-    foods: [foods]
+    foods: [newFoods]
   }
   const response = axios({
     method: "PUT",

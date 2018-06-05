@@ -1,6 +1,6 @@
 import axios from "axios";
 
-
+import { getFullNutrition } from '../helpers/help_functions';
 export const SETNEWBASKET = "SETNEWBASKET";
 export const GETDETAILEDFOODINFO = "GETDETAILEDFOODINFO";
 export const GETDETAILEDFOODINFOSUCCESS = "GETDETAILEDFOODINFOSUCCESS";
@@ -14,7 +14,7 @@ const ROOT_URL = "https://trackapi.nutritionix.com/v2/";
 export const logBasketFood = (jwt, basket) => {
 
   const clearBasket = basket.map( (item, i) => {
-  
+   item['nf_calories'] = getFullNutrition(208, item);
    if (item.hasOwnProperty('value')) {
      item['serving_qty'] = +item['value'] ? item['value'] : item['serving_qty'];
      item['value'] = undefined;
@@ -22,7 +22,7 @@ export const logBasketFood = (jwt, basket) => {
    if (item.hasOwnProperty('isFromFoodLog')) {
      item['isFromFoodLog'] = undefined;
    }
-    
+
    if(item.hasOwnProperty('current_serving_weight'))  {
      item['serving_weight_grams'] = item['current_serving_weight'];
      item['current_serving_weight'] = undefined;

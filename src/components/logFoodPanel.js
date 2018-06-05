@@ -82,7 +82,7 @@ export const LogFoodPanel = ({ foods, showModal }) => {
             <OverlayTrigger
             onClick={ () =>
               totalIntake[name] ? showModal(INTAKELOG, { foods: totalIntake[name], title: name, lessInfo: true}) : false }
-            placement="bottom"
+            placement="top"
             triger='hover'
             overlay={tooltip(totalIntake[name], name)}
             >

@@ -130,7 +130,17 @@ constructor(props) {
          </Col>
          </Row>
         <button onClick={this.onSignOut}>Sign out</button>
-        <button onClick={() => this.props.showBasketModal(BASKET)}>Basket</button>
+        <span
+        onClick={() => this.props.showBasketModal(BASKET)}
+        style={{
+          cursor: 'pointer',
+          color: this.props.basket.length ? 'green' : 'grey'
+        }}>
+        <FontAwesome
+         className='fas fa-shopping-basket'
+         name='shopping-basket'
+         size='2x' />
+        </span>
         <Row nogutter>
          <Col xs={12} md={6}>
           <FoodLog
@@ -198,6 +208,7 @@ const mapStateToProps = state => ({
   error: state.dash.error,
   loading: state.dash.loading,
   dailyCalUpSuccess: state.dash.dailyCalUpSuccess,
-  currentDate: state.dates.currentDate
+  currentDate: state.dates.currentDate,
+  basket: state.basket
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
