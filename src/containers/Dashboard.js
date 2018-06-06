@@ -86,9 +86,9 @@ constructor(props) {
         }
       this.props.fetchDashInfoFailure(err);
     } )
-
   }
   render() {
+    const basket = this.props.basket;
     const userInfo = this.props.userInfo;
     const error = this.props.error;
     const loading = this.props.loading;
@@ -115,9 +115,43 @@ constructor(props) {
     } else {
       return (
        <Container fluid>
+        <Row>
+         <Col xs={6}>
+          <h3>Hello, {userInfo.first_name}. This is your Food log</h3>
+         </Col>
+         <Col xs={6}>
+         <span
+           onClick={() => this.props.showBasketModal(BASKET)}
+           className='fa-stack'
+           style={{
+             cursor: 'pointer',
+           }}>
+         <FontAwesome
+          className='fas fa-shopping-basket fa-stack-2x'
+          name='shopping-basket'
+          style={{color: this.props.basket.length ? 'green' : 'grey'}}
+          size='2x' />
+         <span
+          className="fa-stack fa-stack-1x"
+          style={{display:basket.length ? 'block' : 'none'}}>
+           <FontAwesome
+            className='fa fa-circle fa-stack-1x'
+            name='circle'
+            style={{color: 'red',
+             fontSize: '20px',
+             top: '-5px',
+             left: '5px'}} />
+            <span
+             className='fa fa-stack-1x fa-inverse'
+             style={{
+              top: '-5px',
+              left: '5px'}}
+             name='inverse'>{basket.length}</span>
+         </span>
+         </span>
+         </Col>
+        </Row>
         <SearchBar/>
-        <h1>This is Dashboard</h1>
-        <h3>Hello, {userInfo.first_name}</h3>
         <Row nogutter>
          <Col xs={12} md={6}>
          <CalorieLimit
@@ -129,23 +163,12 @@ constructor(props) {
           <DatePicker />
          </Col>
          </Row>
-        <button onClick={this.onSignOut}>Sign out</button>
-        <span
-        onClick={() => this.props.showBasketModal(BASKET)}
-            className='fa-stack'
-        style={{
-          cursor: 'pointer',
-          color: this.props.basket.length ? 'green' : 'grey'
-        }}>
-        <FontAwesome
-              className='fas fa-shopping-basket fa-stack-2x'
-         name='shopping-basket'
-         size='2x' />
-        <span class="fa-stack fa-stack-1x">
-          <i class="fa fa-circle fa-stack-1x"></i>
-          <i class="fa fa-stack-1x fa-inverse char-overlay">3</i>
-        </span>
-        </span>
+         <FontAwesome
+          onClick={this.onSignOut}
+          className='fas fa-sign-out-alt'
+          name='sign-out'
+          style={{color: 'green'}}
+          size='2x' />
         <Row nogutter>
          <Col xs={12} md={6}>
           <FoodLog

@@ -120,7 +120,7 @@ onQtyChange(event, id) {
     basket[id].last_good_value = Math.abs(+value);
   }
 
-  basket[id].value = Math.abs(value);
+  basket[id].value = +value < 0 ? Math.abs(+value) : value;
 
 
   basket[id].full_nutrients = fullNutr;
