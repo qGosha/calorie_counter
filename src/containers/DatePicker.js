@@ -21,8 +21,28 @@ class DatePicker extends Component {
     }
   }
 
- dateColors = dates => {
-   const green = dates.map( i => {
+//  dateColors = dates => {
+//    const green = dates.map( i => {
+//      if (i['total_cal'] && i['total_cal'] <= i['daily_kcal_limit']) {
+//        return new Date(i['date']).getUTCDate();
+//      }
+//    })
+//    const red = dates.map(i => {
+//      if (i['total_cal'] && i['total_cal'] > i['daily_kcal_limit']) {
+//        return new Date(i['date']).getUTCDate();
+//      }
+//    })
+//    this.setState({ green, red })
+//  }
+
+//  componentDidMount() {
+//    const dates = this.props.dates;
+//    this.dateColors(dates);
+//  }
+ static getDerivedStateFromProps(props, state) {
+   const dates = props.dates;
+   if (!dates || !dates.length) return {green: [], red: []}
+   const green = dates.map(i => {
      if (i['total_cal'] && i['total_cal'] <= i['daily_kcal_limit']) {
        return new Date(i['date']).getUTCDate();
      }
@@ -32,13 +52,9 @@ class DatePicker extends Component {
        return new Date(i['date']).getUTCDate();
      }
    })
-   this.setState({ green, red })
+   return {green, red}
  }
 
- componentDidMount() {
-   const dates = this.props.dates;
-   this.dateColors(dates);
- }
 
   onDateChange = date => {
     const dates = this.props.dates;
@@ -46,9 +62,9 @@ class DatePicker extends Component {
     const newLimit = (dateArr && dateArr.length) ? dateArr[0]['daily_kcal_limit'] : null;
     const jwt = localStorage.getItem('jwt');
     this.props.getLog(jwt, date)
-      .then(() => {
-        return this.props.getMonthReport(jwt, date);
-      })
+      // .then(() => {
+      //   return this.props.getMonthReport(jwt, date);
+      // })
       .then(() => Promise.resolve(this.props.setCurrentDateCalLimit(newLimit)) )
       .then(() => this.props.changeCurrentDate(date))
       .catch(error => {
@@ -67,14 +83,19 @@ class DatePicker extends Component {
       })
   }
 
+
   onMonthChange = (date) => {
-    this.setState({ green: [], red: [] })
     const jwt = localStorage.getItem('jwt');
-    this.props.getMonthReport(jwt, date)
-    .then(() => {
-      const dates = this.props.dates;
-      this.dateColors(dates);
-    });
+    this.setState({ green: [], red: [] },
+      () => this.props.getMonthReport(jwt, date))
+    
+    
+    
+    
+    // .then(() => {
+    //   const dates = this.props.dates;
+    //   this.dateColors(dates);
+    // });
   }
 
   daysColor = ({ date, view }) => {

@@ -159,11 +159,7 @@ constructor(props) {
          </span>
          </Col>
         </Row>
-        <Row>
-         <Col md={6} xs={12}>
          <SearchBar/>
-         </Col>
-        </Row>
         <Row nogutter>
          <Col xs={12} md={6}>
          <CalorieLimit
