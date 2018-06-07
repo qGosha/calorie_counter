@@ -114,18 +114,26 @@ constructor(props) {
       )
     } else {
       return (
-       <Container fluid>
+       <Container fluid style={{padding: '0'}}>
+       <Row style={{padding: '20px 0'}}>
+        <Col style={{textAlign: 'right'}}>
+          <FontAwesome
+           onClick={this.onSignOut}
+           className='fas fa-sign-out-alt'
+           name='sign-out'
+           style={{color: 'green', cursor: 'pointer'}}
+           size='2x' />
+        </Col>
+        </Row>
         <Row>
-         <Col xs={6}>
+         <Col xs={10}>
           <h3>Hello, {userInfo.first_name}. This is your Food log</h3>
          </Col>
-         <Col xs={6}>
+         <Col xs={2}>
          <span
            onClick={() => this.props.showBasketModal(BASKET)}
            className='fa-stack'
-           style={{
-             cursor: 'pointer',
-           }}>
+           style={{cursor: 'pointer'}}>
          <FontAwesome
           className='fas fa-shopping-basket fa-stack-2x'
           name='shopping-basket'
@@ -151,7 +159,11 @@ constructor(props) {
          </span>
          </Col>
         </Row>
-        <SearchBar/>
+        <Row>
+         <Col md={6} xs={12}>
+         <SearchBar/>
+         </Col>
+        </Row>
         <Row nogutter>
          <Col xs={12} md={6}>
          <CalorieLimit
@@ -163,12 +175,7 @@ constructor(props) {
           <DatePicker />
          </Col>
          </Row>
-         <FontAwesome
-          onClick={this.onSignOut}
-          className='fas fa-sign-out-alt'
-          name='sign-out'
-          style={{color: 'green'}}
-          size='2x' />
+
         <Row nogutter>
          <Col xs={12} md={6}>
           <FoodLog

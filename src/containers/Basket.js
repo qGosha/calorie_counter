@@ -10,7 +10,9 @@ import {
  logBasketFoodFailure,
  getFoodLog,
  getFoodLogSuccess,
- getFoodLogFailure
+ getFoodLogFailure,
+ getMonthReport,
+ getMonthReportSuccess
 } from "../actions/index";
 import { BASKET } from '../containers/Modal';
 
@@ -172,6 +174,13 @@ const mapDispatchToProps = (dispatch) => {
                } else {
                  dispatch(getFoodLogFailure(response.payload.response.data.message))
                } } )
+           .then(() => dispatch(getMonthReport(jwt, currentDate)) )
+           .then( response => {
+              if (response.error) {
+                return Promise.reject(response);
+              } else {
+                 dispatch(getMonthReportSuccess(response.payload.data.dates))
+              } } )
            .then( () => { dispatch(hideModal(BASKET)) } )
            .then( () => { localStorage.setItem('basket', '[]') })
         } else {
