@@ -21,24 +21,14 @@ export const DashboardPanel = ({
   basket}) => {
     return (
      <Container fluid style={{padding: '0'}}>
-     <Row style={{padding: '20px 0', justifyContent: 'flex-end'}}>
-    <Col style={{textAlign: 'right'}} xs={5} sm={3} md={2}>
-     <Panel>
-      <Panel.Heading>Sign out</Panel.Heading>
-       <FontAwesome
-        onClick={this.onSignOut}
-        className='fas fa-sign-out-alt'
-        name='sign-out'
-        style={{color: 'green', cursor: 'pointer'}}
-        size='2x' />
-     </Panel>
-     </Col>
-      </Row>
-      <Row>
-       <Col xs={10}>
-        <h3>Hello, {userInfo.first_name}. This is your Food log</h3>
+      <Panel>
+          <Row nogutter style={{ justifyContent: 'center' }}>
+       <Col xs={8} sm={9}>
+          <h3 style={{ fontFamily: 'Oleo Script', paddingLeft: '15px'}}>Hello, {userInfo.first_name}. This is your Food log</h3>
        </Col>
-       <Col xs={2}>
+       <Col xs={4} sm={3} style={{ alignSelf: 'center', textAlign:'center' }}>
+      <Row nogutter style={{ justifyContent: 'space-between' }}>
+      <Col>
        <span
          onClick={() => showBasketModal(BASKET)}
          className='fa-stack'
@@ -67,11 +57,22 @@ export const DashboardPanel = ({
        </span>
        </span>
        </Col>
-      </Row>
+      <Col style={{paddingLeft: '0'}}>
+       <FontAwesome
+         onClick={onSignOut}
+         className='fas fa-sign-out-alt'
+         name='sign-out'
+         style={{ color: 'green', cursor: 'pointer' }}
+         size='2x' />
+       </Col>
+         </Row>
+         </Col>
+        </Row>
+       </Panel>
+
        <SearchBar/>
-      <Row nogutter>
-      <Col xs={12} lg={6}>
-       <Col xs={12} lg={6}>
+       <Row nogutter style={{ justifyContent: 'center' }}>
+       <Col xs={12} md={6}>
        <Panel>
          <Panel.Heading>Track Calendar</Panel.Heading>
           <Panel.Body>
@@ -81,21 +82,21 @@ export const DashboardPanel = ({
           </Panel.Body>
        </Panel>
        </Col>
-       <Col xs={12} lg={6}>
-       <CalorieLimit
-         value={userInfo['daily_kcal']}
-         onClick={dailyCalChange}
-         dailyCalUpSuccess={dailyCalUpSuccess}/>
-       </Col>
-       </Col>
        </Row>
-
-      <Row nogutter>
-       <Col xs={12} md={6}>
+       <Row nogutter style={{ justifyContent: 'center' }}>
+         <Col xs={12} md={6}>
+      <CalorieLimit
+        value={userInfo['daily_kcal']}
+        onClick={dailyCalChange}
+        dailyCalUpSuccess={dailyCalUpSuccess} />
+         </Col>
+       </Row> 
+       <Row nogutter style={{ justifyContent: 'center' }}>
+       <Col xs={12} md={8}>
         <FoodLog
           value={userInfo['daily_kcal']}/>
        </Col>
-      </Row>
+      </Row>  
       </Container>
       )
 }
