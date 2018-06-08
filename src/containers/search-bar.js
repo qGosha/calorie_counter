@@ -113,6 +113,7 @@ class SearchBar extends Component {
       onChange={this.onInputChange}
       term={this.state.term}
       currentPanel={currentPanel}
+      isFromBasket={this.props.isFromBasket}
       />
     );
   }

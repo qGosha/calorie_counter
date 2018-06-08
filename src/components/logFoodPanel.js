@@ -10,7 +10,7 @@ import {
 import { FoodListItem } from '../components/foodListItem';
 import FontAwesome from 'react-fontawesome';
 import { INTAKELOG } from '../containers/Modal';
-import { totalNutrients, total } from '../helpers/help_functions';
+import { totalNutrients, total, totalNutrElem } from '../helpers/help_functions';
 
 
 export const LogFoodPanel = ({ foods, showModal }) => {
@@ -34,10 +34,10 @@ export const LogFoodPanel = ({ foods, showModal }) => {
   const dinner = intake(foods, 17, 21);
   const snacks = intake(foods, 21);
 
-  const breakfastCal = Math.round(total('nf_calories', breakfast));
-  const lunchCal = Math.round(total('nf_calories', lunch));
-  const dinnerCal = Math.round(total('nf_calories', dinner));
-  const snacksCal = Math.round(total('nf_calories', snacks));
+  const breakfastCal = totalNutrElem(208, breakfast);
+  const lunchCal = totalNutrElem(208, lunch);
+  const dinnerCal = totalNutrElem(208, dinner);
+  const snacksCal = totalNutrElem(208, snacks);
 
 
   const totalIntake = {

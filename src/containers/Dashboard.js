@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SearchBar from './search-bar';
-import FoodLog from './FoodLog';
 import FontAwesome from 'react-fontawesome';
 import '../style/dashboard.css';
-import { BASKET } from './Modal';
-import DatePicker from './DatePicker';
 import { Container, Row, Col } from 'react-grid-system';
-import { CalorieLimit } from '../components/calorieLimit';
+import { DashboardPanel } from '../components/dashboardPanel';
 
 import {
   signOutUser,
@@ -52,7 +48,10 @@ constructor(props) {
     const request = {
       'daily_kcal': value
     };
-    this.props.setDailyCal(jwt, request);
+    this.props.setDailyCal(jwt, request)
+    .then( () => {
+      return this.props.getMonthReport(jwt, this.props.currentDate);
+    })
   }
 
   componentDidMount() {
@@ -113,73 +112,13 @@ constructor(props) {
         </div>
       )
     } else {
-      return (
-       <Container fluid style={{padding: '0'}}>
-       <Row style={{padding: '20px 0'}}>
-        <Col style={{textAlign: 'right'}}>
-          <FontAwesome
-           onClick={this.onSignOut}
-           className='fas fa-sign-out-alt'
-           name='sign-out'
-           style={{color: 'green', cursor: 'pointer'}}
-           size='2x' />
-        </Col>
-        </Row>
-        <Row>
-         <Col xs={10}>
-          <h3>Hello, {userInfo.first_name}. This is your Food log</h3>
-         </Col>
-         <Col xs={2}>
-         <span
-           onClick={() => this.props.showBasketModal(BASKET)}
-           className='fa-stack'
-           style={{cursor: 'pointer'}}>
-         <FontAwesome
-          className='fas fa-shopping-basket fa-stack-2x'
-          name='shopping-basket'
-          style={{color: this.props.basket.length ? 'green' : 'grey'}}
-          size='2x' />
-         <span
-          className="fa-stack fa-stack-1x"
-          style={{display:basket.length ? 'block' : 'none'}}>
-           <FontAwesome
-            className='fa fa-circle fa-stack-1x'
-            name='circle'
-            style={{color: 'red',
-             fontSize: '20px',
-             top: '-5px',
-             left: '5px'}} />
-            <span
-             className='fa fa-stack-1x fa-inverse'
-             style={{
-              top: '-5px',
-              left: '5px'}}
-             name='inverse'>{basket.length}</span>
-         </span>
-         </span>
-         </Col>
-        </Row>
-         <SearchBar/>
-        <Row nogutter>
-         <Col xs={12} md={6}>
-         <CalorieLimit
-           value={userInfo['daily_kcal']}
-           onClick={this.dailyCalChange}
-           dailyCalUpSuccess={this.props.dailyCalUpSuccess}/>
-         </Col>
-         <Col xs={12} md={6}>
-          <DatePicker />
-         </Col>
-         </Row>
-
-        <Row nogutter>
-         <Col xs={12} md={6}>
-          <FoodLog
-            value={userInfo['daily_kcal']}/>
-         </Col>
-        </Row>
-        </Container>
-        )
+     return <DashboardPanel
+     onSignOut={this.onSignOut}
+     userInfo={userInfo}
+     showBasketModal={this.props.showBasketModal}
+     basket={basket}
+     dailyCalChange={this.dailyCalChange}
+     dailyCalUpSuccess={this.props.dailyCalUpSuccess}/>
     }
 
   }

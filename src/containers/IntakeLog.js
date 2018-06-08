@@ -11,7 +11,10 @@ import {
   setNewBasket,
   updateQty,
   updateQtySuccess,
-  updateQtyFailure
+  updateQtyFailure,
+  getMonthReport,
+  getMonthReportSuccess,
+  getMonthReportFailure
 } from "../actions/index";
 import "../style/nutr_details.css";
 import { Container, Row, Col } from 'react-grid-system';
@@ -61,9 +64,7 @@ class IntakeLog extends Component {
       this.setState({ foods: newFoods });
     } else {
       const fullNutr = newFoods["full_nutrients"].map(i => {
-        const n =
-          i["value"] *
-          (newValue /
+        const n = i["value"] * (newValue /
             (isnan(oldValue) ? newFoods["last_good_value"] : oldValue));
         return {
           attr_id: i["attr_id"],
@@ -208,11 +209,22 @@ const mapDispatchToProps = dispatch => {
                 getFoodLogFailure(response.payload.response.data.message)
               );
             }
-          });
+          })
+
         } else {
           dispatch(deleteFoodLogItemFailure());
         }
-      });
+      })
+      .then(() => {
+        dispatch(getMonthReport(jwt, currentDate))
+         .then( response => {
+           if(!response.error) {
+             dispatch(getMonthReportSuccess(response.payload.data.dates));
+           } else {
+             dispatch(getMonthReportFailure(response.payload.response.data.message));
+           }
+          } )
+      })
     },
     showModal: (modalType, modalProps) =>
       dispatch(showModal(modalType, modalProps)),
@@ -228,7 +240,17 @@ const mapDispatchToProps = dispatch => {
                 getFoodLogFailure(response.payload.response.data.message)
               );
             }
-          });
+          })
+          .then(() => {
+            dispatch(getMonthReport(jwt, currentDate))
+             .then( response => {
+               if(!response.error) {
+                 dispatch(getMonthReportSuccess(response.payload.data.dates));
+               } else {
+                 dispatch(getMonthReportFailure(response.payload.response.data.message));
+               }
+              } )
+          })
         } else {
           dispatch(updateQtyFailure(response.payload.response.data.message));
         }

@@ -1,28 +1,29 @@
 import React from "react";
 import {
   Panel,
-  ProgressBar 
+  ProgressBar
 } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-grid-system';
 import { round } from '../helpers/help_functions';
 
 
 
-export const ProgressPanel = ({ value, now, currentDateLimit}) => {
+export const ProgressPanel = ({ value, now, currentDateLimit, currentDate}) => {
   if(!value) value = 0;
   if (!now) now = 0;
-  if (currentDateLimit) value = currentDateLimit;
+  if (currentDateLimit &&
+    new Date(currentDate).getDate() !== new Date().getDate()) value = currentDateLimit;
 
-  const rest = round(value - now); 
+  const rest = round(value - now);
   const valueStyle = { fontWeight: 'bold'};
   const descrStyle = {
     fontSize: '1.2rem',
     color: '#999'
-    } 
+    }
     const barStyle = {
     margin: '0 5px 10px 5px'
 }
-    
+
  return(
    <Panel style={{ backgroundColor: '#eee'}}>
      <Row style={{ padding: '15px 5px 5px' }}>
@@ -37,7 +38,7 @@ export const ProgressPanel = ({ value, now, currentDateLimit}) => {
       </div>
     </Col>
    </Row>
-   <ProgressBar 
+   <ProgressBar
      striped
      bsStyle={now <= value ? 'success' : 'danger'}
      now={round(now)}
