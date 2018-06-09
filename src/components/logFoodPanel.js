@@ -21,18 +21,26 @@ export const LogFoodPanel = ({ foods, showModal }) => {
       full_nutrients: totalNutrients(period)
     }
   }
-  const intake = (arr, time1, time2) => {
+  const intake = (arr, term, time1, time2) => {
     return foods.filter( (item,i) => {
       const consumed = new Date(item.consumed_at).getHours();
-      if (consumed >= time1 && (time2 ? (consumed < time2) : true )) return item;
+      let condition;
+      switch(term) {
+        case 'snacks':
+          condition = ((consumed >= 21 && consumed < 23) || (consumed >= 0 && consumed < 6))
+          break;
+        default:
+          condition = (consumed >= time1 && consumed < time2);
+      }
+      if (condition) return item;
     })
   }
 
 
-  const breakfast = intake(foods, 6, 12);
-  const lunch = intake(foods, 12, 17);
-  const dinner = intake(foods, 17, 21);
-  const snacks = intake(foods, 21);
+  const breakfast = intake(foods, 'breakfast', 6, 12);
+  const lunch = intake(foods, 'lunch', 12, 17);
+  const dinner = intake(foods, 'dinner', 17, 21);
+  const snacks = intake(foods, 'snacks');
 
   const breakfastCal = totalNutrElem(208, breakfast);
   const lunchCal = totalNutrElem(208, lunch);

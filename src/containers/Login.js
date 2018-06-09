@@ -32,6 +32,7 @@ class Login extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onPasswordVisibilityChange = this.onPasswordVisibilityChange.bind(this);
     this.onCreateAccount = this.onCreateAccount.bind(this);
+    this.onTestLogin = this.onTestLogin.bind(this);
   }
 
   onPasswordVisibilityChange() {
@@ -61,6 +62,14 @@ class Login extends Component {
   onCreateAccount(event) {
     event.preventDefault();
     this.props.showSignUp();
+  }
+
+  onTestLogin() {
+    const data = {
+      email: "zxoxz@mail.ru",
+      password: "123456"
+    }
+    this.props.signInUser(data);
   }
 
   render() {
@@ -116,6 +125,9 @@ class Login extends Component {
             <a href="#" onClick={this.onCreateAccount}>
              Create an account
             </a>
+          </p>
+          <p className="switch-login-singup">
+           For testing purposes click <a href="#" onClick={this.onTestLogin}>Test login</a>
           </p>
           {loginErr}
         </form>
