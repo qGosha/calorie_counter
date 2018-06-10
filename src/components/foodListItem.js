@@ -45,7 +45,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
         onChange={(event) => onQtyChange(event)} /> {servingUnit}  {foodName}</span> : listGroup
 
       return  (
-        <ListGroupItem
+        <div
           key={foodItem.id}
           style={style}
           className='food-item'
@@ -61,7 +61,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
             <span className='food-calorie-name'>cal</span>
           </div>: null }
           </div>
-         </ListGroupItem>
+         </div>
       )
     })
 
