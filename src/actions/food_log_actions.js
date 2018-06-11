@@ -9,7 +9,6 @@ export const DELETEFOODLOGITEM = "DELETEFOODLOGITEM";
 export const DELETEFOODLOGITEMFAILURE = "DELETEFOODLOGITEMFAILURE";
 
 export const UPDATEQTY = "UPDATEQTY";
-export const UPDATEQTYSUCCESS = "UPDATEQTYSUCCESS";
 export const UPDATEQTYFAILURE = "UPDATEQTYFAILURE";
 
 
@@ -97,10 +96,6 @@ export const updateQty = (jwt, foods) => {
   }
 }
 
-export const updateQtySuccess = response => ({
-  type: UPDATEQTYSUCCESS,
-  payload: response
-})
 
 export const updateQtyFailure = response => ({
   type: UPDATEQTYFAILURE,

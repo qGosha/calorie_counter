@@ -47,18 +47,7 @@ class DatePicker extends Component {
       .then(() => Promise.resolve(this.props.setCurrentDateCalLimit(newLimit)) )
       .then(() => this.props.changeCurrentDate(date))
       .catch(error => {
-        let err;
-        if (error
-          && error.payload
-          && error.payload.response
-          && error.payload.response.data
-          && error.payload.response.data.message) {
-          err = error.payload.response.data.message;
-        }
-        else {
-          err = 'Technical error';
-        }
-        this.props.getMonthReportFailure(err);
+        this.props.getMonthReportFailure(error);
       })
   }
 

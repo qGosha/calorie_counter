@@ -118,7 +118,8 @@ constructor(props) {
      showBasketModal={this.props.showBasketModal}
      basket={basket}
      dailyCalChange={this.dailyCalChange}
-     dailyCalUpSuccess={this.props.dailyCalUpSuccess}/>
+     dailyCalUpSuccess={this.props.dailyCalUpSuccess}
+     calLimitError={this.props.calLimitError}/>
     }
 
   }
@@ -164,9 +165,10 @@ const mapDispatchToProps = dispatch => {
       .then(response => {
         if (!response.error) {
           dispatch(setDailyCalSuccess(response.payload.data));
-          setTimeout(() => { dispatch(setDailyCalNoteRemove()) }, 3000)
+          setTimeout(() => { dispatch(setDailyCalNoteRemove()) }, 3000);
         } else {
-          dispatch(setDailyCalFailure(response.payload.response.data.message))
+          dispatch(setDailyCalFailure(response.payload.response.data.message));
+          setTimeout(() => { dispatch(setDailyCalNoteRemove()) }, 3000);
         }
       })
   }
@@ -176,6 +178,7 @@ const mapStateToProps = state => ({
   userInfo: state.dash.userInfo,
   suggestedFood: state.dash.suggestedFood,
   error: state.dash.error,
+  calLimitError: state.dash.calLimitError,
   loading: state.dash.loading,
   dailyCalUpSuccess: state.dash.dailyCalUpSuccess,
   currentDate: state.dates.currentDate,

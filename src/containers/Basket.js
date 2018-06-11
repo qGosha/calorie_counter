@@ -172,7 +172,7 @@ const mapDispatchToProps = (dispatch) => {
                if (!response.error) {
                  dispatch(getFoodLogSuccess(response.payload.data.foods))
                } else {
-                 dispatch(getFoodLogFailure(response.payload.response.data.message))
+                 dispatch(getFoodLogFailure(response.payload.response))
                } } )
            .then(() => dispatch(getMonthReport(jwt, currentDate)) )
            .then( response => {
@@ -184,7 +184,7 @@ const mapDispatchToProps = (dispatch) => {
            .then( () => { dispatch(hideModal(BASKET)) } )
            .then( () => { localStorage.setItem('basket', '[]') })
         } else {
-          dispatch(logBasketFoodFailure(response.payload.response.data.message));
+          dispatch(logBasketFoodFailure(response.payload.response));
         }
       });
     }

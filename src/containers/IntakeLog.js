@@ -10,7 +10,7 @@ import {
   showModal,
   setNewBasket,
   updateQty,
-  updateQtySuccess,
+
   updateQtyFailure,
   getMonthReport,
   getMonthReportSuccess,
@@ -199,20 +199,20 @@ const mapDispatchToProps = dispatch => {
     hideModal: modalType => dispatch(hideModal(modalType)),
     deleteFoodLogItem: (jwt, item, currentDate) => {
       dispatch(deleteFoodLogItem(jwt, item)).then(response => {
+        dispatch(hideModal(INTAKELOG));
         if (!response.error) {
-          dispatch(hideModal(INTAKELOG));
           dispatch(getFoodLog(jwt, currentDate)).then(response => {
             if (!response.error) {
               dispatch(getFoodLogSuccess(response.payload.data.foods));
             } else {
               dispatch(
-                getFoodLogFailure(response.payload.response.data.message)
+                getFoodLogFailure(response.payload.response)
               );
             }
           })
 
         } else {
-          dispatch(deleteFoodLogItemFailure());
+          dispatch(deleteFoodLogItemFailure(response.payload.response));
         }
       })
       .then(() => {
@@ -221,7 +221,7 @@ const mapDispatchToProps = dispatch => {
            if(!response.error) {
              dispatch(getMonthReportSuccess(response.payload.data.dates));
            } else {
-             dispatch(getMonthReportFailure(response.payload.response.data.message));
+             dispatch(getMonthReportFailure(response.payload.response));
            }
           } )
       })
@@ -237,7 +237,7 @@ const mapDispatchToProps = dispatch => {
               dispatch(getFoodLogSuccess(response.payload.data.foods));
             } else {
               dispatch(
-                getFoodLogFailure(response.payload.response.data.message)
+                getFoodLogFailure(response.payload.response)
               );
             }
           })
@@ -247,12 +247,12 @@ const mapDispatchToProps = dispatch => {
                if(!response.error) {
                  dispatch(getMonthReportSuccess(response.payload.data.dates));
                } else {
-                 dispatch(getMonthReportFailure(response.payload.response.data.message));
+                 dispatch(getMonthReportFailure(response.payload.response));
                }
               } )
           })
         } else {
-          dispatch(updateQtyFailure(response.payload.response.data.message));
+          dispatch(updateQtyFailure(response.payload.response));
         }
       })
   };

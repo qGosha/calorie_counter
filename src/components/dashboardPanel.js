@@ -17,6 +17,7 @@ export const DashboardPanel = ({
   userInfo,
   showBasketModal,
   dailyCalChange,
+  calLimitError,
   dailyCalUpSuccess,
   basket}) => {
     return (
@@ -88,7 +89,8 @@ export const DashboardPanel = ({
       <CalorieLimit
         value={userInfo['daily_kcal']}
         onClick={dailyCalChange}
-        dailyCalUpSuccess={dailyCalUpSuccess} />
+        dailyCalUpSuccess={dailyCalUpSuccess}
+        calLimitError={calLimitError} />
          </Col>
        </Row> 
        <Row nogutter style={{ justifyContent: 'center' }}>

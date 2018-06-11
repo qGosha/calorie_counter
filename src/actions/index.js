@@ -5,3 +5,4 @@ export * from './basket_actions';
 export * from './modal_actions';
 export * from './food_log_actions';
 export * from './date_picker_actions';
+export * from './error_handle_actions';

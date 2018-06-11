@@ -138,7 +138,7 @@ const mapDispatchToProps = dispatch => {
           }
           dispatch(searchFoodSuccess(response.payload.data));
         } else {
-          dispatch(searchFoodFailure(response.payload.response.data.message));
+          dispatch(searchFoodFailure(response.payload.response));
         }
       });
     },
@@ -147,7 +147,7 @@ const mapDispatchToProps = dispatch => {
         if (!response.error) {
           return dispatch(getDetailedFoodInfoSuccess(response.payload.data.foods));
         } else {
-          return dispatch(getDetailedFoodInfoFailure(response.payload.response.data.message));
+          return dispatch(getDetailedFoodInfoFailure(response.payload.response));
         }
       }),
     showBasketModal: modalType => dispatch(showModal(modalType)),

@@ -6,7 +6,8 @@ import {
   DELETEFOODLOGITEMFAILURE,
   UPDATEQTY,
   UPDATEQTYSUCCESS,
-  UPDATEQTYFAILURE
+  UPDATEQTYFAILURE,
+  CLEARERROR
 } from '../actions/index';
 
 const initialState = {
@@ -27,11 +28,11 @@ export function foodLog(state = initialState, action) {
     case DELETEFOODLOGITEMFAILURE:
       return { ...state, error: payload };
     case UPDATEQTY:
-      return state;
-    // case UPDATEQTYSUCCESS:
-    //   return { ...state, log: [ ...state.log, ...payload ] }    
+      return state;    
     case UPDATEQTYFAILURE:
-      return { ...state, error: payload };         
+      return { ...state, error: payload }; 
+    case CLEARERROR:
+      return { ...state, error: false };         
     default:
       return state;
   }

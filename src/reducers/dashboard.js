@@ -17,7 +17,8 @@ import {
     loading: false,
     error: false,
     suggestedFood:false,
-    dailyCalUpSuccess: false
+    dailyCalUpSuccess: false,
+    calLimitError: false
   }
 
 export function dash (state = initialState, action) {
@@ -39,11 +40,11 @@ export function dash (state = initialState, action) {
     case SETDAILYCAL:
       return { ...state }
     case SETDAILYCALSUCCESS:
-      return { ...state, userInfo: action.payload, dailyCalUpSuccess: true }
+      return { ...state, userInfo: action.payload, dailyCalUpSuccess: true, calLimitError:false }
     case SETDAILYCALFAILURE:
-      return { ...state, error: action.payload}
+      return { ...state, calLimitError: action.payload, dailyCalUpSuccess: false }
     case SETDAILYCALNOTEREMOVE:
-      return { ...state, dailyCalUpSuccess: false} 
+      return { ...state, dailyCalUpSuccess: false, calLimitError: false} 
 
     default:
       return state;

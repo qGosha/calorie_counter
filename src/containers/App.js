@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard";
 import  Signup  from "./Signup";
 import Login from "./Login";
 import ModalRoot from "./Modal";
+import ErrorHandle from "./ErrorHandle";
 import '../style/app.css';
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
        <div className='container'>
         {Comp}
         <ModalRoot/>
+        <ErrorHandle />
        </div>
     )
   }

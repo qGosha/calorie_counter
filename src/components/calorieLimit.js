@@ -24,6 +24,10 @@ export class CalorieLimit extends Component {
      <Alert bsStyle="success">
        <div>Daily calorie limit has been updated</div>
    </Alert> : null;
+   const error = this.props.calLimitError ?
+     <Alert bsStyle="danger">
+       <div>{this.props.calLimitError}</div>
+     </Alert> : null;
   return(
 
    <Panel>
@@ -43,11 +47,12 @@ export class CalorieLimit extends Component {
        <Col xs={7}>
        <Button
          style={{marginLeft:'15px'}}
-         onClick={() => this.props.onClick(+this.state.value || 2000)}>
+         onClick={() => this.props.onClick(+this.state.value)}>
          Save</Button>
         </Col>
         </Row>
         {updateStatus}
+        {error}
      </Panel.Body>
    </Panel>
 
