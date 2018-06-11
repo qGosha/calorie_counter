@@ -42,10 +42,11 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
         type="text"
         style={inputStyle}
         value={servingQty}
-        onChange={(event) => onQtyChange(event)} /> {servingUnit}  {foodName}</span> : listGroup
+        onChange={(event) => onQtyChange(event)} /> {servingUnit}  {foodName}</span> : listGroup;
 
+      const AdjustElement = ({...props}) => (!showModal && !addToBasket) ? <div {...props}/> : <ListGroupItem {...props}/>;
       return  (
-        <div
+        <AdjustElement
           key={foodItem.id}
           style={style}
           className='food-item'
@@ -61,7 +62,7 @@ export const FoodListItem = ({ foods, addToBasket, showModal, onQtyChange }) => 
             <span className='food-calorie-name'>cal</span>
           </div>: null }
           </div>
-         </div>
+         </AdjustElement>
       )
     })
 

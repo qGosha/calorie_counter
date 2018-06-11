@@ -12,26 +12,6 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
     const branded = foundFood.branded.slice(0, 3);
     const self = foundFood.self.slice(0, 5);
 
-    const freeformElement = (
-        <ListGroupItem
-        className='food-item' >
-          <Image
-            src={foodAvatarUrl}
-            alt='food'
-            className='food-image'
-            />
-          <div className='food-description'>
-          <span className='food-name'>{ term }</span>
-          </div>
-       </ListGroupItem>
-      )
-    let freeform;
-    if(common.length) {
-      freeform = (common[0].food_name !== term) ? freeformElement : null;
-    } else {
-      freeform = freeformElement;
-    }
-
     const foodListGroup = (title, element) => {
       return (
         <ListGroup>
@@ -40,9 +20,6 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
         </ListGroup>
       )
     }
-
-
-
 
     return (
       <Tab.Container id="tabs-with-dropdown" defaultActiveKey="1">
@@ -53,7 +30,6 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
               <NavItem eventKey="2">Your foods</NavItem>
               <NavItem eventKey="4">Common</NavItem>
               <NavItem eventKey="5">Branded</NavItem>
-              <NavItem eventKey="6">Freeform</NavItem>
             </Nav>
           </Col>
           <Col sm={12} smHidden mdHidden lgHidden className='dropdown-tab-cont'>
@@ -63,7 +39,6 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
                 <MenuItem eventKey="2">Your foods</MenuItem>
                 <MenuItem eventKey="4">Common</MenuItem>
                 <MenuItem eventKey="5">Branded</MenuItem>
-                <MenuItem eventKey="6">Freeform</MenuItem>
               </NavDropdown>
             </Nav>
           </Col>
@@ -73,12 +48,10 @@ export const SearchResult = ({ foundFood, term, addToBasket }) => {
                 {self.length ? foodListGroup('Your Foods', <FoodListItem foods={self} addToBasket={addToBasket}/>) : null}
                 {common.length ? foodListGroup('Common food', <FoodListItem foods={common} addToBasket={addToBasket}/>) : null}
                 {branded.length ? foodListGroup('Branded food', <FoodListItem foods={branded} addToBasket={addToBasket}/>) : null}
-                {freeform ? foodListGroup('Freeform', freeform) : null}
               </Tab.Pane>
               <Tab.Pane eventKey="2"><SepFoodList addToBasket={addToBasket} foods={foundFood.self} title='Your food'/></Tab.Pane>
               <Tab.Pane eventKey="4"><SepFoodList addToBasket={addToBasket} foods={foundFood.common} title='Common food'/></Tab.Pane>
               <Tab.Pane eventKey="5"><SepFoodList addToBasket={addToBasket} foods={foundFood.branded} title='Branded food'/></Tab.Pane>
-              <Tab.Pane eventKey="6">Tab 3.3 content</Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
