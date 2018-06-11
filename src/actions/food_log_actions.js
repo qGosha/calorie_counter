@@ -52,7 +52,7 @@ export const getFoodLogFailure = response => ({
   payload: response
 })
 
-export const deleteFoodLogItem = item => {
+export const deleteFoodLogItem = (jwt, item) => {
   const headers = {
     ["x-user-jwt"]: jwt
   }

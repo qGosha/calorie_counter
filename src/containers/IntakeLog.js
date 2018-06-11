@@ -198,7 +198,7 @@ const mapDispatchToProps = dispatch => {
   return {
     hideModal: modalType => dispatch(hideModal(modalType)),
     deleteFoodLogItem: (jwt, item, currentDate) => {
-      dispatch(deleteFoodLogItem(item)).then(response => {
+      dispatch(deleteFoodLogItem(jwt, item)).then(response => {
         if (!response.error) {
           dispatch(hideModal(INTAKELOG));
           dispatch(getFoodLog(jwt, currentDate)).then(response => {
